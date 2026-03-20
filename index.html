@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeployYourApp | Vibe Coder's Interactive Guide (2026)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chosen Palette: Warm Neutrals with Indigo/Emerald Accents (Stone-50 bg, Stone-800 text, Indigo-600 primary, Emerald-500 success) -->
+    
+    <!-- Application Structure Plan: 
+         Structure: A multi-view dashboard SPA. 
+         - View 1: "Stack Builder" (Interactive Quiz). User selects their AI tool, and the app dynamically suggests the optimal hosting and DB combo. This directly answers the core user need ("Where should I deploy?").
+         - View 2: "Deployment Matrix" (Data/Analysis). A detailed, filterable comparison of platforms (Vercel, Render, Railway, etc.) based on the research parameters (Pricing, DB, Ease of Use).
+         - View 3: "Affiliate Economics" (Quantitative Data). A visualization and table of the affiliate programs researched, aimed at the site creator/monetization strategy.
+         Why: The source report is a research plan for a deployment guide and its underlying monetization. This SPA structure separates the user-facing tool (Stack Builder), the deep-dive research (Matrix), and the business logic (Economics) into digestible, interactive chunks, preventing information overload. 
+    -->
+
+    <!-- Visualization & Content Choices: 
+         - Stack Builder: Goal -> Interactive recommendation. Method -> JS-driven UI state updates based on button clicks. Justification -> Gamifies the deployment decision process for non-technical users.
+         - Hosting Comparison: Goal -> Compare platforms. Method -> HTML Table with CSS Grid/Flexbox styling. Justification -> Best for reading dense, comparative text/boolean data.
+         - Affiliate Payouts: Goal -> Compare monetization potential. Method -> Bar Chart (Chart.js Canvas). Justification -> Visually contrasts high flat-rate CPAs (Bluehost) vs lower recurring commissions (Railway).
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Visuals rely on CSS, Unicode (⚡, 🗄️, 🚀), and Canvas.
+    -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5', // Indigo 600
+                        secondary: '#10b981', // Emerald 500
+                        dark: '#1c1917', // Stone 900
+                        light: '#fafaf9', // Stone 50
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Chart Container Styling per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        
+        /* Utility transitions */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Hide scrollbar for clean look but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-light text-stone-800 font-sans antialiased min-h-screen flex flex-col no-scrollbar">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2">🚀</span>
+                    <span class="font-bold text-xl text-dark tracking-tight">DeployYourApp</span>
+                    <span class="ml-2 text-xs bg-indigo-100 text-primary px-2 py-1 rounded-full font-semibold">2026 Data</span>
+                </div>
+                <div class="flex items-center space-x-1 md:space-x-4 overflow-x-auto no-scrollbar">
+                    <button onclick="nav('stack-builder')" id="nav-stack-builder" class="nav-btn px-3 py-2 rounded-md text-sm font-medium bg-primary text-white transition-colors">Stack Builder</button>
+                    <button onclick="nav('deployment-matrix')" id="nav-deployment-matrix" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-colors">Platform Matrix</button>
+                    <button onclick="nav('economics')" id="nav-economics" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-colors">Affiliate Data</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- VIEW 1: STACK BUILDER (Interactive Quiz) -->
+        <section id="view-stack-builder" class="view-section fade-in">
+            <div class="mb-8 text-center max-w-3xl mx-auto">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-dark mb-4">Where Should I Deploy My Vibe-Coded App?</h1>
+                <p class="text-lg text-stone-600">You built an app using an AI coding tool. Now you need it live on the internet. Select the tool you used to generate your code, and we'll recommend the easiest deployment path for non-technical users.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                <!-- Step 1: Tool Selection -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h2 class="text-xl font-bold mb-4 flex items-center"><span class="text-2xl mr-2">🤖</span> 1. Select AI Builder</h2>
+                    <div class="space-y-3" id="tool-buttons">
+                        <!-- Buttons injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Step 2 & 3: Recommendations -->
+                <div class="md:col-span-2 bg-stone-900 rounded-xl p-8 text-white shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 text-9xl opacity-5">🌐</div>
+                    <div id="recommendation-state-empty" class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <span class="text-4xl mb-4">👈</span>
+                        <h3 class="text-2xl font-bold text-stone-300">Select a tool to see your stack</h3>
+                        <p class="text-stone-500 mt-2">We analyze default outputs to suggest the frictionless path.</p>
+                    </div>
+
+                    <div id="recommendation-state-filled" class="hidden h-full flex flex-col space-y-6 fade-in">
+                        <div>
+                            <span class="text-indigo-400 font-semibold tracking-wider text-sm uppercase">Recommended Hosting</span>
+                            <div class="flex items-center mt-2">
+                                <span class="text-4xl mr-4" id="rec-host-icon">⚡</span>
+                                <div>
+                                    <h3 class="text-3xl font-bold" id="rec-host-name">Vercel</h3>
+                                    <p class="text-stone-400 mt-1" id="rec-host-desc">Best for Next.js and static React apps.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="h-px w-full bg-stone-700"></div>
+
+                        <div>
+                            <span class="text-emerald-400 font-semibold tracking-wider text-sm uppercase">Recommended Database / Auth</span>
+                            <div class="flex items-center mt-2">
+                                <span class="text-4xl mr-4" id="rec-db-icon">🗄️</span>
+                                <div>
+                                    <h3 class="text-2xl font-bold" id="rec-db-name">Supabase</h3>
+                                    <p class="text-stone-400 mt-1" id="rec-db-desc">Postgres DB with built-in auth, easy integration.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 bg-stone-800 p-4 rounded-lg border border-stone-700">
+                            <h4 class="font-bold text-white mb-2 text-sm flex items-center"><span class="mr-2">💡</span> Why this stack?</h4>
+                            <p class="text-sm text-stone-300" id="rec-rationale">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: DEPLOYMENT MATRIX -->
+        <section id="view-deployment-matrix" class="view-section hidden fade-in">
+            <div class="mb-8 max-w-3xl">
+                <h2 class="text-3xl font-extrabold text-dark mb-4">Deployment Platform Matrix (2026)</h2>
+                <p class="text-lg text-stone-600">A comprehensive comparison of the top hosting providers suitable for vibe-coded applications. Filtered for ease-of-use and AI-tool compatibility.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="mb-6 flex space-x-2">
+                <button class="filter-btn active bg-stone-800 text-white px-4 py-2 rounded-full text-sm font-medium" data-filter="all">All Platforms</button>
+                <button class="filter-btn bg-stone-200 text-stone-700 hover:bg-stone-300 px-4 py-2 rounded-full text-sm font-medium transition" data-filter="frontend">Frontend Focused</button>
+                <button class="filter-btn bg-stone-200 text-stone-700 hover:bg-stone-300 px-4 py-2 rounded-full text-sm font-medium transition" data-filter="fullstack">Fullstack / Docker</button>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-stone-200">
+                <table class="min-w-full divide-y divide-stone-200">
+                    <thead class="bg-stone-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Platform</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Best For</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Free Tier</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Ease of Use (1-10)</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Built-in DB?</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-200" id="matrix-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 text-sm text-stone-500 flex items-center">
+                <span class="mr-2">ℹ️</span> <em>Data verified as of March 2026. "Ease of use" rated specifically for non-technical users deploying AI-generated code.</em>
+            </div>
+        </section>
+
+        <!-- VIEW 3: AFFILIATE ECONOMICS -->
+        <section id="view-economics" class="view-section hidden fade-in">
+            <div class="mb-8 max-w-3xl">
+                <h2 class="text-3xl font-extrabold text-dark mb-4">Affiliate Monetization Research</h2>
+                <p class="text-lg text-stone-600">Data for configuring the DeployYourApp monetization strategy. Compares flat-rate CPA programs (traditional web hosts) vs recurring revenue programs (modern cloud platforms).</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col">
+                    <h3 class="text-xl font-bold text-dark mb-2">Estimated 1st Year Value per Conversion</h3>
+                    <p class="text-sm text-stone-500 mb-6">Comparing a $20/mo user spend across different affiliate models.</p>
+                    <div class="flex-grow flex items-center justify-center">
+                        <div class="chart-container">
+                            <canvas id="affiliateChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Affiliate Details Table -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="text-xl font-bold text-dark mb-6">Program Details (Verified Mar 2026)</h3>
+                    <div class="space-y-4">
+                        <!-- Item -->
+                        <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-primary text-lg">DigitalOcean</h4>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Verified</span>
+                            </div>
+                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> 10% recurring for 12 months</p>
+                            <p class="text-sm text-stone-600"><strong>Network:</strong> Impact</p>
+                            <p class="text-sm text-stone-600"><strong>Offer:</strong> $200 credit for 60 days for new users.</p>
+                        </div>
+                        <!-- Item -->
+                        <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-primary text-lg">Hostinger</h4>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Verified</span>
+                            </div>
+                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> Up to 60% per sale</p>
+                            <p class="text-sm text-stone-600"><strong>Cookie:</strong> 30 days</p>
+                            <p class="text-sm text-stone-600"><strong>Notes:</strong> High CPA, but traditional hosting is harder for JS-heavy AI apps.</p>
+                        </div>
+                         <!-- Item -->
+                         <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-primary text-lg">Railway.app</h4>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Unverified</span>
+                            </div>
+                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> Historically 10-20% (requires manual verification)</p>
+                            <p class="text-sm text-stone-600"><strong>Network:</strong> Custom / Internal</p>
+                            <p class="text-sm text-stone-600"><strong>Notes:</strong> Perfect product/market fit for Python/Docker AI apps.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-indigo-50 border border-indigo-100 p-6 rounded-xl">
+                <h4 class="font-bold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Key Content Insight</h4>
+                <p class="text-stone-700">Most non-technical users generating apps in 2026 build React/Next.js (Bolt, v0) or Python/Flask (Cursor/Copilot). Traditional hosts offering high CPAs (Bluehost/Hostinger) are incredibly frustrating for deploying these modern stacks. <strong>The high-value SEO angle is guiding users to Vercel/Railway and monetizing via secondary tools (Supabase, Clerk, API platforms) or accepting lower initial CPAs for platforms that actually work (DigitalOcean App Platform).</strong></p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- DATA STATE ---
+        const aiTools = {
+            bolt: {
+                name: "Bolt.new",
+                icon: "⚡",
+                output: "Next.js / Remix / React",
+                hostName: "Netlify",
+                hostDesc: "Seamless integration via GitHub. Auto-detects Vite and Remix.",
+                dbName: "Supabase",
+                dbDesc: "Perfect pairing for Bolt. Provides Auth + Postgres.",
+                rationale: "Bolt natively connects well to Netlify through its UI. For backend needs, Supabase requires minimal configuration and fits the React/Vite ecosystem Bolt produces.",
+                hostIcon: "🔷",
+                dbIcon: "🗄️"
+            },
+            v0: {
+                name: "v0.dev",
+                icon: "⬛",
+                output: "React / Next.js UI",
+                hostName: "Vercel",
+                hostDesc: "Zero-config deployment for Next.js apps.",
+                dbName: "Vercel Postgres",
+                dbDesc: "Native database solution within the same dashboard.",
+                rationale: "v0 is built by Vercel. Outputting to Next.js and deploying on Vercel is the intended, frictionless happy-path. No configuring build commands required.",
+                hostIcon: "▲",
+                dbIcon: "💾"
+            },
+            cursor: {
+                name: "Cursor",
+                icon: "⌨️",
+                output: "Any (Python, Node, Go, etc.)",
+                hostName: "Railway",
+                hostDesc: "Just link GitHub. Auto-detects Dockerfiles and package.json.",
+                dbName: "Neon / PlanetScale",
+                dbDesc: "Serverless Postgres/MySQL that scales easily.",
+                rationale: "Because Cursor can build anything (including complex Python backends), Vercel/Netlify might fail. Railway's Nixpacks build system analyzes the repo and builds it automatically without DevOps knowledge.",
+                hostIcon: "🛤️",
+                dbIcon: "🐘"
+            },
+            lovable: {
+                name: "Lovable.dev",
+                icon: "💖",
+                output: "React / Vite / Tailwind",
+                hostName: "Vercel or Netlify",
+                hostDesc: "Standard static frontend hosting.",
+                dbName: "Supabase",
+                dbDesc: "Lovable has direct built-in integrations for Supabase Auth.",
+                rationale: "Lovable specifically added deep Supabase integration in late 2024/2025. Deploying the frontend to Vercel/Netlify and pointing it to Supabase is the exact workflow they design for.",
+                hostIcon: "☁️",
+                dbIcon: "🔥"
+            }
+        };
+
+        const hostingPlatforms = [
+            { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes (Hobby)", ease: 9, db: "Add-on (Vercel DB)" },
+            { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes (Starter)", ease: 9, db: "No" },
+            { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "Trial ($5 credit)", ease: 8, db: "Yes (1-click Postgres/Redis)" },
+            { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Yes (Spins down)", ease: 7, db: "Yes (Postgres)" },
+            { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "No (Starts $5/mo)", ease: 6, db: "Yes (Managed)" },
+            { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, fast global edge", free: "Yes (Generous)", ease: 8, db: "D1 (SQLite)" },
+        ];
+
+        let chartInstance = null;
+
+        // --- DOM ELEMENTS ---
+        const toolButtonsContainer = document.getElementById('tool-buttons');
+        const stateEmpty = document.getElementById('recommendation-state-empty');
+        const stateFilled = document.getElementById('recommendation-state-filled');
+        const matrixBody = document.getElementById('matrix-body');
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderToolButtons();
+            renderMatrix('all');
+            initChart();
+        });
+
+        // --- NAVIGATION LOGIC ---
+        function nav(viewId) {
+            // Update buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('text-stone-600', 'hover:bg-stone-100');
+            });
+            const activeBtn = document.getElementById(`nav-${viewId}`);
+            activeBtn.classList.remove('text-stone-600', 'hover:bg-stone-100');
+            activeBtn.classList.add('bg-primary', 'text-white');
+
+            // Update views
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+        }
+
+        // --- VIEW 1 LOGIC: STACK BUILDER ---
+        function renderToolButtons() {
+            Object.keys(aiTools).forEach(key => {
+                const tool = aiTools[key];
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left px-4 py-3 border border-stone-200 rounded-lg hover:border-primary hover:bg-indigo-50 transition flex items-center group";
+                btn.onclick = () => selectTool(key, btn);
+                btn.innerHTML = `
+                    <span class="text-2xl w-10 text-center">${tool.icon}</span>
+                    <div>
+                        <div class="font-bold text-dark group-hover:text-primary transition">${tool.name}</div>
+                        <div class="text-xs text-stone-500">Outputs: ${tool.output}</div>
+                    </div>
+                `;
+                toolButtonsContainer.appendChild(btn);
+            });
+        }
+
+        function selectTool(toolKey, btnElement) {
+            // UI Update for buttons
+            const buttons = toolButtonsContainer.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.classList.remove('border-primary', 'bg-indigo-50', 'ring-2', 'ring-primary', 'ring-opacity-50');
+                b.classList.add('border-stone-200');
+            });
+            btnElement.classList.remove('border-stone-200');
+            btnElement.classList.add('border-primary', 'bg-indigo-50', 'ring-2', 'ring-primary', 'ring-opacity-50');
+
+            // Data mapping
+            const data = aiTools[toolKey];
+            
+            // Inject data
+            document.getElementById('rec-host-name').innerText = data.hostName;
+            document.getElementById('rec-host-desc').innerText = data.hostDesc;
+            document.getElementById('rec-host-icon').innerText = data.hostIcon;
+            
+            document.getElementById('rec-db-name').innerText = data.dbName;
+            document.getElementById('rec-db-desc').innerText = data.dbDesc;
+            document.getElementById('rec-db-icon').innerText = data.dbIcon;
+            
+            document.getElementById('rec-rationale').innerText = data.rationale;
+
+            // Toggle views
+            stateEmpty.classList.add('hidden');
+            
+            // Quick re-trigger animation hack
+            stateFilled.classList.remove('fade-in');
+            void stateFilled.offsetWidth; 
+            stateFilled.classList.add('fade-in');
+            stateFilled.classList.remove('hidden');
+        }
+
+        // --- VIEW 2 LOGIC: MATRIX ---
+        function renderMatrix(filterType) {
+            matrixBody.innerHTML = '';
+            
+            const filteredData = hostingPlatforms.filter(p => filterType === 'all' || p.type === filterType);
+            
+            filteredData.forEach((platform, index) => {
+                const row = document.createElement('tr');
+                row.className = index % 2 === 0 ? "bg-white hover:bg-stone-50 transition" : "bg-stone-50 hover:bg-stone-100 transition";
+                
+                // Ease of use badge logic
+                let easeColor = "bg-green-100 text-green-800";
+                if(platform.ease <= 7) easeColor = "bg-yellow-100 text-yellow-800";
+                if(platform.ease <= 5) easeColor = "bg-red-100 text-red-800";
+
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-dark">${platform.name}</td>
+                    <td class="px-6 py-4 text-sm text-stone-600">${platform.bestFor}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-600">${platform.free}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${easeColor}">
+                            ${platform.ease} / 10
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-600">${platform.db}</td>
+                `;
+                matrixBody.appendChild(row);
+            });
+        }
+
+        // Filter button listeners
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-stone-800', 'text-white');
+                    b.classList.add('bg-stone-200', 'text-stone-700');
+                });
+                const target = e.target;
+                target.classList.remove('bg-stone-200', 'text-stone-700');
+                target.classList.add('active', 'bg-stone-800', 'text-white');
+                
+                renderMatrix(target.getAttribute('data-filter'));
+            });
+        });
+
+        // --- VIEW 3 LOGIC: CHART ---
+        function initChart() {
+            const ctx = document.getElementById('affiliateChart').getContext('2d');
+            
+            // Data models based on research prompt numbers:
+            // Bluehost/Hostinger: ~$65 flat
+            // DigitalOcean: $20/mo * 12 * 10% = $24
+            // Railway: Estimated ~15% of $20/mo * 12 = $36
+            
+            const data = {
+                labels: ['Hostinger (Flat)', 'Bluehost (Flat)', 'Railway (Est. Recur)', 'DigitalOcean (Recur)'],
+                datasets: [{
+                    label: 'Est. Revenue per User ($)',
+                    data: [60, 65, 36, 24],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.7)', // Emerald
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(79, 70, 229, 0.7)',  // Indigo
+                        'rgba(79, 70, 229, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(79, 70, 229, 1)',
+                        'rgba(79, 70, 229, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'USD ($)'
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+
+            chartInstance = new Chart(ctx, config);
+        }
+
+    </script>
+</body>
+</html>
