@@ -13,6 +13,8 @@
 
     <!-- Satoshi Font -->
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <!-- JetBrains Mono for terminal -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -60,23 +62,66 @@
             }
         }
 
-        /* Pipeline step hover */
-        .step-box {
-            transition: transform 0.25s ease, border-color 0.25s ease;
-            will-change: transform;
+        /* Deploy terminal */
+        .deploy-terminal {
+            background: #0a0816;
+            border: 0.5px solid rgba(99,91,255,0.15);
+            border-radius: 12px;
+            max-width: 560px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
         }
-        .step-box.hoverable:hover { transform: scale(1.05); }
-        .step-box .step-icon-box { transition: border-color 0.25s ease; }
-        .step-detail {
-            overflow: hidden; max-height: 0; opacity: 0;
-            transform: translateY(-5px);
-            transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+        .deploy-terminal .term-scanline {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(99,91,255,0.015) 2px, rgba(99,91,255,0.015) 4px);
         }
-        .step-box.hoverable:hover .step-detail {
-            max-height: 40px; opacity: 1; transform: translateY(0);
+        .deploy-terminal .term-bar {
+            display: flex; align-items: center; gap: 6px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 0.5px solid rgba(99,91,255,0.1);
         }
-        .step-box.hoverable:hover .step-icon-indigo { border-color: rgba(99, 91, 255, 0.6); }
-        .step-box.hoverable:hover .step-icon-teal { border-color: rgba(56, 226, 178, 0.6); }
+        .deploy-terminal .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .deploy-terminal .term-title {
+            flex: 1; text-align: center;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px; color: rgba(200,196,220,0.4);
+        }
+        .deploy-terminal .term-body {
+            padding: 16px; position: relative; z-index: 2;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 13px; line-height: 1.6;
+        }
+        .deploy-terminal .term-line { white-space: pre-wrap; word-break: break-all; }
+        .deploy-terminal .term-prompt { color: rgba(56,226,178,0.7); }
+        .deploy-terminal .term-cmd { color: rgba(232,230,240,0.9); }
+        .deploy-terminal .term-output { color: rgba(200,196,220,0.4); }
+        .deploy-terminal .term-bar-fill { color: rgba(56,226,178,0.8); }
+        .deploy-terminal .term-bar-empty { color: rgba(200,196,220,0.2); }
+        .deploy-terminal .term-success {
+            color: #38e2b2;
+            text-shadow: 0 0 8px rgba(56,226,178,0.3);
+        }
+        .deploy-terminal .term-link {
+            color: #38e2b2; cursor: pointer;
+            text-decoration: none;
+        }
+        .deploy-terminal .term-link:hover { text-decoration: underline; }
+        .term-cursor {
+            display: inline-block; width: 7px; height: 15px;
+            background: rgba(56,226,178,0.7);
+            vertical-align: text-bottom; margin-left: 1px;
+            animation: blink 0.6s step-end infinite;
+        }
+        .deploy-replay {
+            display: block; margin: 8px auto 0; padding: 4px 12px;
+            background: none; border: none; cursor: pointer;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px; color: rgba(200,196,220,0.4);
+            opacity: 0; transition: opacity 0.2s ease, color 0.2s ease;
+        }
+        .deploy-replay:hover { color: rgba(56,226,178,0.8); }
 
         /* Badge dot pulse */
         @keyframes dotPulse {
@@ -237,44 +282,20 @@
                     </div>
                 </div>
 
-                <!-- Right side: pipeline steps stacked vertically -->
-                <div class="w-full lg:w-[40%] flex flex-col items-center">
-                    <div class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
-                        <div class="step-icon-box step-icon-indigo w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
-                            <span class="text-2xl">AI</span>
+                <!-- Right side: Live Deploy Terminal -->
+                <div class="w-full lg:w-[40%] flex flex-col items-center anim-hidden" data-anim="terminal">
+                    <div id="deploy-terminal" class="deploy-terminal">
+                        <div class="term-scanline"></div>
+                        <div class="term-bar">
+                            <span class="term-dot" style="background:#ff5f57;"></span>
+                            <span class="term-dot" style="background:#febc2e;"></span>
+                            <span class="term-dot" style="background:#28c840;"></span>
+                            <span class="term-title">deployapp.guide — zsh</span>
+                            <span style="width:30px;"></span>
                         </div>
-                        <div class="min-w-0">
-                            <p class="text-white font-bold text-sm">1. Build with AI</p>
-                            <p class="text-slate-400 text-xs mt-0.5">Cursor, Bolt, Lovable, v0...</p>
-                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">cursor generate app.tsx</span></div>
-                        </div>
+                        <div id="term-body" class="term-body"></div>
                     </div>
-                    <div class="flex justify-center py-1 opacity-0" data-anim="arrow">
-                        <svg class="w-5 h-5 text-emerald-400/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-                    </div>
-                    <div class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
-                        <div class="step-icon-box step-icon-indigo w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
-                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-white font-bold text-sm">2. Push to GitHub</p>
-                            <p class="text-slate-400 text-xs mt-0.5">Version control your code</p>
-                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">git push origin main</span></div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center py-1 opacity-0" data-anim="arrow">
-                        <svg class="w-5 h-5 text-emerald-400/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-                    </div>
-                    <div id="step-deploy" class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
-                        <div id="step-deploy-icon" class="step-icon-box step-icon-teal w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
-                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-white font-bold text-sm">3. Deploy & Go Live</p>
-                            <p class="text-slate-400 text-xs mt-0.5">Vercel, Railway, Netlify...</p>
-                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">vercel --prod &#10003;</span></div>
-                        </div>
-                    </div>
+                    <button id="deploy-replay" class="deploy-replay" onclick="replayDeployTerminal()">↻ replay</button>
                 </div>
             </div>
         </div>
@@ -303,11 +324,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Terminal command strip -->
-    <div id="hero-terminal" style="opacity:0; background:#0a0816; border-top:0.5px solid rgba(99,91,255,0.15); padding:10px 16px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:14px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-        <span style="color:rgba(99,91,255,0.5);">$ </span><span id="terminal-text" style="color:rgba(56,226,178,0.7);"></span><span id="terminal-cursor" style="display:inline-block; width:7px; height:14px; background:rgba(56,226,178,0.6); vertical-align:text-bottom; margin-left:1px; animation:blink 0.6s step-end infinite;"></span>
-    </div>
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
@@ -1302,15 +1318,16 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         var particleTweens = [];
         var particleTimeout = null;
         var heroAnimating = false;
+        var terminalTimeouts = [];
+        var terminalAborted = false;
 
-        // --- Typewriter helper ---
+        // --- Typewriter helper (for badge) ---
         function typewrite(el, cursorEl, text, charDelay, timeline) {
           return new Promise(function(resolve) {
             el.textContent = '';
             cursorEl.style.display = 'inline-block';
             var i = 0;
             function tick() {
-              // Bail if timeline was killed mid-type
               if (!timeline.isActive() && timeline.progress() === 0) { resolve(); return; }
               if (i < text.length) {
                 el.textContent += text[i];
@@ -1325,40 +1342,210 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           });
         }
 
+        // --- Deploy terminal sequence engine ---
+        function termDelay(ms) {
+          return new Promise(function(resolve) {
+            var id = setTimeout(resolve, ms);
+            terminalTimeouts.push(id);
+          });
+        }
+
+        function termType(container, text, charDelay, cssClass) {
+          return new Promise(function(resolve) {
+            var span = document.createElement('span');
+            span.className = cssClass || 'term-cmd';
+            container.appendChild(span);
+            var cursor = container.querySelector('.term-cursor') || createTermCursor(container);
+            var i = 0;
+            function tick() {
+              if (terminalAborted) { resolve(); return; }
+              if (i < text.length) {
+                span.textContent += text[i];
+                i++;
+                var id = setTimeout(tick, charDelay);
+                terminalTimeouts.push(id);
+              } else {
+                resolve();
+              }
+            }
+            tick();
+          });
+        }
+
+        function createTermCursor(container) {
+          var c = document.createElement('span');
+          c.className = 'term-cursor';
+          container.appendChild(c);
+          return c;
+        }
+
+        function termAddLine(container, text, cssClass) {
+          var div = document.createElement('div');
+          div.className = 'term-line';
+          var span = document.createElement('span');
+          span.className = cssClass || 'term-output';
+          span.textContent = text;
+          div.appendChild(span);
+          // Insert before cursor if it exists
+          var cursor = container.querySelector('.term-cursor');
+          if (cursor) { container.insertBefore(div, cursor); }
+          else { container.appendChild(div); }
+          return div;
+        }
+
+        function termStartCommandLine(container) {
+          var div = document.createElement('div');
+          div.className = 'term-line';
+          var prompt = document.createElement('span');
+          prompt.className = 'term-prompt';
+          prompt.textContent = '$ ';
+          div.appendChild(prompt);
+          // Move cursor into this line
+          var cursor = container.querySelector('.term-cursor');
+          if (cursor) { div.appendChild(cursor); }
+          container.appendChild(div);
+          return div;
+        }
+
+        function runDeploySequence(isReplay) {
+          var body = document.getElementById('term-body');
+          body.innerHTML = '';
+          terminalAborted = false;
+          terminalTimeouts.forEach(clearTimeout);
+          terminalTimeouts = [];
+          // Hide replay button during sequence
+          var replayBtn = document.getElementById('deploy-replay');
+          replayBtn.style.opacity = '0';
+          replayBtn.style.pointerEvents = 'none';
+
+          createTermCursor(body);
+
+          (async function() {
+            // LINE 1: git add && commit
+            var line1 = termStartCommandLine(body);
+            await termType(line1, "git add . && git commit -m 'ready to ship'", 45, 'term-cmd');
+            if (terminalAborted) return;
+            await termDelay(200);
+            termAddLine(body, "[main abc1234] ready to ship", 'term-output');
+            await termDelay(400);
+
+            // LINE 2: git push
+            var line2 = termStartCommandLine(body);
+            await termType(line2, "git push origin main", 50, 'term-cmd');
+            if (terminalAborted) return;
+            await termDelay(200);
+            var pushOutputs = [
+              "Enumerating objects: 42, done.",
+              "Compressing objects: 100% (38/38)",
+              "Writing objects: 100% (42/42)"
+            ];
+            for (var p = 0; p < pushOutputs.length; p++) {
+              if (terminalAborted) return;
+              termAddLine(body, pushOutputs[p], 'term-output');
+              await termDelay(200);
+            }
+            await termDelay(300);
+
+            // LINE 3: vercel --prod
+            var line3 = termStartCommandLine(body);
+            await termType(line3, "npx vercel --prod", 50, 'term-cmd');
+            if (terminalAborted) return;
+            await termDelay(300);
+
+            // Progress bar animation
+            var barWidth = 20;
+            var barDiv = document.createElement('div');
+            barDiv.className = 'term-line';
+            var barSpan = document.createElement('span');
+            barDiv.appendChild(barSpan);
+            var cursor = body.querySelector('.term-cursor');
+            if (cursor) body.insertBefore(barDiv, cursor);
+            else body.appendChild(barDiv);
+
+            // Animate the bar over 2 seconds (40 steps x 50ms)
+            var steps = 40;
+            for (var s = 0; s <= steps; s++) {
+              if (terminalAborted) return;
+              var filled = Math.round((s / steps) * barWidth);
+              var empty = barWidth - filled;
+              var pct = Math.round((s / steps) * 100);
+              barSpan.innerHTML = '<span class="term-bar-fill">[' + '\u2588'.repeat(filled) + '</span>'
+                + '<span class="term-bar-empty">' + '\u2003'.repeat(empty) + ']</span>'
+                + ' <span class="term-bar-fill">' + pct + '%</span>';
+              if (s < steps) await termDelay(50);
+            }
+            await termDelay(200);
+
+            // Deploy success URL
+            var urlDiv = document.createElement('div');
+            urlDiv.className = 'term-line';
+            urlDiv.innerHTML = '<span class="term-success">\u2713 Production: </span><a class="term-link" onclick="nav(\'stack-builder\')">https://yourapp.vercel.app</a>';
+            if (cursor) body.insertBefore(urlDiv, cursor);
+            else body.appendChild(urlDiv);
+            await termDelay(500);
+
+            // Final success line
+            var finalDiv = document.createElement('div');
+            finalDiv.className = 'term-line';
+            finalDiv.innerHTML = '<span class="term-success">\u2713 Deployed in 4.2s \u2014 Live now!</span>';
+            if (cursor) body.insertBefore(finalDiv, cursor);
+            else body.appendChild(finalDiv);
+
+            // Hide cursor, show replay
+            if (cursor) cursor.style.display = 'none';
+            replayBtn.style.opacity = '0.4';
+            replayBtn.style.pointerEvents = 'auto';
+          })();
+        }
+
+        // Global replay function (called from button onclick)
+        window.replayDeployTerminal = function() {
+          runDeploySequence(true);
+        };
+
+        // Reduced-motion: show terminal final state immediately
+        function showTerminalFinalState() {
+          var body = document.getElementById('term-body');
+          body.innerHTML = '';
+          body.innerHTML =
+            '<div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">git add . && git commit -m \'ready to ship\'</span></div>'
+            + '<div class="term-line"><span class="term-output">[main abc1234] ready to ship</span></div>'
+            + '<div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">git push origin main</span></div>'
+            + '<div class="term-line"><span class="term-output">Writing objects: 100% (42/42)</span></div>'
+            + '<div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">npx vercel --prod</span></div>'
+            + '<div class="term-line"><span class="term-bar-fill">[\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588] 100%</span></div>'
+            + '<div class="term-line"><span class="term-success">\u2713 Production: </span><a class="term-link" onclick="nav(\'stack-builder\')">https://yourapp.vercel.app</a></div>'
+            + '<div class="term-line"><span class="term-success">\u2713 Deployed in 4.2s \u2014 Live now!</span></div>';
+          var replayBtn = document.getElementById('deploy-replay');
+          replayBtn.style.opacity = '0.4';
+          replayBtn.style.pointerEvents = 'auto';
+        }
+
         // --- Reset all hero elements to initial hidden state ---
         function resetHeroElements() {
-          // Kill existing timeline
           if (heroTl) { heroTl.kill(); heroTl = null; }
 
-          // Disable hover states during reset
-          document.querySelectorAll('.step-box').forEach(function(el) { el.classList.remove('hoverable'); });
+          // Abort any running terminal sequence
+          terminalAborted = true;
+          terminalTimeouts.forEach(clearTimeout);
+          terminalTimeouts = [];
 
           // Kill particle tweens and remove particle DOM
           particleTweens.forEach(function(tw) { tw.kill(); });
           particleTweens = [];
           if (particleTimeout) { clearTimeout(particleTimeout); particleTimeout = null; }
-          var particleContainer = document.getElementById('hero-particles');
-          particleContainer.innerHTML = '';
+          document.getElementById('hero-particles').innerHTML = '';
 
-          // Reset anim-hidden elements
+          // Reset all data-anim elements
           gsap.utils.toArray('[data-anim]').forEach(function(el) {
-            gsap.set(el, { opacity: 0, y: 24, clearProps: 'boxShadow,borderColor' });
-          });
-
-          // Reset arrows
-          gsap.utils.toArray('[data-anim="arrow"]').forEach(function(el) {
-            gsap.set(el, { opacity: 0, y: 0 });
+            gsap.set(el, { opacity: 0, y: 24 });
           });
 
           // Reset ambient effects
           gsap.set('#hero-grid', { opacity: 0 });
           gsap.set('#hero-scanline', { opacity: 0, y: 0 });
 
-          // Reset deploy icon glow
-          var deployIcon = document.getElementById('step-deploy-icon');
-          gsap.set(deployIcon, { boxShadow: 'none', borderColor: 'rgba(255,255,255,0.1)' });
-
-          // Reset badge typewriter
+          // Reset badge
           var badgeEl = document.getElementById('badge-text');
           var badgeCursor = document.getElementById('badge-cursor');
           badgeEl.textContent = '';
@@ -1371,9 +1558,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             el.textContent = prefix + '0' + suffix;
           });
 
-          // Reset terminal strip
-          gsap.set('#hero-terminal', { opacity: 0 });
-          document.getElementById('terminal-text').textContent = '';
+          // Reset deploy terminal
+          document.getElementById('term-body').innerHTML = '';
+          var replayBtn = document.getElementById('deploy-replay');
+          replayBtn.style.opacity = '0';
+          replayBtn.style.pointerEvents = 'none';
         }
 
         // --- Check for reduced-motion preference ---
@@ -1386,21 +1575,16 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
 
           resetHeroElements();
 
-          // If user prefers reduced motion, show everything instantly
+          // Reduced motion: show everything instantly
           if (prefersReducedMotion) {
             gsap.utils.toArray('[data-anim]').forEach(function(el) { gsap.set(el, { opacity: 1, y: 0 }); });
-            gsap.utils.toArray('[data-anim="arrow"]').forEach(function(el) { gsap.set(el, { opacity: 1 }); });
             gsap.set('#hero-grid', { opacity: 1 });
-            gsap.set('#hero-terminal', { opacity: 1 });
             var badgeEl = document.getElementById('badge-text');
             badgeEl.textContent = badgeEl.getAttribute('data-text');
             document.querySelectorAll('.stat-number').forEach(function(el) {
-              var prefix = el.dataset.prefix || '';
-              var suffix = el.dataset.suffix || '';
-              el.textContent = prefix + el.dataset.target + suffix;
+              el.textContent = (el.dataset.prefix || '') + el.dataset.target + (el.dataset.suffix || '');
             });
-            document.getElementById('terminal-text').textContent = 'npx deployyourapp init --stack=recommended';
-            document.querySelectorAll('.step-box').forEach(function(el) { el.classList.add('hoverable'); });
+            showTerminalFinalState();
             heroAnimating = false;
             return;
           }
@@ -1410,99 +1594,56 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             delay: 0.3,
             onComplete: function() {
               heroAnimating = false;
-              document.querySelectorAll('.step-box').forEach(function(el) { el.classList.add('hoverable'); });
             }
           });
 
-          // EFFECT 1: Grid fade-in at time 0
-          heroTl.to('#hero-grid', {
-            opacity: 1, duration: 1.5, ease: 'power2.inOut'
-          }, 0);
+          // EFFECT 1: Grid fade-in
+          heroTl.to('#hero-grid', { opacity: 1, duration: 1.5, ease: 'power2.inOut' }, 0);
 
-          // EFFECT 2: Scan line at time 0
+          // EFFECT 2: Scan line sweep
           var heroSection = document.getElementById('hero-section');
           var scanDist = heroSection.offsetHeight;
           heroTl.set('#hero-scanline', { opacity: 1 }, 0);
-          heroTl.to('#hero-scanline', {
-            y: scanDist, duration: 1.8, ease: 'power2.inOut'
-          }, 0);
-          heroTl.to('#hero-scanline', {
-            opacity: 0, duration: 0.3, ease: 'power2.out'
-          }, 1.8);
+          heroTl.to('#hero-scanline', { y: scanDist, duration: 1.8, ease: 'power2.inOut' }, 0);
+          heroTl.to('#hero-scanline', { opacity: 0, duration: 0.3, ease: 'power2.out' }, 1.8);
 
-          // 1. BADGE: fade up (0.6s), then typewriter on callback
+          // Beat 1: Badge fade-up + typewriter
           var badgeEl = document.getElementById('badge-text');
           var badgeCursor = document.getElementById('badge-cursor');
           var badgeFullText = badgeEl.getAttribute('data-text');
           badgeEl.textContent = '';
-
-          var currentTl = heroTl; // capture for closure
+          var currentTl = heroTl;
           heroTl.to('[data-anim="badge"]', {
             opacity: 1, y: 0, duration: 0.6,
             onComplete: function() {
-              typewrite(badgeEl, badgeCursor, badgeFullText, 30, currentTl).then(function() {
-                currentTl.resume();
-              });
+              typewrite(badgeEl, badgeCursor, badgeFullText, 30, currentTl).then(function() { currentTl.resume(); });
               currentTl.pause();
             }
           });
 
-          // 2. HEADLINE LINE 1
-          heroTl.to('[data-anim="headline-1"]', {
-            opacity: 1, y: 0, duration: 0.7
-          }, '+=0.2');
+          // Beat 2: Headline line 1
+          heroTl.to('[data-anim="headline-1"]', { opacity: 1, y: 0, duration: 0.7 }, '+=0.2');
 
-          // 3. HEADLINE LINE 2
-          heroTl.to('[data-anim="headline-2"]', {
-            opacity: 1, y: 0, duration: 0.7
-          }, '-=0.55');
+          // Beat 3: Headline line 2
+          heroTl.to('[data-anim="headline-2"]', { opacity: 1, y: 0, duration: 0.7 }, '-=0.55');
 
-          // 4. SUBTITLE
-          heroTl.to('[data-anim="subtitle"]', {
-            opacity: 1, y: 0, duration: 0.6
-          }, '-=0.55');
+          // Beat 4: Subtitle
+          heroTl.to('[data-anim="subtitle"]', { opacity: 1, y: 0, duration: 0.6 }, '-=0.55');
 
-          // 5. CTA BUTTONS
-          heroTl.to('[data-anim="cta-row"]', {
-            opacity: 1, y: 0, duration: 0.6
-          }, '-=0.5');
+          // Beat 5: CTA button
+          heroTl.to('[data-anim="cta-row"]', { opacity: 1, y: 0, duration: 0.6 }, '-=0.5');
 
-          // 6. PIPELINE STEPS with arrows
-          var stepEls = gsap.utils.toArray('[data-anim="step"]');
-          var arrowEls = gsap.utils.toArray('[data-anim="arrow"]');
-
-          heroTl.add(function() {}, '+=0.3');
-
-          stepEls.forEach(function(step, idx) {
-            var offset = idx === 0 ? '' : '+=0.2';
-            heroTl.to(step, { opacity: 1, y: 0, duration: 0.5 }, offset);
-            if (arrowEls[idx]) {
-              heroTl.to(arrowEls[idx], { opacity: 1, duration: 0.3 }, '>+0.05');
-            }
+          // Beat 6: Deploy terminal slides in
+          heroTl.to('[data-anim="terminal"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
+          heroTl.add(function() {
+            // Start the deploy typing sequence after terminal is visible
+            runDeploySequence(false);
           });
 
-          // 6b. DEPLOY SUCCESS GLOW
-          var deployIcon = document.getElementById('step-deploy-icon');
-          heroTl.to(deployIcon, {
-            boxShadow: '0 0 20px 4px rgba(56, 226, 178, 0.3)',
-            borderColor: 'rgba(56, 226, 178, 0.6)',
-            duration: 0.4, ease: 'power2.in'
-          }, '+=0.3');
-          heroTl.to(deployIcon, {
-            boxShadow: '0 0 0px 0px rgba(56, 226, 178, 0)',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
-            duration: 0.4, ease: 'power2.out'
-          });
-          heroTl.to(deployIcon, {
-            boxShadow: '0 0 8px 1px rgba(56, 226, 178, 0.1)',
-            duration: 0.3, ease: 'power2.out'
-          });
-
-          // 7. STAT CARDS + count-up
+          // Beat 7: Stat cards + count-up
           heroTl.to('[data-anim="stat-card"]', {
             opacity: 1, y: 0, duration: 0.45, stagger: 0.12
           }, '+=0.25');
-
           var statLabel = 'statCountStart';
           heroTl.addLabel(statLabel, '<');
           document.querySelectorAll('.stat-number').forEach(function(el, idx) {
@@ -1517,25 +1658,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             }, statLabel + '+=' + (idx * 0.12));
           });
 
-          // 8. TERMINAL STRIP
-          heroTl.to('#hero-terminal', {
-            opacity: 1, duration: 0.4, ease: 'power3.out'
-          }, '+=0.6');
-          heroTl.add(function() {
-            var termText = document.getElementById('terminal-text');
-            var cmd = 'npx deployyourapp init --stack=recommended';
-            var ci = 0;
-            function typeTerm() {
-              if (ci < cmd.length) {
-                termText.textContent += cmd[ci];
-                ci++;
-                setTimeout(typeTerm, 30);
-              }
-            }
-            typeTerm();
-          });
-
-          // EFFECT 3: Floating code particles — reduced count on mobile for perf
+          // EFFECT 3: Floating code particles — reduced on mobile
           particleTimeout = setTimeout(function() {
             var snippets = [
               'git push', 'npm run build', 'deploy()', 'vercel --prod',
