@@ -3,214 +3,918 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeployYourApp | Vibe Coder's Interactive Guide (2026)</title>
-    
+    <title>DeployYourApp | The Vibe Coder's Complete Deployment Guide (2026)</title>
+    <meta name="description" content="The definitive guide for deploying AI-generated apps. Compare hosting platforms, get step-by-step workflows, and find the best stack for your vibe-coded project.">
+    <meta name="keywords" content="vibe coding, deploy app, hosting comparison, Vercel, Railway, Netlify, Cursor, Bolt, Lovable, Replit, AI coding tools 2026">
+    <link rel="canonical" href="https://deployyourapp.lekker.design">
+    <meta property="og:title" content="DeployYourApp — The Vibe Coder's Deployment Guide (2026)">
+    <meta property="og:description" content="Compare hosting platforms, get step-by-step deployment workflows, and find the best stack for your AI-generated app.">
+    <meta property="og:type" content="website">
+
+    <!-- Satoshi Font -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Chosen Palette: Warm Neutrals with Indigo/Emerald Accents (Stone-50 bg, Stone-800 text, Indigo-600 primary, Emerald-500 success) -->
-    
-    <!-- Application Structure Plan: 
-         Structure: A multi-view dashboard SPA. 
-         - View 1: "Stack Builder" (Interactive Quiz). User selects their AI tool, and the app dynamically suggests the optimal hosting and DB combo. This directly answers the core user need ("Where should I deploy?").
-         - View 2: "Deployment Matrix" (Data/Analysis). A detailed, filterable comparison of platforms (Vercel, Render, Railway, etc.) based on the research parameters (Pricing, DB, Ease of Use).
-         - View 3: "Affiliate Economics" (Quantitative Data). A visualization and table of the affiliate programs researched, aimed at the site creator/monetization strategy.
-         Why: The source report is a research plan for a deployment guide and its underlying monetization. This SPA structure separates the user-facing tool (Stack Builder), the deep-dive research (Matrix), and the business logic (Economics) into digestible, interactive chunks, preventing information overload. 
-    -->
-
-    <!-- Visualization & Content Choices: 
-         - Stack Builder: Goal -> Interactive recommendation. Method -> JS-driven UI state updates based on button clicks. Justification -> Gamifies the deployment decision process for non-technical users.
-         - Hosting Comparison: Goal -> Compare platforms. Method -> HTML Table with CSS Grid/Flexbox styling. Justification -> Best for reading dense, comparative text/boolean data.
-         - Affiliate Payouts: Goal -> Compare monetization potential. Method -> Bar Chart (Chart.js Canvas). Justification -> Visually contrasts high flat-rate CPAs (Bluehost) vs lower recurring commissions (Railway).
-         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Visuals rely on CSS, Unicode (⚡, 🗄️, 🚀), and Canvas.
-    -->
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4f46e5', // Indigo 600
-                        secondary: '#10b981', // Emerald 500
-                        dark: '#1c1917', // Stone 900
-                        light: '#fafaf9', // Stone 50
+                        primary: '#10B981',
+                        'primary-dark': '#059669',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: '#0c0a14',
+                        light: '#f8fafc',
+                        muted: '#64748b',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        sans: ['Satoshi', 'system-ui', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Chart Container Styling per requirements */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 40vh;
-            max-height: 400px;
-        }
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 300px;
+        /* Animations */
+        .fade-up { opacity: 0; transform: translateY(24px); }
+        .anim-hidden { opacity: 0; transform: translateY(24px); }
+
+        /* Reduced motion: skip all GSAP and CSS animations */
+        @media (prefers-reduced-motion: reduce) {
+            .fade-up, .anim-hidden { opacity: 1 !important; transform: none !important; }
+            [data-anim] { opacity: 1 !important; transform: none !important; }
+            [data-anim="arrow"] { opacity: 1 !important; }
+            .stat-number { /* show final values immediately */ }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
-        
-        /* Utility transitions */
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out;
+
+        /* Pipeline step hover */
+        .step-box {
+            transition: transform 0.25s ease, border-color 0.25s ease;
+            will-change: transform;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .step-box.hoverable:hover { transform: scale(1.05); }
+        .step-box .step-icon-box { transition: border-color 0.25s ease; }
+        .step-detail {
+            overflow: hidden; max-height: 0; opacity: 0;
+            transform: translateY(-5px);
+            transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
         }
-        
-        /* Hide scrollbar for clean look but allow scrolling */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .step-box.hoverable:hover .step-detail {
+            max-height: 40px; opacity: 1; transform: translateY(0);
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .step-box.hoverable:hover .step-icon-indigo { border-color: rgba(99, 91, 255, 0.6); }
+        .step-box.hoverable:hover .step-icon-teal { border-color: rgba(56, 226, 178, 0.6); }
+
+        /* Badge dot pulse */
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .badge-dot { animation: dotPulse 2s ease-in-out infinite; }
+
+        /* Typewriter cursor */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .type-cursor {
+            display: inline-block;
+            width: 1px;
+            height: 1em;
+            background: currentColor;
+            margin-left: 1px;
+            vertical-align: text-bottom;
+            animation: blink 0.6s step-end infinite;
+        }
+
+        /* Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Components */
+        .step-number {
+            width: 36px; height: 36px; min-width: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 9999px; font-weight: 700; font-size: 0.875rem;
+        }
+        .error-card { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+        .error-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        details summary { cursor: pointer; }
+        details summary::-webkit-details-marker { display: none; }
+        details summary::marker { display: none; content: ""; }
+        .nav-pill { white-space: nowrap; }
+
+        /* Card hover */
+        .card-hover { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(16, 185, 129, 0.08); }
+
+        /* Ease bar */
+        .ease-bar { height: 6px; border-radius: 3px; background: #e2e8f0; overflow: hidden; }
+        .ease-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* Chart */
+        .chart-container {
+            position: relative; width: 100%; max-width: 800px;
+            margin-left: auto; margin-right: auto;
+            height: 40vh; max-height: 400px;
+        }
+        @media (max-width: 640px) { .chart-container { height: 300px; } }
+
+        /* Mobile menu */
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .mobile-menu.open { transform: translateX(0); }
+
+        /* Tool button active */
+        .tool-btn-active {
+            border-color: #10B981 !important;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
         }
     </style>
 </head>
-<body class="bg-light text-stone-800 font-sans antialiased min-h-screen flex flex-col no-scrollbar">
+<body class="bg-light text-slate-800 font-sans antialiased min-h-screen flex flex-col no-scrollbar">
 
     <!-- Navigation -->
-    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+    <nav class="bg-white/80 backdrop-blur-lg border-b border-slate-200/60 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl mr-2">🚀</span>
-                    <span class="font-bold text-xl text-dark tracking-tight">DeployYourApp</span>
-                    <span class="ml-2 text-xs bg-indigo-100 text-primary px-2 py-1 rounded-full font-semibold">2026 Data</span>
+                <div class="flex items-center shrink-0">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mr-2.5">
+                        <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3l7.5 7.5M5 21V10.5M19 21V10.5M9 21v-5.625a1.125 1.125 0 011.125-1.125h3.75A1.125 1.125 0 0115 15.375V21"/></svg>
+                    </div>
+                    <span class="font-extrabold text-xl text-dark tracking-tight">Deploy<span class="text-emerald-500">YourApp</span></span>
                 </div>
-                <div class="flex items-center space-x-1 md:space-x-4 overflow-x-auto no-scrollbar">
-                    <button onclick="nav('stack-builder')" id="nav-stack-builder" class="nav-btn px-3 py-2 rounded-md text-sm font-medium bg-primary text-white transition-colors">Stack Builder</button>
-                    <button onclick="nav('deployment-matrix')" id="nav-deployment-matrix" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-colors">Platform Matrix</button>
-                    <button onclick="nav('economics')" id="nav-economics" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-100 transition-colors">Affiliate Data</button>
+                <!-- Desktop nav -->
+                <div class="hidden md:flex items-center space-x-1 overflow-x-auto no-scrollbar pl-4">
+                    <button onclick="nav('stack-builder')" id="nav-stack-builder" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-semibold bg-primary text-white transition-all duration-200">Stack Builder</button>
+                    <button onclick="nav('deployment-matrix')" id="nav-deployment-matrix" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">Platforms</button>
+                    <button onclick="nav('workflows')" id="nav-workflows" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">Deploy Guide</button>
+                    <button onclick="nav('troubleshooting')" id="nav-troubleshooting" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">Errors</button>
+                    <button onclick="nav('domains')" id="nav-domains" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">Domains</button>
+                    <button onclick="nav('economics')" id="nav-economics" class="nav-btn nav-pill px-3.5 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">Affiliates</button>
+                </div>
+                <!-- Mobile hamburger -->
+                <button onclick="toggleMobileMenu()" class="md:hidden flex items-center p-2 text-slate-500 hover:text-slate-800" id="hamburger-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="mobile-menu fixed inset-y-0 right-0 w-72 bg-white shadow-2xl z-50 p-6 flex flex-col">
+            <button onclick="toggleMobileMenu()" class="self-end mb-6 text-slate-400 hover:text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="space-y-2">
+                <button onclick="nav('stack-builder');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Stack Builder</button>
+                <button onclick="nav('deployment-matrix');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Platforms</button>
+                <button onclick="nav('workflows');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Deploy Guide</button>
+                <button onclick="nav('troubleshooting');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Errors</button>
+                <button onclick="nav('domains');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Domains</button>
+                <button onclick="nav('economics');toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-primary transition">Affiliates</button>
+            </div>
+        </div>
+        <div id="mobile-overlay" class="hidden fixed inset-0 bg-black/30 z-40" onclick="toggleMobileMenu()"></div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- HERO SECTION                                 -->
+    <!-- ============================================ -->
+    <section id="hero-section" class="relative overflow-hidden min-h-[100dvh] flex items-center" style="background: #0c0a14;">
+        <!-- EFFECT 1: SVG Grid Pattern -->
+        <svg id="hero-grid" class="absolute inset-0 w-full h-full" style="z-index:0; pointer-events:none; opacity:0;" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <defs>
+                <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(99,91,255,0.06)" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern)"/>
+        </svg>
+
+        <!-- EFFECT 2: Scan Line -->
+        <div id="hero-scanline" class="absolute left-0 w-full" style="z-index:0; pointer-events:none; opacity:0; top:0; height:2px; background:linear-gradient(90deg, transparent 0%, rgba(99,91,255,0.5) 30%, rgba(56,226,178,0.4) 70%, transparent 100%);"></div>
+
+        <!-- EFFECT 3: Floating code particles -->
+        <div id="hero-particles" class="absolute inset-0 overflow-hidden" style="z-index:1; pointer-events:none;"></div>
+
+        <!-- Subtle emerald radial gradient blob -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full" style="z-index:0; pointer-events:none; background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 w-full" style="z-index:2;">
+            <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+                <!-- Left content ~60% -->
+                <div class="w-full lg:w-[60%]">
+                    <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-emerald-300 text-sm font-medium mb-8 anim-hidden" data-anim="badge">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 badge-dot"></span>
+                        <span id="badge-text" data-text="Updated March 2026 with verified data"></span><span id="badge-cursor" class="type-cursor" style="display:none;"></span>
+                    </div>
+
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none mb-6">
+                        <span class="text-white anim-hidden block" data-anim="headline-1">You Built the App.</span>
+                        <span class="text-emerald-400 anim-hidden block mt-2" data-anim="headline-2">Now Get It Live.</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed anim-hidden" data-anim="subtitle">
+                        The definitive deployment guide for vibe coders. Compare platforms, follow step-by-step workflows, and go from AI-generated code to live URL.
+                    </p>
+
+                    <!-- Single CTA button -->
+                    <div class="anim-hidden" data-anim="cta-row">
+                        <button onclick="nav('stack-builder')" class="px-8 py-3.5 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20 text-sm active:scale-[0.98] active:translate-y-[1px]">
+                            Find Your Stack
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right side: pipeline steps stacked vertically -->
+                <div class="w-full lg:w-[40%] flex flex-col items-center">
+                    <div class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
+                        <div class="step-icon-box step-icon-indigo w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
+                            <span class="text-2xl">AI</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-white font-bold text-sm">1. Build with AI</p>
+                            <p class="text-slate-400 text-xs mt-0.5">Cursor, Bolt, Lovable, v0...</p>
+                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">cursor generate app.tsx</span></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center py-1 opacity-0" data-anim="arrow">
+                        <svg class="w-5 h-5 text-emerald-400/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    </div>
+                    <div class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
+                        <div class="step-icon-box step-icon-indigo w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-white font-bold text-sm">2. Push to GitHub</p>
+                            <p class="text-slate-400 text-xs mt-0.5">Version control your code</p>
+                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">git push origin main</span></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center py-1 opacity-0" data-anim="arrow">
+                        <svg class="w-5 h-5 text-emerald-400/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    </div>
+                    <div id="step-deploy" class="step-box w-full flex items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 anim-hidden" data-anim="step">
+                        <div id="step-deploy-icon" class="step-icon-box step-icon-teal w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-white font-bold text-sm">3. Deploy & Go Live</p>
+                            <p class="text-slate-400 text-xs mt-0.5">Vercel, Railway, Netlify...</p>
+                            <div class="step-detail mt-1.5"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10px; color:rgba(56,226,178,0.7); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:2px 8px;">vercel --prod &#10003;</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <!-- Main Content Area -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <!-- Stats bar as separate section strip -->
+    <section class="relative" style="background: #0e0c16;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="25" data-suffix="%">0%</p>
+                    <p class="text-xs text-slate-400 mt-1">of YC W25 batch is 95% AI-generated code</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="10">0</p>
+                    <p class="text-xs text-slate-400 mt-1">AI coding tools tracked and compared</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="8">0</p>
+                    <p class="text-xs text-slate-400 mt-1">hosting platforms with verified pricing</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="200" data-prefix="$" data-suffix="B">$0B</p>
+                    <p class="text-xs text-slate-400 mt-1">projected web hosting market cap 2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- VIEW 1: STACK BUILDER (Interactive Quiz) -->
+    <!-- Terminal command strip -->
+    <div id="hero-terminal" style="opacity:0; background:#0a0816; border-top:0.5px solid rgba(99,91,255,0.15); padding:10px 16px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:14px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
+        <span style="color:rgba(99,91,255,0.5);">$ </span><span id="terminal-text" style="color:rgba(56,226,178,0.7);"></span><span id="terminal-cursor" style="display:inline-block; width:7px; height:14px; background:rgba(56,226,178,0.6); vertical-align:text-bottom; margin-left:1px; animation:blink 0.6s step-end infinite;"></span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+
+        <!-- ============================================ -->
+        <!-- VIEW 1: STACK BUILDER                        -->
+        <!-- ============================================ -->
         <section id="view-stack-builder" class="view-section fade-in">
-            <div class="mb-8 text-center max-w-3xl mx-auto">
-                <h1 class="text-3xl md:text-4xl font-extrabold text-dark mb-4">Where Should I Deploy My Vibe-Coded App?</h1>
-                <p class="text-lg text-stone-600">You built an app using an AI coding tool. Now you need it live on the internet. Select the tool you used to generate your code, and we'll recommend the easiest deployment path for non-technical users.</p>
+            <div class="mb-10 text-center max-w-3xl mx-auto fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">INTERACTIVE TOOL</div>
+                <h2 class="text-3xl md:text-4xl font-black text-dark mb-4 tracking-tight">Where Should I Deploy My App?</h2>
+                <p class="text-lg text-muted leading-relaxed">Select the AI tool you used to build your app, and we'll recommend the optimal deployment stack.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                <!-- Step 1: Tool Selection -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                    <h2 class="text-xl font-bold mb-4 flex items-center"><span class="text-2xl mr-2">🤖</span> 1. Select AI Builder</h2>
-                    <div class="space-y-3" id="tool-buttons">
-                        <!-- Buttons injected via JS -->
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <!-- Tool Selection -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 card-hover">
+                    <h3 class="text-lg font-bold mb-1 flex items-center">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center mr-2.5">
+                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+                        </div>
+                        Select AI Builder
+                    </h3>
+                    <p class="text-xs text-muted mb-4 ml-10">10 tools tracked for 2026</p>
+                    <div class="space-y-2 max-h-[520px] overflow-y-auto pr-1" id="tool-buttons"></div>
                 </div>
 
-                <!-- Step 2 & 3: Recommendations -->
-                <div class="md:col-span-2 bg-stone-900 rounded-xl p-8 text-white shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 text-9xl opacity-5">🌐</div>
-                    <div id="recommendation-state-empty" class="h-full flex flex-col items-center justify-center text-center py-12">
-                        <span class="text-4xl mb-4">👈</span>
-                        <h3 class="text-2xl font-bold text-stone-300">Select a tool to see your stack</h3>
-                        <p class="text-stone-500 mt-2">We analyze default outputs to suggest the frictionless path.</p>
+                <!-- Recommendations -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden min-h-[420px]">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-teal-500/5 rounded-full blur-3xl"></div>
+
+                    <div id="recommendation-state-empty" class="relative h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+                            <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-400">Select a tool to see your stack</h3>
+                        <p class="text-slate-600 mt-2 text-sm max-w-xs">We analyze default outputs to recommend the lowest-friction deployment path.</p>
                     </div>
 
-                    <div id="recommendation-state-filled" class="hidden h-full flex flex-col space-y-6 fade-in">
-                        <div>
-                            <span class="text-indigo-400 font-semibold tracking-wider text-sm uppercase">Recommended Hosting</span>
-                            <div class="flex items-center mt-2">
-                                <span class="text-4xl mr-4" id="rec-host-icon">⚡</span>
-                                <div>
-                                    <h3 class="text-3xl font-bold" id="rec-host-name">Vercel</h3>
-                                    <p class="text-stone-400 mt-1" id="rec-host-desc">Best for Next.js and static React apps.</p>
+                    <div id="recommendation-state-filled" class="relative hidden flex flex-col space-y-5 fade-in">
+                        <!-- Tool info -->
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/10 backdrop-blur-sm">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <div class="flex items-center">
+                                    <span class="text-3xl mr-3" id="rec-tool-icon"></span>
+                                    <div>
+                                        <h3 class="text-xl font-bold" id="rec-tool-name">Tool</h3>
+                                        <p class="text-slate-400 text-sm" id="rec-tool-desc">Description</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-output">Output</span>
+                                    <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-pricing">Pricing</span>
+                                    <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-speed">Speed</span>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="h-px w-full bg-stone-700"></div>
 
+                        <!-- Hosting -->
                         <div>
-                            <span class="text-emerald-400 font-semibold tracking-wider text-sm uppercase">Recommended Database / Auth</span>
+                            <span class="text-emerald-400 font-semibold tracking-wider text-xs uppercase">Recommended Hosting</span>
                             <div class="flex items-center mt-2">
-                                <span class="text-4xl mr-4" id="rec-db-icon">🗄️</span>
+                                <span class="text-4xl mr-4" id="rec-host-icon"></span>
                                 <div>
-                                    <h3 class="text-2xl font-bold" id="rec-db-name">Supabase</h3>
-                                    <p class="text-stone-400 mt-1" id="rec-db-desc">Postgres DB with built-in auth, easy integration.</p>
+                                    <h3 class="text-2xl font-bold" id="rec-host-name">Vercel</h3>
+                                    <p class="text-slate-400 mt-1 text-sm" id="rec-host-desc">Best for Next.js and static React apps.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mt-6 bg-stone-800 p-4 rounded-lg border border-stone-700">
-                            <h4 class="font-bold text-white mb-2 text-sm flex items-center"><span class="mr-2">💡</span> Why this stack?</h4>
-                            <p class="text-sm text-stone-300" id="rec-rationale">...</p>
+                        <div class="h-px w-full bg-white/10"></div>
+
+                        <!-- Database -->
+                        <div>
+                            <span class="text-emerald-400 font-semibold tracking-wider text-xs uppercase">Recommended Database / Auth</span>
+                            <div class="flex items-center mt-2">
+                                <span class="text-4xl mr-4" id="rec-db-icon"></span>
+                                <div>
+                                    <h3 class="text-xl font-bold" id="rec-db-name">Supabase</h3>
+                                    <p class="text-slate-400 mt-1 text-sm" id="rec-db-desc">Postgres DB with built-in auth.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rationale -->
+                        <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                            <h4 class="font-bold text-white mb-2 text-sm flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z"/></svg>
+                                Why this stack?
+                            </h4>
+                            <p class="text-sm text-slate-300 leading-relaxed" id="rec-rationale">...</p>
+                        </div>
+
+                        <!-- Native deploy note -->
+                        <div id="rec-native-deploy" class="hidden bg-emerald-500/10 p-4 rounded-xl border border-emerald-400/20">
+                            <h4 class="font-bold text-emerald-300 mb-1 text-sm flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z"/></svg>
+                                Built-in Hosting Available
+                            </h4>
+                            <p class="text-sm text-slate-300" id="rec-native-desc">This tool has native deployment.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- AI Tools Landscape table -->
+            <div class="mt-14 fade-up">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+                    </div>
+                    <h2 class="text-2xl font-black text-dark">AI Coding Tools Landscape</h2>
+                    <span class="text-xs bg-slate-100 text-muted px-2.5 py-1 rounded-full font-medium">March 2026</span>
+                </div>
+                <p class="text-muted mb-6 ml-11">The market has split into <strong class="text-slate-700">AI-native IDEs</strong> (deep code editing) and <strong class="text-slate-700">browser-based App Builders</strong> (instant prototyping). Speed and code quality are inversely correlated.</p>
+                <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50/80">
+                            <tr>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Platform</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Type</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Output</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Pricing</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Speed to Prototype</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Code Quality</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="tools-landscape-body"></tbody>
+                    </table>
+                </div>
+                <div class="mt-4 flex items-start gap-2 bg-amber-50 border border-amber-200/60 p-4 rounded-xl">
+                    <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z"/></svg>
+                    <p class="text-sm text-amber-800"><strong>Common workflow:</strong> Scaffold with Bolt/Lovable for speed, then export to Cursor/Windsurf for hardening and production deployment.</p>
                 </div>
             </div>
         </section>
 
-        <!-- VIEW 2: DEPLOYMENT MATRIX -->
+        <!-- ============================================ -->
+        <!-- VIEW 2: DEPLOYMENT MATRIX                    -->
+        <!-- ============================================ -->
         <section id="view-deployment-matrix" class="view-section hidden fade-in">
-            <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-extrabold text-dark mb-4">Deployment Platform Matrix (2026)</h2>
-                <p class="text-lg text-stone-600">A comprehensive comparison of the top hosting providers suitable for vibe-coded applications. Filtered for ease-of-use and AI-tool compatibility.</p>
+            <div class="mb-8 max-w-3xl fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">COMPARISON</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Deployment Platform Matrix</h2>
+                <p class="text-lg text-muted leading-relaxed">Comprehensive comparison of hosting providers for vibe-coded applications. Filtered for ease-of-use, pricing, and AI-tool compatibility.</p>
+            </div>
+
+            <!-- Vercel Warning -->
+            <div class="mb-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200/60 p-5 rounded-2xl flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-red-800 mb-1">Critical: Vercel Commercial Restrictions</h4>
+                    <p class="text-sm text-red-700 leading-relaxed">Vercel's Hobby (Free) plan <strong>strictly prohibits all commercial activity</strong> &mdash; including Stripe payments, affiliate links, Google AdSense, or freelance client work. Deploying a monetized app risks account suspension. Upgrade to Pro ($20/mo/seat) for commercial use. <strong>Netlify's free tier allows commercial use</strong> &mdash; a key differentiator for indie hackers.</p>
+                </div>
             </div>
 
             <!-- Filters -->
-            <div class="mb-6 flex space-x-2">
-                <button class="filter-btn active bg-stone-800 text-white px-4 py-2 rounded-full text-sm font-medium" data-filter="all">All Platforms</button>
-                <button class="filter-btn bg-stone-200 text-stone-700 hover:bg-stone-300 px-4 py-2 rounded-full text-sm font-medium transition" data-filter="frontend">Frontend Focused</button>
-                <button class="filter-btn bg-stone-200 text-stone-700 hover:bg-stone-300 px-4 py-2 rounded-full text-sm font-medium transition" data-filter="fullstack">Fullstack / Docker</button>
+            <div class="mb-6 flex flex-wrap gap-2">
+                <button class="filter-btn active bg-dark text-white px-4 py-2 rounded-full text-sm font-semibold transition-all" data-filter="all">All Platforms</button>
+                <button class="filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-filter="frontend">Frontend / Serverless</button>
+                <button class="filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-filter="fullstack">Fullstack / Docker</button>
             </div>
 
             <!-- Table -->
-            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-stone-200">
-                <table class="min-w-full divide-y divide-stone-200">
-                    <thead class="bg-stone-50">
+            <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50/80">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Platform</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Best For</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Free Tier</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Ease of Use (1-10)</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-stone-500 uppercase tracking-wider">Built-in DB?</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Platform</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Best For</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Free Tier</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Commercial?</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Sleep Behavior</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Ease of Use</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Database</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Docker?</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-stone-200" id="matrix-body">
-                        <!-- Populated by JS -->
-                    </tbody>
+                    <tbody class="divide-y divide-slate-100" id="matrix-body"></tbody>
                 </table>
             </div>
-            <div class="mt-4 text-sm text-stone-500 flex items-center">
-                <span class="mr-2">ℹ️</span> <em>Data verified as of March 2026. "Ease of use" rated specifically for non-technical users deploying AI-generated code.</em>
+            <p class="mt-4 text-sm text-muted flex items-center gap-2">
+                <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
+                Data verified March 2026. "Ease of use" rated for non-technical users deploying AI-generated code.
+            </p>
+
+            <!-- Key Insights: 2-column asymmetric (first card full width, next two side by side) -->
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+                    </div>
+                    <h4 class="font-bold text-dark mb-2">Best for React/Next.js</h4>
+                    <p class="text-sm text-muted"><strong class="text-slate-700">Vercel</strong> (if non-commercial) or <strong class="text-slate-700">Netlify</strong> (if monetizing). Zero-config for Next.js apps from v0, Bolt, or Lovable.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
+                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
+                    </div>
+                    <h4 class="font-bold text-dark mb-2">Best for Python/Docker</h4>
+                    <p class="text-sm text-muted"><strong class="text-slate-700">Railway</strong> &mdash; auto-detects Python, Go, Rust via Nixpacks. No Dockerfile needed. Best for Cursor-built backends.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center mb-3">
+                        <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
+                    </div>
+                    <h4 class="font-bold text-dark mb-2">Most Generous Free Tier</h4>
+                    <p class="text-sm text-muted"><strong class="text-slate-700">Cloudflare Pages</strong> for static. <strong class="text-slate-700">Netlify</strong> for serverless + commercial. <strong class="text-slate-700">Render</strong> for fullstack (spins down).</p>
+                </div>
             </div>
         </section>
 
-        <!-- VIEW 3: AFFILIATE ECONOMICS -->
+        <!-- ============================================ -->
+        <!-- VIEW 3: DEPLOYMENT WORKFLOWS                 -->
+        <!-- ============================================ -->
+        <section id="view-workflows" class="view-section hidden fade-in">
+            <div class="mb-8 max-w-3xl fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">STEP-BY-STEP</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Deployment Guides</h2>
+                <p class="text-lg text-muted leading-relaxed">Practical workflows to get your AI-generated app from code to live URL. Pick the path that matches how you built your app.</p>
+            </div>
+
+            <!-- Workflow selector -->
+            <div class="mb-8 flex flex-wrap gap-2">
+                <button class="wf-btn active bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold transition-all" data-wf="cursor">Cursor &rarr; GitHub &rarr; Cloud</button>
+                <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="bolt">Bolt.new &rarr; Deploy</button>
+                <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="lovable">Lovable &rarr; Deploy</button>
+                <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="replit">Replit &rarr; Deploy</button>
+            </div>
+
+            <!-- Cursor Workflow -->
+            <div id="wf-cursor" class="wf-content fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-primary">A</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Push to GitHub</h3>
+                                <p class="text-xs text-muted">For someone who has never used Git before</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Create a GitHub account</p>
+                                    <p class="text-sm text-muted">Sign up at github.com if you haven't already.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Open Cursor's terminal</p>
+                                    <p class="text-sm text-muted">Press <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">Ctrl+`</code> (backtick) to open the integrated terminal.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Initialize Git &amp; commit</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init
+git add .
+git commit -m "Initial commit from Cursor"</pre>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Create a GitHub repo &amp; push</p>
+                                    <p class="text-sm text-muted">Go to github.com/new, create a repo (don't add README), then run:</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git remote add origin https://github.com/YOU/REPO.git
+git branch -M main
+git push -u origin main</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Railway -->
+                        <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                            <div class="flex items-center gap-3 mb-5">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                    <span class="text-lg font-black text-emerald-600">B</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-dark">Deploy to Railway</h3>
+                                    <p class="text-xs text-muted">Best for Python, Docker, fullstack apps</p>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">railway.app</strong> &rarr; Sign in with GitHub</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"New Project"</strong> &rarr; <strong class="text-slate-700">"Deploy from GitHub repo"</strong></p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Select your repo. Railway auto-detects the language via <strong class="text-slate-700">Nixpacks</strong>.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">Variables</strong> tab &rarr; add every key-value pair from your <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> file.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">5</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Generate Domain"</strong> for a free <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.up.railway.app</code> URL. Done!</p></div></div>
+                            </div>
+                        </div>
+                        <!-- Vercel alt -->
+                        <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                            <div class="flex items-center gap-3 mb-5">
+                                <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                                    <span class="text-lg font-bold text-slate-500">Alt</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-dark">Deploy to Vercel</h3>
+                                    <p class="text-xs text-muted">Best for Next.js / React frontend apps</p>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">vercel.com</strong> &rarr; Sign in with GitHub</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Add New Project"</strong> &rarr; Import your GitHub repo</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Vercel auto-detects Next.js/Vite. Add <strong class="text-slate-700">Environment Variables</strong> if needed.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">Deploy</strong>. Get a live <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.vercel.app</code> URL in ~60 seconds.</p></div></div>
+                            </div>
+                            <div class="mt-4 bg-red-50 border border-red-200/60 p-3 rounded-xl text-xs text-red-700">
+                                <strong>Remember:</strong> Vercel Hobby = non-commercial only. Upgrade to Pro ($20/mo) if monetizing.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bolt Workflow -->
+            <div id="wf-bolt" class="wf-content hidden fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-primary">A</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Bolt Built-in Deploy (Netlify)</h3>
+                                <p class="text-xs text-muted">Fastest &mdash; one click, no Git required</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">In your Bolt.new project, click the <strong class="text-slate-700">"Deploy"</strong> button in the top bar.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Bolt uses its <strong class="text-slate-700">Netlify integration</strong> to deploy the WebContainer output directly.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">You get a live Netlify URL immediately. Custom domains supported via Netlify dashboard.</p></div></div>
+                        </div>
+                        <div class="mt-5 bg-emerald-50 border border-emerald-200/60 p-3 rounded-xl text-xs text-emerald-800">
+                            <strong>Advantage:</strong> Netlify allows commercial use on the free tier &mdash; you can monetize immediately.
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-emerald-600">B</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Export to GitHub</h3>
+                                <p class="text-xs text-muted">For long-term ownership and flexibility</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Connect to GitHub"</strong> in Bolt to push the WebContainer state to a new repo.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Authorize Bolt to create a repository on your GitHub account.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Once on GitHub, deploy to <strong class="text-slate-700">Vercel, Netlify, or Railway</strong> using standard CI/CD.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Optionally, clone into <strong class="text-slate-700">Cursor</strong> for deeper refinement before deploying.</p></div></div>
+                        </div>
+                        <div class="mt-5 bg-amber-50 border border-amber-200/60 p-3 rounded-xl text-xs text-amber-800">
+                            <strong>Tip:</strong> Bolt apps built with WebContainers can hit OOM errors for large projects. Export to Cursor early if complexity grows.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lovable Workflow -->
+            <div id="wf-lovable" class="wf-content hidden fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-primary">A</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Lovable Built-in Hosting</h3>
+                                <p class="text-xs text-muted">One-click publish with Supabase backend</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Publish"</strong> in the Lovable editor. Your app goes live instantly.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Lovable auto-provisions a <strong class="text-slate-700">Supabase backend</strong> with Auth + Postgres database.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Uses <strong class="text-slate-700">Test and Live environments</strong> &mdash; dev changes don't corrupt production DB.</p></div></div>
+                        </div>
+                        <div class="mt-5 bg-amber-50 border border-amber-200/60 p-3 rounded-xl text-xs text-amber-800">
+                            <strong>Trade-off:</strong> Deep Supabase lock-in. Scaling costs tied to Supabase pricing, not just hosting.
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-emerald-600">B</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Export to GitHub &rarr; Vercel/Netlify</h3>
+                                <p class="text-xs text-muted">More control, same Supabase backend</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Use Lovable's <strong class="text-slate-700">GitHub sync</strong> to export the React codebase to a repo.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Import the repo into Vercel or Netlify.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div>
+                                <p class="text-sm text-muted"><strong class="text-slate-700">Critical:</strong> Add these environment variables on the hosting platform:</p>
+                                <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">VITE_SUPABASE_URL=your-project-url
+VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
+                            </div></div>
+                            <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Without these keys, the app builds but <strong class="text-red-600">auth and database silently fail</strong>.</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Replit Workflow -->
+            <div id="wf-replit" class="wf-content hidden fade-in">
+                <div class="max-w-2xl">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Replit: End-to-End Deployment</h3>
+                                <p class="text-xs text-muted">The most seamless cloud-native experience &mdash; no local setup</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Build your app using <strong class="text-slate-700">Replit Agent 3</strong> &mdash; it plans, writes, and refines autonomously.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Deploy"</strong>. Choose <strong class="text-slate-700">Reserved VM</strong> (always on), <strong class="text-slate-700">Autoscale</strong>, or <strong class="text-slate-700">Static</strong>.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Code runs in the same cloud environment it was built in &mdash; zero "works on my machine" issues.</p></div></div>
+                            <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Add a custom domain directly in the Replit dashboard.</p></div></div>
+                        </div>
+                        <div class="mt-5 bg-amber-50 border border-amber-200/60 p-3 rounded-xl text-xs text-amber-800">
+                            <strong>Note:</strong> Replit deployment pricing has changed multiple times. Verify current costs at replit.com/pricing before committing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 4: TROUBLESHOOTING                      -->
+        <!-- ============================================ -->
+        <section id="view-troubleshooting" class="view-section hidden fade-in">
+            <div class="mb-8 max-w-3xl fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold mb-4">TROUBLESHOOTING</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Top 10 Deployment Errors</h2>
+                <p class="text-lg text-muted leading-relaxed">AI coding tools are trained on local dev patterns and frequently miss production requirements. These are the errors that block most vibe coders.</p>
+            </div>
+            <div class="space-y-3" id="errors-container"></div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 5: DOMAINS & DNS                        -->
+        <!-- ============================================ -->
+        <section id="view-domains" class="view-section hidden fade-in">
+            <div class="mb-8 max-w-3xl fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">DOMAINS</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Domains &amp; DNS for Beginners</h2>
+                <p class="text-lg text-muted leading-relaxed">Get a custom domain and connect it to your deployed app. Pricing, DNS concepts, and step-by-step instructions.</p>
+            </div>
+
+            <!-- Registrar Pricing -->
+            <div class="mb-12 fade-up">
+                <h3 class="text-2xl font-bold text-dark mb-2">Domain Registrar Pricing</h3>
+                <p class="text-muted mb-5">Prices shown are <strong class="text-slate-700">renewal rates</strong> &mdash; what you actually pay long-term. Many registrars lure you in with cheap first-year pricing then inflate renewals.</p>
+                <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50/80">
+                            <tr>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Registrar</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.com /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.net /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.org /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.io /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.app /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="registrar-body"></tbody>
+                    </table>
+                </div>
+                <div class="mt-4 flex items-start gap-2 bg-emerald-50 border border-emerald-200/60 p-4 rounded-xl">
+                    <svg class="w-5 h-5 text-primary shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z"/></svg>
+                    <p class="text-sm text-emerald-800"><strong>Recommendation:</strong> <strong>Cloudflare</strong> for cheapest long-term cost (at-cost pricing). <strong>Porkbun</strong> for best beginner experience + transparent pricing.</p>
+                </div>
+            </div>
+
+            <!-- DNS Explainer -->
+            <div class="mb-12 fade-up">
+                <h3 class="text-2xl font-bold text-dark mb-6">DNS Explained Simply</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg mb-2">What is DNS?</h4>
+                        <p class="text-sm text-muted leading-relaxed">DNS is the internet's phone book. When someone types <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">yourapp.com</code>, DNS translates that name into the IP address of your server. Without it, users would need to memorize numbers like <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">76.76.21.21</code>.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg mb-2">Why does it take time?</h4>
+                        <p class="text-sm text-muted leading-relaxed">When you change DNS records, the update needs to spread across thousands of servers worldwide &mdash; this is called <strong class="text-slate-700">propagation</strong>. Modern changes often work within minutes, but full global propagation can take up to 48 hours.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-primary font-mono text-sm bg-emerald-50 px-2.5 py-1 rounded-lg font-bold">A</span>
+                            <h4 class="font-bold text-dark text-lg">A Record</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed">Maps your domain directly to an IP address. Used for your root domain (e.g., <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">example.com</code>).</p>
+                        <pre class="bg-slate-900 text-green-400 p-2.5 rounded-xl text-xs mt-3 font-mono">example.com &rarr; A &rarr; 76.76.21.21</pre>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-secondary font-mono text-sm bg-green-50 px-2.5 py-1 rounded-lg font-bold">CNAME</span>
+                            <h4 class="font-bold text-dark text-lg">CNAME Record</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed">Maps a subdomain to another domain name (not an IP). Used for <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">www</code> or <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">app.example.com</code>.</p>
+                        <pre class="bg-slate-900 text-green-400 p-2.5 rounded-xl text-xs mt-3 font-mono">www.example.com &rarr; CNAME &rarr; cname.vercel-dns.com</pre>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-amber-600 font-mono text-sm bg-amber-50 px-2.5 py-1 rounded-lg font-bold">TXT</span>
+                            <h4 class="font-bold text-dark text-lg">TXT Record</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed">Used for <strong class="text-slate-700">verification</strong>. Hosting platforms ask you to add a TXT record to prove you own the domain before issuing SSL certificates.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-red-600 font-mono text-sm bg-red-50 px-2.5 py-1 rounded-lg font-bold">NS</span>
+                            <h4 class="font-bold text-dark text-lg">Nameservers</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed">Point your domain's nameservers to your host (e.g., Vercel, Netlify) to give them full DNS control &mdash; simpler but less flexible than managing individual records.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connecting Domains -->
+            <div class="fade-up">
+                <h3 class="text-2xl font-bold text-dark mb-6">Connecting a Custom Domain</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
+                            <span class="font-bold text-primary text-sm">V</span>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg mb-3">Vercel</h4>
+                        <ol class="text-sm text-muted space-y-2 list-decimal list-inside leading-relaxed">
+                            <li>Go to project &rarr; <strong class="text-slate-700">Settings &rarr; Domains</strong></li>
+                            <li>Enter your domain. Vercel suggests adding both apex + www.</li>
+                            <li>Vercel shows the required DNS records.</li>
+                            <li>At your registrar, add the <strong class="text-slate-700">A record</strong> (apex) and/or <strong class="text-slate-700">CNAME</strong> (www).</li>
+                            <li>Or: change nameservers to Vercel's for full delegation.</li>
+                            <li>SSL is provisioned automatically.</li>
+                        </ol>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center mb-3">
+                            <span class="font-bold text-teal-600 text-sm">N</span>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg mb-3">Netlify</h4>
+                        <ol class="text-sm text-muted space-y-2 list-decimal list-inside leading-relaxed">
+                            <li>Go to <strong class="text-slate-700">Domain management &rarr; Add custom domain</strong></li>
+                            <li>Verify ownership if prompted.</li>
+                            <li>Add A/CNAME records at your registrar, or switch to <strong class="text-slate-700">Netlify DNS</strong> nameservers.</li>
+                            <li>SSL is automatic via Let's Encrypt.</li>
+                        </ol>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
+                            <span class="font-bold text-emerald-600 text-sm">R</span>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg mb-3">Railway</h4>
+                        <ol class="text-sm text-muted space-y-2 list-decimal list-inside leading-relaxed">
+                            <li>Go to service &rarr; <strong class="text-slate-700">Settings &rarr; Networking</strong></li>
+                            <li>Click <strong class="text-slate-700">"Generate Domain"</strong> first for a <code class="bg-slate-100 px-1 rounded text-xs font-mono">.up.railway.app</code> URL.</li>
+                            <li>Click <strong class="text-slate-700">"Add Custom Domain"</strong> and enter yours.</li>
+                            <li>Railway shows a CNAME value to add at your registrar.</li>
+                            <li>SSL is automatic.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 6: AFFILIATE ECONOMICS                  -->
+        <!-- ============================================ -->
         <section id="view-economics" class="view-section hidden fade-in">
-            <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-extrabold text-dark mb-4">Affiliate Monetization Research</h2>
-                <p class="text-lg text-stone-600">Data for configuring the DeployYourApp monetization strategy. Compares flat-rate CPA programs (traditional web hosts) vs recurring revenue programs (modern cloud platforms).</p>
+            <div class="mb-8 max-w-3xl fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-4">MONETIZATION</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Affiliate Monetization Research</h2>
+                <p class="text-lg text-muted leading-relaxed">Compares flat-rate CPA programs (traditional hosts) vs recurring revenue (modern cloud platforms). Data verified March 2026.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Chart -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col">
-                    <h3 class="text-xl font-bold text-dark mb-2">Estimated 1st Year Value per Conversion</h3>
-                    <p class="text-sm text-stone-500 mb-6">Comparing a $20/mo user spend across different affiliate models.</p>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col card-hover">
+                    <h3 class="text-lg font-bold text-dark mb-1">Estimated 1st Year Value per Conversion</h3>
+                    <p class="text-sm text-muted mb-6">Comparing a $20/mo user spend across different affiliate models.</p>
                     <div class="flex-grow flex items-center justify-center">
                         <div class="chart-container">
                             <canvas id="affiliateChart"></canvas>
@@ -218,315 +922,1041 @@
                     </div>
                 </div>
 
-                <!-- Affiliate Details Table -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                    <h3 class="text-xl font-bold text-dark mb-6">Program Details (Verified Mar 2026)</h3>
-                    <div class="space-y-4">
-                        <!-- Item -->
-                        <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-bold text-primary text-lg">DigitalOcean</h4>
-                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Verified</span>
-                            </div>
-                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> 10% recurring for 12 months</p>
-                            <p class="text-sm text-stone-600"><strong>Network:</strong> Impact</p>
-                            <p class="text-sm text-stone-600"><strong>Offer:</strong> $200 credit for 60 days for new users.</p>
-                        </div>
-                        <!-- Item -->
-                        <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-bold text-primary text-lg">Hostinger</h4>
-                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Verified</span>
-                            </div>
-                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> Up to 60% per sale</p>
-                            <p class="text-sm text-stone-600"><strong>Cookie:</strong> 30 days</p>
-                            <p class="text-sm text-stone-600"><strong>Notes:</strong> High CPA, but traditional hosting is harder for JS-heavy AI apps.</p>
-                        </div>
-                         <!-- Item -->
-                         <div class="p-4 border border-stone-100 rounded-lg bg-stone-50">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-bold text-primary text-lg">Railway.app</h4>
-                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Unverified</span>
-                            </div>
-                            <p class="text-sm text-stone-600 mb-2"><strong>Commission:</strong> Historically 10-20% (requires manual verification)</p>
-                            <p class="text-sm text-stone-600"><strong>Network:</strong> Custom / Internal</p>
-                            <p class="text-sm text-stone-600"><strong>Notes:</strong> Perfect product/market fit for Python/Docker AI apps.</p>
-                        </div>
-                    </div>
+                <!-- Affiliate Details -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 card-hover">
+                    <h3 class="text-lg font-bold text-dark mb-6">Program Details</h3>
+                    <div class="space-y-4" id="affiliate-cards"></div>
                 </div>
             </div>
-            
-            <div class="mt-8 bg-indigo-50 border border-indigo-100 p-6 rounded-xl">
-                <h4 class="font-bold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Key Content Insight</h4>
-                <p class="text-stone-700">Most non-technical users generating apps in 2026 build React/Next.js (Bolt, v0) or Python/Flask (Cursor/Copilot). Traditional hosts offering high CPAs (Bluehost/Hostinger) are incredibly frustrating for deploying these modern stacks. <strong>The high-value SEO angle is guiding users to Vercel/Railway and monetizing via secondary tools (Supabase, Clerk, API platforms) or accepting lower initial CPAs for platforms that actually work (DigitalOcean App Platform).</strong></p>
+
+            <!-- Strategy Insight -->
+            <div class="mt-8 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/60 p-6 rounded-2xl flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM10 2a8 8 0 100 16 8 8 0 000-16zm-1 4.75a1 1 0 112 0 1 1 0 01-2 0z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-primary mb-1">Key Content Strategy</h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">Most vibe coders build React/Next.js (from Bolt, v0) or Python/Flask (from Cursor). Traditional hosts offering high CPAs (Bluehost/Hostinger) are frustrating for these modern stacks. <strong>The high-value angle: guide users to platforms that actually work (Vercel/Railway/Netlify) and monetize via secondary tools (Supabase, Clerk, API platforms) or accept lower initial CPAs for higher long-term recurring value.</strong></p>
+                </div>
+            </div>
+
+            <!-- Revenue Model Comparison -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg">Recurring Revenue Model</h4>
+                    </div>
+                    <p class="text-sm text-muted mb-3">Railway (15%) + DigitalOcean (10%)</p>
+                    <ul class="text-sm text-muted space-y-1.5">
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Passive income grows as users scale</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> AI apps consume heavy compute = high monthly spend</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> A single scaling user can generate $100s/year</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Lower initial payout per conversion</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Revenue takes months to compound</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h4 class="font-bold text-dark text-lg">One-Time CPA Model</h4>
+                    </div>
+                    <p class="text-sm text-muted mb-3">Bluehost ($65 flat) + Hostinger (40-60%)</p>
+                    <ul class="text-sm text-muted space-y-1.5">
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Immediate high-margin cash flow</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Easier to forecast revenue</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Great for high-traffic content sites</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> No recurring passive income</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Traditional hosting is poor fit for modern JS/Python apps</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Higher refund/churn risk with product-market mismatch</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <script>
-        // --- DATA STATE ---
-        const aiTools = {
-            bolt: {
-                name: "Bolt.new",
-                icon: "⚡",
-                output: "Next.js / Remix / React",
-                hostName: "Netlify",
-                hostDesc: "Seamless integration via GitHub. Auto-detects Vite and Remix.",
-                dbName: "Supabase",
-                dbDesc: "Perfect pairing for Bolt. Provides Auth + Postgres.",
-                rationale: "Bolt natively connects well to Netlify through its UI. For backend needs, Supabase requires minimal configuration and fits the React/Vite ecosystem Bolt produces.",
-                hostIcon: "🔷",
-                dbIcon: "🗄️"
-            },
-            v0: {
-                name: "v0.dev",
-                icon: "⬛",
-                output: "React / Next.js UI",
-                hostName: "Vercel",
-                hostDesc: "Zero-config deployment for Next.js apps.",
-                dbName: "Vercel Postgres",
-                dbDesc: "Native database solution within the same dashboard.",
-                rationale: "v0 is built by Vercel. Outputting to Next.js and deploying on Vercel is the intended, frictionless happy-path. No configuring build commands required.",
-                hostIcon: "▲",
-                dbIcon: "💾"
-            },
-            cursor: {
-                name: "Cursor",
-                icon: "⌨️",
-                output: "Any (Python, Node, Go, etc.)",
-                hostName: "Railway",
-                hostDesc: "Just link GitHub. Auto-detects Dockerfiles and package.json.",
-                dbName: "Neon / PlanetScale",
-                dbDesc: "Serverless Postgres/MySQL that scales easily.",
-                rationale: "Because Cursor can build anything (including complex Python backends), Vercel/Netlify might fail. Railway's Nixpacks build system analyzes the repo and builds it automatically without DevOps knowledge.",
-                hostIcon: "🛤️",
-                dbIcon: "🐘"
-            },
-            lovable: {
-                name: "Lovable.dev",
-                icon: "💖",
-                output: "React / Vite / Tailwind",
-                hostName: "Vercel or Netlify",
-                hostDesc: "Standard static frontend hosting.",
-                dbName: "Supabase",
-                dbDesc: "Lovable has direct built-in integrations for Supabase Auth.",
-                rationale: "Lovable specifically added deep Supabase integration in late 2024/2025. Deploying the frontend to Vercel/Netlify and pointing it to Supabase is the exact workflow they design for.",
-                hostIcon: "☁️",
-                dbIcon: "🔥"
-            }
-        };
-
-        const hostingPlatforms = [
-            { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes (Hobby)", ease: 9, db: "Add-on (Vercel DB)" },
-            { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes (Starter)", ease: 9, db: "No" },
-            { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "Trial ($5 credit)", ease: 8, db: "Yes (1-click Postgres/Redis)" },
-            { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Yes (Spins down)", ease: 7, db: "Yes (Postgres)" },
-            { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "No (Starts $5/mo)", ease: 6, db: "Yes (Managed)" },
-            { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, fast global edge", free: "Yes (Generous)", ease: 8, db: "D1 (SQLite)" },
-        ];
-
-        let chartInstance = null;
-
-        // --- DOM ELEMENTS ---
-        const toolButtonsContainer = document.getElementById('tool-buttons');
-        const stateEmpty = document.getElementById('recommendation-state-empty');
-        const stateFilled = document.getElementById('recommendation-state-filled');
-        const matrixBody = document.getElementById('matrix-body');
-
-        // --- INIT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderToolButtons();
-            renderMatrix('all');
-            initChart();
-        });
-
-        // --- NAVIGATION LOGIC ---
-        function nav(viewId) {
-            // Update buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white');
-                btn.classList.add('text-stone-600', 'hover:bg-stone-100');
-            });
-            const activeBtn = document.getElementById(`nav-${viewId}`);
-            activeBtn.classList.remove('text-stone-600', 'hover:bg-stone-100');
-            activeBtn.classList.add('bg-primary', 'text-white');
-
-            // Update views
-            document.querySelectorAll('.view-section').forEach(section => {
-                section.classList.add('hidden');
-            });
-            document.getElementById(`view-${viewId}`).classList.remove('hidden');
-        }
-
-        // --- VIEW 1 LOGIC: STACK BUILDER ---
-        function renderToolButtons() {
-            Object.keys(aiTools).forEach(key => {
-                const tool = aiTools[key];
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left px-4 py-3 border border-stone-200 rounded-lg hover:border-primary hover:bg-indigo-50 transition flex items-center group";
-                btn.onclick = () => selectTool(key, btn);
-                btn.innerHTML = `
-                    <span class="text-2xl w-10 text-center">${tool.icon}</span>
-                    <div>
-                        <div class="font-bold text-dark group-hover:text-primary transition">${tool.name}</div>
-                        <div class="text-xs text-stone-500">Outputs: ${tool.output}</div>
+    <!-- Footer -->
+    <footer class="text-slate-400 text-sm py-12 mt-16" style="background: #0c0a14;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-3">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mr-2">
+                            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3l7.5 7.5M5 21V10.5M19 21V10.5M9 21v-5.625a1.125 1.125 0 011.125-1.125h3.75A1.125 1.125 0 0115 15.375V21"/></svg>
+                        </div>
+                        <span class="font-bold text-white">DeployYourApp</span>
                     </div>
-                `;
-                toolButtonsContainer.appendChild(btn);
-            });
+                    <p class="text-slate-500 text-sm leading-relaxed">The vibe coder's definitive deployment guide. Built with research, not guesswork.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-slate-300 mb-3">Sections</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="nav('stack-builder');return false" class="text-slate-500 hover:text-white transition text-sm">Stack Builder</a></li>
+                        <li><a href="#" onclick="nav('deployment-matrix');return false" class="text-slate-500 hover:text-white transition text-sm">Platform Comparison</a></li>
+                        <li><a href="#" onclick="nav('workflows');return false" class="text-slate-500 hover:text-white transition text-sm">Deployment Guides</a></li>
+                        <li><a href="#" onclick="nav('troubleshooting');return false" class="text-slate-500 hover:text-white transition text-sm">Troubleshooting</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-slate-300 mb-3">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="nav('domains');return false" class="text-slate-500 hover:text-white transition text-sm">Domains &amp; DNS</a></li>
+                        <li><a href="#" onclick="nav('economics');return false" class="text-slate-500 hover:text-white transition text-sm">Affiliate Research</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <p class="text-slate-600 text-xs">Data verified as of March 2026. Affiliate links may be present.</p>
+                <p class="text-slate-600 text-xs">Always verify pricing on provider websites before committing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // =============================================
+    // DATA
+    // =============================================
+
+    const aiTools = {
+        bolt: {
+            name: "Bolt.new", icon: "\u26A1", type: "App Builder",
+            output: "React / Vite / Remix", pricing: "Free / $29/mo Pro", speed: "~28 min",
+            quality: 3, desc: "Browser-based full-stack generation via WebContainers",
+            hostName: "Netlify", hostDesc: "Seamless one-click deploy via Bolt's built-in Netlify integration.",
+            dbName: "Supabase", dbDesc: "Perfect pairing for Bolt. Provides Auth + Postgres with minimal config.",
+            rationale: "Bolt natively integrates with Netlify through its UI for zero-config deployment. For backend needs, Supabase requires minimal configuration and fits the React/Vite ecosystem Bolt produces.",
+            hostIcon: "\uD83D\uDD37", dbIcon: "\uD83D\uDDC4\uFE0F",
+            nativeDeploy: "Bolt offers one-click deploy to Netlify directly from the editor. For long-term ownership, export to GitHub first."
+        },
+        v0: {
+            name: "v0.dev", icon: "\u2B1B", type: "UI Generator",
+            output: "React / Next.js / shadcn/ui", pricing: "Free / $20/mo Premium", speed: "~50 min (UI)",
+            quality: 5, desc: "Vercel's specialized UI component generator for Next.js",
+            hostName: "Vercel", hostDesc: "Zero-config deployment \u2014 v0 outputs are designed for Vercel.",
+            dbName: "Vercel Postgres", dbDesc: "Native database within the same Vercel dashboard.",
+            rationale: "v0 is built by Vercel. Outputting to Next.js and deploying on Vercel is the intended, zero-friction happy path. No build command configuration needed.",
+            hostIcon: "\u25B2", dbIcon: "\uD83D\uDCBE",
+            nativeDeploy: "v0 components are designed to be dropped directly into Next.js projects, which deploy to Vercel\u2019s edge network with zero config."
+        },
+        cursor: {
+            name: "Cursor", icon: "\u2328\uFE0F", type: "AI IDE",
+            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20/mo Pro", speed: "~75 min",
+            quality: 5, desc: "Professional VS Code fork with deep codebase context and multi-file editing",
+            hostName: "Railway", hostDesc: "Auto-detects any language via Nixpacks. Just link GitHub.",
+            dbName: "Neon / PlanetScale", dbDesc: "Serverless Postgres/MySQL that scales without DevOps.",
+            rationale: "Cursor can build anything \u2014 Python backends, Go services, complex multi-container apps. Railway\u2019s Nixpacks build system auto-detects the language and builds containers without requiring a Dockerfile.",
+            hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
+            nativeDeploy: null
+        },
+        lovable: {
+            name: "Lovable.dev", icon: "\uD83D\uDC96", type: "App Builder",
+            output: "React / Vite / Tailwind", pricing: "Free / $25/mo Pro", speed: "~35 min",
+            quality: 4, desc: "React UI generation with deep Supabase backend integration",
+            hostName: "Vercel or Netlify", hostDesc: "Standard frontend hosting \u2014 deploy the exported React app.",
+            dbName: "Supabase", dbDesc: "Lovable has deep built-in Supabase integration for Auth + DB.",
+            rationale: "Lovable specifically added deep Supabase integration. Deploying the frontend to Vercel/Netlify and pointing it to Supabase is the exact workflow they design for. Be sure to transfer SUPABASE_URL and ANON_KEY env vars.",
+            hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDD25",
+            nativeDeploy: "Lovable offers one-click publish with auto-provisioned Supabase backend. Uses separate Test and Live environments to protect production data."
+        },
+        windsurf: {
+            name: "Windsurf", icon: "\uD83C\uDFC4", type: "AI IDE",
+            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $15/mo Pro", speed: "~65 min",
+            quality: 5, desc: "Agentic IDE with 'Cascade AI' for deep contextual memory across large projects",
+            hostName: "Railway", hostDesc: "Same as Cursor \u2014 Railway handles any language/framework automatically.",
+            dbName: "Neon / PlanetScale", dbDesc: "Serverless databases that pair well with any backend.",
+            rationale: "Like Cursor, Windsurf produces professional-grade code in any language. Railway\u2019s auto-detection via Nixpacks makes it the lowest-friction deployment target for diverse stacks.",
+            hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
+            nativeDeploy: null
+        },
+        replit: {
+            name: "Replit", icon: "\uD83D\uDD04", type: "Cloud IDE + Host",
+            output: "Any (Python, Node, etc.)", pricing: "Free / $20/mo Core", speed: "~45 min",
+            quality: 4, desc: "Unified cloud IDE with Replit Agent 3 \u2014 code + deploy in one place",
+            hostName: "Replit Deployments", hostDesc: "Built-in hosting. Reserved VMs, Autoscale, or Static options.",
+            dbName: "Replit DB / External", dbDesc: "Built-in key-value store or connect external Postgres.",
+            rationale: "Replit is the most seamless end-to-end experience. Code is generated in the exact environment where it\u2019s hosted \u2014 zero \u2018works on my machine\u2019 issues. Agent 3 can plan, write, and deploy autonomously.",
+            hostIcon: "\uD83D\uDD04", dbIcon: "\uD83D\uDCBE",
+            nativeDeploy: "Replit offers integrated deployment \u2014 Reserved VM (always on), Autoscale (scales to demand), or Static. No external hosting needed."
+        },
+        claude_code: {
+            name: "Claude Code", icon: "\uD83E\uDDE0", type: "AI Agent",
+            output: "Any (complex multi-file)", pricing: "Usage-based / $20/mo", speed: "~90 min",
+            quality: 5, desc: "Terminal-based autonomous agent for complex architectural refactoring",
+            hostName: "Railway or DigitalOcean", hostDesc: "Best for complex backends that need Docker or custom builds.",
+            dbName: "Neon / Supabase", dbDesc: "Pick based on your stack \u2014 Postgres for most use cases.",
+            rationale: "Claude Code excels at complex, multi-file architecture. The resulting apps often need robust container hosting. Railway (Nixpacks auto-detect) or DigitalOcean App Platform (for production scale) are the best targets.",
+            hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
+            nativeDeploy: null
+        },
+        base44: {
+            name: "Base44", icon: "\uD83D\uDCCA", type: "No-Code/AI Hybrid",
+            output: "Internal tools / Dashboards", pricing: "Free / $20/mo", speed: "~40 min",
+            quality: 3, desc: "Specialized for internal tools, dashboarding, and rapid deployment",
+            hostName: "Base44 Hosting", hostDesc: "Built-in hosting for generated internal tools.",
+            dbName: "Built-in", dbDesc: "Integrated data layer for internal tools.",
+            rationale: "Base44 is designed for internal tools and dashboards \u2014 it handles hosting natively. For public-facing apps, consider exporting and using a traditional host.",
+            hostIcon: "\uD83D\uDCCA", dbIcon: "\uD83D\uDCBE",
+            nativeDeploy: "Base44 provides integrated hosting for internal tools and dashboards."
+        },
+        natively: {
+            name: "Natively", icon: "\uD83D\uDCF1", type: "Mobile Builder",
+            output: "React Native / Expo (iOS + Android)", pricing: "$5/mo", speed: "Not specified",
+            quality: 0, desc: "Specialized builder for true native mobile applications",
+            hostName: "App Store / Google Play", hostDesc: "Native mobile apps are distributed via app stores, not web hosting.",
+            dbName: "Supabase / Firebase", dbDesc: "Mobile backends typically use Supabase or Firebase for realtime + auth.",
+            rationale: "Natively outputs React Native/Expo apps destined for mobile app stores. The deployment path is fundamentally different from web hosting \u2014 you\u2019ll submit builds to Apple and Google rather than deploying to a cloud platform.",
+            hostIcon: "\uD83D\uDCF1", dbIcon: "\uD83D\uDD25",
+            nativeDeploy: "Natively handles the build pipeline for iOS/Android. Distribution is via App Store Connect and Google Play Console."
+        },
+        emergent: {
+            name: "Emergent", icon: "\uD83C\uDF00", type: "Agent Platform",
+            output: "Fullstack web + mobile", pricing: "Free / $20/mo", speed: "Not specified",
+            quality: 0, desc: "Agent-based development platform for full-stack web and mobile",
+            hostName: "Railway or Vercel", hostDesc: "Deploy generated web apps to standard cloud platforms.",
+            dbName: "Supabase / Neon", dbDesc: "Standard Postgres backends for generated fullstack apps.",
+            rationale: "Emergent is a newer agent-based platform. Export the generated code to GitHub and deploy via Railway (for fullstack) or Vercel (for frontend) using the standard CI/CD workflow.",
+            hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDDC4\uFE0F",
+            nativeDeploy: null
+        }
+    };
+
+    const toolsLandscape = [
+        { name: "Cursor", type: "AI IDE", output: "Any", pricing: "Free / $20/mo", speed: "~75 min", quality: 5 },
+        { name: "Windsurf", type: "AI IDE", output: "Any", pricing: "Free / $15/mo", speed: "~65 min", quality: 5 },
+        { name: "Claude Code", type: "AI Agent", output: "Any (multi-file)", pricing: "Usage / $20/mo", speed: "~90 min", quality: 5 },
+        { name: "v0.dev", type: "UI Generator", output: "React/Next.js", pricing: "Free / $20/mo", speed: "~50 min (UI)", quality: 5 },
+        { name: "Lovable", type: "App Builder", output: "React/Vite", pricing: "Free / $25/mo", speed: "~35 min", quality: 4 },
+        { name: "Replit", type: "Cloud IDE", output: "Any", pricing: "Free / $20/mo", speed: "~45 min", quality: 4 },
+        { name: "Bolt.new", type: "App Builder", output: "React/Vite/Remix", pricing: "Free / $29/mo", speed: "~28 min", quality: 3 },
+        { name: "Base44", type: "No-Code/AI", output: "Internal tools", pricing: "Free / $20/mo", speed: "~40 min", quality: 3 },
+        { name: "Natively", type: "Mobile Builder", output: "React Native", pricing: "$5/mo", speed: "N/A", quality: 0 },
+        { name: "Emergent", type: "Agent Platform", output: "Fullstack", pricing: "Free / $20/mo", speed: "N/A", quality: 0 },
+    ];
+
+    const hostingPlatforms = [
+        { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes \u2014 100GB BW, 100K functions", commercial: "No", sleep: "Serverless (cold starts on functions)", ease: 9, db: "Add-on (Vercel Postgres via Neon)", docker: "No" },
+        { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes \u2014 100GB BW, 125K functions", commercial: "Yes", sleep: "Serverless (cold starts on functions)", ease: 9, db: "No (external only)", docker: "No" },
+        { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, global edge", free: "Yes (generous)", commercial: "Yes", sleep: "Edge \u2014 no cold starts", ease: 8, db: "D1 (SQLite)", docker: "No" },
+        { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "Trial ($5 credit, one-time)", commercial: "Yes", sleep: "Never (runs until credit exhausted)", ease: 8, db: "Yes \u2014 Postgres, MySQL, Redis, MongoDB", docker: "Yes (Nixpacks)" },
+        { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Yes \u2014 750 hrs/mo", commercial: "Yes", sleep: "Spins down after 15 min (~1 min wake)", ease: 7, db: "Yes \u2014 Postgres (30-day free limit)", docker: "Yes" },
+        { name: "Fly.io", type: "fullstack", bestFor: "Low-latency global apps, VMs", free: "Soft (~$5/mo waived)", commercial: "Yes", sleep: "Configurable (auto-scale to zero)", ease: 6, db: "Yes \u2014 Postgres clusters", docker: "Yes (required)" },
+        { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "No (starts $5/mo)", commercial: "Yes", sleep: "Always on", ease: 6, db: "Yes \u2014 Managed Postgres/MySQL/Redis", docker: "Yes" },
+        { name: "Heroku", type: "fullstack", bestFor: "Legacy apps, simple Node/Python", free: "No (removed in 2022)", commercial: "Yes", sleep: "Eco dynos sleep after 30 min", ease: 7, db: "Yes \u2014 Postgres add-on", docker: "Yes" },
+    ];
+
+    const registrars = [
+        { name: "Cloudflare", com: "$9.15", net: "$12.15", org: "$11.15", io: "$40.00", app: "$17.00", note: "At-cost pricing, zero markup. Best long-term value. Advanced security features.", best: true },
+        { name: "Porkbun", com: "$9.67", net: "$12.67", org: "$11.67", io: "$42.00", app: "$17.67", note: "Transparent pricing, free WHOIS privacy, great UI for beginners.", best: true },
+        { name: "Namecheap", com: "$14.98", net: "$16.98", org: "$15.98", io: "$44.98", app: "$19.98", note: "Cheap first year, higher renewals. Watch out for upsells.", best: false },
+        { name: "Hover", com: "~$18.99", net: "N/A", org: "N/A", io: "~$30-60", app: "~$30-60", note: "Simple UI but premium pricing.", best: false },
+    ];
+
+    const deployErrors = [
+        {
+            num: 1, title: "Missing Environment Variables",
+            icon: "\uD83D\uDD11", severity: "critical",
+            desc: "AI tools generate .env files for local testing, but these are excluded from Git via .gitignore. When deployed, the production server has no access to your API keys, database URLs, or secrets.",
+            fix: "Manually copy every key-value pair from your local .env file into the Environment Variables section of your hosting platform (Vercel, Netlify, Railway) before deploying.",
+            example: "App builds successfully but returns 500 errors or blank pages because the database connection string is missing."
+        },
+        {
+            num: 2, title: "Hardcoded localhost API URLs",
+            icon: "\uD83D\uDD17", severity: "critical",
+            desc: "AI assistants routinely hardcode http://localhost:3000 as the API endpoint. In production, the live frontend tries to call the visitor's local machine instead of your deployed backend.",
+            fix: "Use relative paths (/api/data) or dynamic env vars (process.env.NEXT_PUBLIC_API_URL) so URLs adapt to the hosting environment.",
+            example: "CORS errors, connection timeouts, or 'fetch failed' in the browser console."
+        },
+        {
+            num: 3, title: "Wrong Output Directory",
+            icon: "\uD83D\uDCC1", severity: "high",
+            desc: "Platforms look for compiled assets in a specific folder (dist, build, .next). AI generators sometimes configure non-standard output paths that don't match the platform's expectation.",
+            fix: "Check your package.json build script output and match it in the platform's build settings. Vite defaults to dist, CRA to build, Next.js to .next.",
+            example: "'Missing output directory' error during deployment build."
+        },
+        {
+            num: 4, title: "Context Window Collapse",
+            icon: "\uD83E\uDDE0", severity: "high",
+            desc: "Browser-based AI tools (Bolt, Lovable) have strict token limits. As projects grow, the AI forgets earlier decisions, introduces contradictions, and hallucinates dependencies.",
+            fix: "Export to Cursor/Windsurf early when complexity grows. Prune unused files aggressively. Break large features into separate sessions.",
+            example: "'Prompt size exceeded' errors or Out of Memory crashes in the browser."
+        },
+        {
+            num: 5, title: "SPA Routing 404 Errors",
+            icon: "\uD83D\uDD00", severity: "high",
+            desc: "Single Page Apps (React, Vue) work fine when navigating via buttons, but refreshing or directly accessing a URL like /dashboard returns a 404 \u2014 the server looks for a literal HTML file that doesn't exist.",
+            fix: "Add a catch-all rewrite rule. On Netlify, create a _redirects file with: /* /index.html 200. On Vercel, add a rewrites config in vercel.json.",
+            example: "App works when you click around, but breaks when you refresh or share a deep link."
+        },
+        {
+            num: 6, title: "WebContainer OOM Crashes",
+            icon: "\uD83D\uDCA5", severity: "medium",
+            desc: "Bolt.new and similar tools run Node.js in the browser via WebContainers. Heavy node_modules or complex builds exceed the browser's RAM limits.",
+            fix: "Clear caches, disable heavy browser extensions (ad blockers), keep architecture lean. For large projects, export to a local IDE.",
+            example: "Browser tab freezes, 'Out of Memory' errors during npm install in the browser."
+        },
+        {
+            num: 7, title: "Missing Security / Inverted Auth",
+            icon: "\uD83D\uDD13", severity: "critical",
+            desc: "The most dangerous silent failure. AI models prioritize functional code over security \u2014 they frequently omit Row Level Security (RLS) on databases or invert auth logic, granting admin access to unauthenticated users.",
+            fix: "Always verify RLS policies in Supabase, test auth flows with a logged-out user, and run a basic security audit before going live.",
+            example: "App works perfectly but any user can access admin endpoints or view other users' data."
+        },
+        {
+            num: 8, title: "Blocked External Assets (CSP)",
+            icon: "\uD83D\uDDBC\uFE0F", severity: "medium",
+            desc: "AI tools reference CDNs and placeholder image services (Unsplash, etc). Strict Content Security Policies on hosting platforms may block these external HTTP requests.",
+            fix: "Whitelist external domains in your security headers, or download and serve assets locally from your project's /public folder.",
+            example: "App builds successfully but renders blank sections or broken images."
+        },
+        {
+            num: 9, title: "Dependency Conflicts",
+            icon: "\uD83D\uDCE6", severity: "medium",
+            desc: "AI agents hallucinate npm packages or combine incompatible library versions (e.g., React 18 features in a React 17 project). Strict CI/CD pipelines halt the build.",
+            fix: "Manually audit package.json. Run npm ls to check for version conflicts. Pin dependency versions explicitly.",
+            example: "'Could not resolve dependency' or 'peer dependency conflict' during build."
+        },
+        {
+            num: 10, title: "Endless Scope Creep (Never Ships)",
+            icon: "\u267E\uFE0F", severity: "meta",
+            desc: "Not a technical error \u2014 the #1 reason vibe-coded apps never go live. The frictionless nature of AI prompting creates a trap: builders endlessly add features instead of deploying an MVP.",
+            fix: "Define your MVP features BEFORE starting. Deploy early with core functionality. Add features in subsequent versions after the first version is live.",
+            example: "Context window eventually collapses, rendering the project un-deployable after weeks of feature additions."
+        }
+    ];
+
+    const affiliatePrograms = [
+        {
+            name: "DigitalOcean", verified: true,
+            commission: "10% recurring for 12 months",
+            cookie: "Impact Network default",
+            payout: "$10 minimum",
+            network: "Impact",
+            offer: "$200 credit for 60 days for new users",
+            notes: "Low developer churn. High-value for AI apps that scale compute. Conversions driven by the generous $200 free credit.",
+            chartValue: 24, chartLabel: "DigitalOcean (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
+        },
+        {
+            name: "Railway", verified: false,
+            commission: "15% recurring for 12 months",
+            cookie: "Not specified",
+            payout: "Not specified",
+            network: "Custom / Internal",
+            offer: "$5 platform credit for new signups",
+            notes: "Perfect product/market fit for Python/Docker AI apps. Best for referring developers who will scale compute over time.",
+            chartValue: 36, chartLabel: "Railway (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
+        },
+        {
+            name: "Hostinger", verified: true,
+            commission: "40-60% per sale (tiered by volume)",
+            cookie: "30 days",
+            payout: "$100 minimum (PayPal)",
+            network: "Direct",
+            offer: "Various promotional rates",
+            notes: "High CPA but excludes renewals. Traditional hosting is a poor fit for modern JS/Python AI apps \u2014 higher refund risk.",
+            chartValue: 60, chartLabel: "Hostinger (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
+        },
+        {
+            name: "Bluehost", verified: true,
+            commission: "$65 flat fee per sale",
+            cookie: "30 days",
+            payout: "2 sales before first withdrawal",
+            network: "Impact",
+            offer: "WordPress-focused hosting packages",
+            notes: "Trusted in the WordPress ecosystem. Guaranteed flat fee regardless of plan tier. Not ideal for modern JS frameworks.",
+            chartValue: 65, chartLabel: "Bluehost (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
+        }
+    ];
+
+    // =============================================
+    // DOM ELEMENTS
+    // =============================================
+    const toolButtonsContainer = document.getElementById('tool-buttons');
+    const stateEmpty = document.getElementById('recommendation-state-empty');
+    const stateFilled = document.getElementById('recommendation-state-filled');
+    const matrixBody = document.getElementById('matrix-body');
+
+    // =============================================
+    // INIT
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        renderToolButtons();
+        renderToolsLandscape();
+        renderMatrix('all');
+        renderRegistrars();
+        renderErrors();
+        renderAffiliateCards();
+        initChart();
+        initFilterListeners();
+        initWorkflowListeners();
+
+        // GSAP Hero Animation
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Shared state ---
+        var heroTl = null;
+        var particleTweens = [];
+        var particleTimeout = null;
+        var heroAnimating = false;
+
+        // --- Typewriter helper ---
+        function typewrite(el, cursorEl, text, charDelay, timeline) {
+          return new Promise(function(resolve) {
+            el.textContent = '';
+            cursorEl.style.display = 'inline-block';
+            var i = 0;
+            function tick() {
+              // Bail if timeline was killed mid-type
+              if (!timeline.isActive() && timeline.progress() === 0) { resolve(); return; }
+              if (i < text.length) {
+                el.textContent += text[i];
+                i++;
+                setTimeout(tick, charDelay);
+              } else {
+                setTimeout(function() { cursorEl.style.display = 'none'; }, 400);
+                resolve();
+              }
+            }
+            tick();
+          });
         }
 
-        function selectTool(toolKey, btnElement) {
-            // UI Update for buttons
-            const buttons = toolButtonsContainer.querySelectorAll('button');
-            buttons.forEach(b => {
-                b.classList.remove('border-primary', 'bg-indigo-50', 'ring-2', 'ring-primary', 'ring-opacity-50');
-                b.classList.add('border-stone-200');
-            });
-            btnElement.classList.remove('border-stone-200');
-            btnElement.classList.add('border-primary', 'bg-indigo-50', 'ring-2', 'ring-primary', 'ring-opacity-50');
+        // --- Reset all hero elements to initial hidden state ---
+        function resetHeroElements() {
+          // Kill existing timeline
+          if (heroTl) { heroTl.kill(); heroTl = null; }
 
-            // Data mapping
-            const data = aiTools[toolKey];
-            
-            // Inject data
-            document.getElementById('rec-host-name').innerText = data.hostName;
-            document.getElementById('rec-host-desc').innerText = data.hostDesc;
-            document.getElementById('rec-host-icon').innerText = data.hostIcon;
-            
-            document.getElementById('rec-db-name').innerText = data.dbName;
-            document.getElementById('rec-db-desc').innerText = data.dbDesc;
-            document.getElementById('rec-db-icon').innerText = data.dbIcon;
-            
-            document.getElementById('rec-rationale').innerText = data.rationale;
+          // Disable hover states during reset
+          document.querySelectorAll('.step-box').forEach(function(el) { el.classList.remove('hoverable'); });
 
-            // Toggle views
-            stateEmpty.classList.add('hidden');
-            
-            // Quick re-trigger animation hack
-            stateFilled.classList.remove('fade-in');
-            void stateFilled.offsetWidth; 
-            stateFilled.classList.add('fade-in');
-            stateFilled.classList.remove('hidden');
+          // Kill particle tweens and remove particle DOM
+          particleTweens.forEach(function(tw) { tw.kill(); });
+          particleTweens = [];
+          if (particleTimeout) { clearTimeout(particleTimeout); particleTimeout = null; }
+          var particleContainer = document.getElementById('hero-particles');
+          particleContainer.innerHTML = '';
+
+          // Reset anim-hidden elements
+          gsap.utils.toArray('[data-anim]').forEach(function(el) {
+            gsap.set(el, { opacity: 0, y: 24, clearProps: 'boxShadow,borderColor' });
+          });
+
+          // Reset arrows
+          gsap.utils.toArray('[data-anim="arrow"]').forEach(function(el) {
+            gsap.set(el, { opacity: 0, y: 0 });
+          });
+
+          // Reset ambient effects
+          gsap.set('#hero-grid', { opacity: 0 });
+          gsap.set('#hero-scanline', { opacity: 0, y: 0 });
+
+          // Reset deploy icon glow
+          var deployIcon = document.getElementById('step-deploy-icon');
+          gsap.set(deployIcon, { boxShadow: 'none', borderColor: 'rgba(255,255,255,0.1)' });
+
+          // Reset badge typewriter
+          var badgeEl = document.getElementById('badge-text');
+          var badgeCursor = document.getElementById('badge-cursor');
+          badgeEl.textContent = '';
+          badgeCursor.style.display = 'none';
+
+          // Reset stat numbers
+          document.querySelectorAll('.stat-number').forEach(function(el) {
+            var prefix = el.dataset.prefix || '';
+            var suffix = el.dataset.suffix || '';
+            el.textContent = prefix + '0' + suffix;
+          });
+
+          // Reset terminal strip
+          gsap.set('#hero-terminal', { opacity: 0 });
+          document.getElementById('terminal-text').textContent = '';
         }
 
-        // --- VIEW 2 LOGIC: MATRIX ---
-        function renderMatrix(filterType) {
-            matrixBody.innerHTML = '';
-            
-            const filteredData = hostingPlatforms.filter(p => filterType === 'all' || p.type === filterType);
-            
-            filteredData.forEach((platform, index) => {
-                const row = document.createElement('tr');
-                row.className = index % 2 === 0 ? "bg-white hover:bg-stone-50 transition" : "bg-stone-50 hover:bg-stone-100 transition";
-                
-                // Ease of use badge logic
-                let easeColor = "bg-green-100 text-green-800";
-                if(platform.ease <= 7) easeColor = "bg-yellow-100 text-yellow-800";
-                if(platform.ease <= 5) easeColor = "bg-red-100 text-red-800";
+        // --- Check for reduced-motion preference ---
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-dark">${platform.name}</td>
-                    <td class="px-6 py-4 text-sm text-stone-600">${platform.bestFor}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-600">${platform.free}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${easeColor}">
-                            ${platform.ease} / 10
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-600">${platform.db}</td>
-                `;
-                matrixBody.appendChild(row);
+        // --- Build and play the full hero animation ---
+        function initHeroAnimation() {
+          if (heroAnimating) return;
+          heroAnimating = true;
+
+          resetHeroElements();
+
+          // If user prefers reduced motion, show everything instantly
+          if (prefersReducedMotion) {
+            gsap.utils.toArray('[data-anim]').forEach(function(el) { gsap.set(el, { opacity: 1, y: 0 }); });
+            gsap.utils.toArray('[data-anim="arrow"]').forEach(function(el) { gsap.set(el, { opacity: 1 }); });
+            gsap.set('#hero-grid', { opacity: 1 });
+            gsap.set('#hero-terminal', { opacity: 1 });
+            var badgeEl = document.getElementById('badge-text');
+            badgeEl.textContent = badgeEl.getAttribute('data-text');
+            document.querySelectorAll('.stat-number').forEach(function(el) {
+              var prefix = el.dataset.prefix || '';
+              var suffix = el.dataset.suffix || '';
+              el.textContent = prefix + el.dataset.target + suffix;
             });
+            document.getElementById('terminal-text').textContent = 'npx deployyourapp init --stack=recommended';
+            document.querySelectorAll('.step-box').forEach(function(el) { el.classList.add('hoverable'); });
+            heroAnimating = false;
+            return;
+          }
+
+          heroTl = gsap.timeline({
+            defaults: { ease: 'power3.out', force3D: true },
+            delay: 0.3,
+            onComplete: function() {
+              heroAnimating = false;
+              document.querySelectorAll('.step-box').forEach(function(el) { el.classList.add('hoverable'); });
+            }
+          });
+
+          // EFFECT 1: Grid fade-in at time 0
+          heroTl.to('#hero-grid', {
+            opacity: 1, duration: 1.5, ease: 'power2.inOut'
+          }, 0);
+
+          // EFFECT 2: Scan line at time 0
+          var heroSection = document.getElementById('hero-section');
+          var scanDist = heroSection.offsetHeight;
+          heroTl.set('#hero-scanline', { opacity: 1 }, 0);
+          heroTl.to('#hero-scanline', {
+            y: scanDist, duration: 1.8, ease: 'power2.inOut'
+          }, 0);
+          heroTl.to('#hero-scanline', {
+            opacity: 0, duration: 0.3, ease: 'power2.out'
+          }, 1.8);
+
+          // 1. BADGE: fade up (0.6s), then typewriter on callback
+          var badgeEl = document.getElementById('badge-text');
+          var badgeCursor = document.getElementById('badge-cursor');
+          var badgeFullText = badgeEl.getAttribute('data-text');
+          badgeEl.textContent = '';
+
+          var currentTl = heroTl; // capture for closure
+          heroTl.to('[data-anim="badge"]', {
+            opacity: 1, y: 0, duration: 0.6,
+            onComplete: function() {
+              typewrite(badgeEl, badgeCursor, badgeFullText, 30, currentTl).then(function() {
+                currentTl.resume();
+              });
+              currentTl.pause();
+            }
+          });
+
+          // 2. HEADLINE LINE 1
+          heroTl.to('[data-anim="headline-1"]', {
+            opacity: 1, y: 0, duration: 0.7
+          }, '+=0.2');
+
+          // 3. HEADLINE LINE 2
+          heroTl.to('[data-anim="headline-2"]', {
+            opacity: 1, y: 0, duration: 0.7
+          }, '-=0.55');
+
+          // 4. SUBTITLE
+          heroTl.to('[data-anim="subtitle"]', {
+            opacity: 1, y: 0, duration: 0.6
+          }, '-=0.55');
+
+          // 5. CTA BUTTONS
+          heroTl.to('[data-anim="cta-row"]', {
+            opacity: 1, y: 0, duration: 0.6
+          }, '-=0.5');
+
+          // 6. PIPELINE STEPS with arrows
+          var stepEls = gsap.utils.toArray('[data-anim="step"]');
+          var arrowEls = gsap.utils.toArray('[data-anim="arrow"]');
+
+          heroTl.add(function() {}, '+=0.3');
+
+          stepEls.forEach(function(step, idx) {
+            var offset = idx === 0 ? '' : '+=0.2';
+            heroTl.to(step, { opacity: 1, y: 0, duration: 0.5 }, offset);
+            if (arrowEls[idx]) {
+              heroTl.to(arrowEls[idx], { opacity: 1, duration: 0.3 }, '>+0.05');
+            }
+          });
+
+          // 6b. DEPLOY SUCCESS GLOW
+          var deployIcon = document.getElementById('step-deploy-icon');
+          heroTl.to(deployIcon, {
+            boxShadow: '0 0 20px 4px rgba(56, 226, 178, 0.3)',
+            borderColor: 'rgba(56, 226, 178, 0.6)',
+            duration: 0.4, ease: 'power2.in'
+          }, '+=0.3');
+          heroTl.to(deployIcon, {
+            boxShadow: '0 0 0px 0px rgba(56, 226, 178, 0)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            duration: 0.4, ease: 'power2.out'
+          });
+          heroTl.to(deployIcon, {
+            boxShadow: '0 0 8px 1px rgba(56, 226, 178, 0.1)',
+            duration: 0.3, ease: 'power2.out'
+          });
+
+          // 7. STAT CARDS + count-up
+          heroTl.to('[data-anim="stat-card"]', {
+            opacity: 1, y: 0, duration: 0.45, stagger: 0.12
+          }, '+=0.25');
+
+          var statLabel = 'statCountStart';
+          heroTl.addLabel(statLabel, '<');
+          document.querySelectorAll('.stat-number').forEach(function(el, idx) {
+            var target = parseInt(el.dataset.target);
+            var prefix = el.dataset.prefix || '';
+            var suffix = el.dataset.suffix || '';
+            heroTl.to({ val: 0 }, {
+              val: target, duration: 1.2, ease: 'power2.out',
+              onUpdate: function() {
+                el.textContent = prefix + Math.round(this.targets()[0].val) + suffix;
+              }
+            }, statLabel + '+=' + (idx * 0.12));
+          });
+
+          // 8. TERMINAL STRIP
+          heroTl.to('#hero-terminal', {
+            opacity: 1, duration: 0.4, ease: 'power3.out'
+          }, '+=0.6');
+          heroTl.add(function() {
+            var termText = document.getElementById('terminal-text');
+            var cmd = 'npx deployyourapp init --stack=recommended';
+            var ci = 0;
+            function typeTerm() {
+              if (ci < cmd.length) {
+                termText.textContent += cmd[ci];
+                ci++;
+                setTimeout(typeTerm, 30);
+              }
+            }
+            typeTerm();
+          });
+
+          // EFFECT 3: Floating code particles — reduced count on mobile for perf
+          particleTimeout = setTimeout(function() {
+            var snippets = [
+              'git push', 'npm run build', 'deploy()', 'vercel --prod',
+              'railway up', 'npx create', 'const app =', 'export default',
+              'npm install', 'git commit -m', '<App />', 'PORT=3000',
+              'next build', 'supabase init'
+            ];
+            var container = document.getElementById('hero-particles');
+            var heroH = document.getElementById('hero-section').offsetHeight;
+            var count = window.innerWidth < 640 ? 5 : 14;
+
+            for (var i = 0; i < count; i++) {
+              var span = document.createElement('span');
+              span.textContent = snippets[Math.floor(Math.random() * snippets.length)];
+              var fontSize = 10 + Math.random() * 3;
+              var useGreen = Math.random() > 0.65;
+              span.style.cssText = 'position:absolute; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; white-space:nowrap;'
+                + 'font-size:' + fontSize + 'px;'
+                + 'color:' + (useGreen ? 'rgba(56,226,178,0.08)' : 'rgba(99,91,255,0.12)') + ';'
+                + 'left:' + (10 + Math.random() * 80) + '%;'
+                + 'top:' + (Math.random() * 100) + '%;';
+              container.appendChild(span);
+
+              var driftY = 150 + Math.random() * 150;
+              var dur = 8 + Math.random() * 7;
+              var driftX = -20 + Math.random() * 40;
+
+              var twY = gsap.to(span, {
+                y: -driftY, duration: dur, ease: 'none', repeat: -1,
+                force3D: true, delay: Math.random() * dur,
+                modifiers: { y: gsap.utils.unitize(function(y) { return parseFloat(y) % heroH; }) }
+              });
+              var twX = gsap.to(span, {
+                x: driftX, duration: dur * 0.7, ease: 'sine.inOut',
+                force3D: true, yoyo: true, repeat: -1, delay: Math.random() * 2
+              });
+              particleTweens.push(twY, twX);
+            }
+          }, 1000);
         }
 
-        // Filter button listeners
+        // --- Intersection Observer for replay on scroll-back ---
+        var heroObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting && !heroAnimating) {
+              initHeroAnimation();
+            } else if (!entry.isIntersecting && !heroAnimating) {
+              // Reset so it's ready for next entry
+              resetHeroElements();
+            }
+          });
+        }, { threshold: 0.3 });
+
+        heroObs.observe(document.getElementById('hero-section'));
+
+        // --- Initial play on page load ---
+        initHeroAnimation();
+
+        // ScrollTrigger for fade-up elements in content sections
+        ScrollTrigger.batch('.fade-up', {
+          onEnter: function(batch) { gsap.to(batch, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: 'power3.out' }); },
+          start: 'top 85%',
+          once: true
+        });
+    });
+
+    // =============================================
+    // MOBILE MENU
+    // =============================================
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('mobile-overlay');
+        menu.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+    }
+
+    // =============================================
+    // NAVIGATION
+    // =============================================
+    function nav(viewId) {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-white');
+            btn.classList.add('text-slate-500', 'hover:text-slate-800', 'hover:bg-slate-100');
+        });
+        const activeBtn = document.getElementById(`nav-${viewId}`);
+        if (activeBtn) {
+            activeBtn.classList.remove('text-slate-500', 'hover:text-slate-800', 'hover:bg-slate-100');
+            activeBtn.classList.add('bg-primary', 'text-white');
+        }
+        document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
+        const view = document.getElementById(`view-${viewId}`);
+        view.classList.remove('hidden');
+        // Re-trigger scroll animations for newly visible content
+        ScrollTrigger.batch('.fade-up', {
+          onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: 'power3.out' }),
+          start: 'top 85%',
+          once: true
+        });
+        window.scrollTo({ top: document.querySelector('main').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    // =============================================
+    // VIEW 1: STACK BUILDER
+    // =============================================
+    function renderToolButtons() {
+        Object.keys(aiTools).forEach(key => {
+            const tool = aiTools[key];
+            const btn = document.createElement('button');
+            btn.className = "w-full text-left px-3 py-2.5 border border-slate-200 rounded-xl hover:border-primary hover:bg-emerald-50/50 transition-all duration-200 flex items-center group";
+            btn.onclick = () => selectTool(key, btn);
+            btn.innerHTML = `
+                <span class="text-xl w-8 text-center shrink-0">${tool.icon}</span>
+                <div class="ml-1 min-w-0">
+                    <div class="font-bold text-sm text-dark group-hover:text-primary transition">${tool.name}</div>
+                    <div class="text-xs text-muted truncate">${tool.output}</div>
+                </div>
+            `;
+            toolButtonsContainer.appendChild(btn);
+        });
+    }
+
+    function selectTool(toolKey, btnElement) {
+        const buttons = toolButtonsContainer.querySelectorAll('button');
+        buttons.forEach(b => {
+            b.classList.remove('tool-btn-active');
+            b.classList.add('border-slate-200');
+        });
+        btnElement.classList.remove('border-slate-200');
+        btnElement.classList.add('tool-btn-active');
+
+        const d = aiTools[toolKey];
+
+        document.getElementById('rec-tool-icon').innerText = d.icon;
+        document.getElementById('rec-tool-name').innerText = d.name;
+        document.getElementById('rec-tool-desc').innerText = d.desc;
+        document.getElementById('rec-tool-output').innerText = d.output;
+        document.getElementById('rec-tool-pricing').innerText = d.pricing;
+        document.getElementById('rec-tool-speed').innerText = d.speed;
+
+        document.getElementById('rec-host-name').innerText = d.hostName;
+        document.getElementById('rec-host-desc').innerText = d.hostDesc;
+        document.getElementById('rec-host-icon').innerText = d.hostIcon;
+        document.getElementById('rec-db-name').innerText = d.dbName;
+        document.getElementById('rec-db-desc').innerText = d.dbDesc;
+        document.getElementById('rec-db-icon').innerText = d.dbIcon;
+        document.getElementById('rec-rationale').innerText = d.rationale;
+
+        const nativeEl = document.getElementById('rec-native-deploy');
+        const nativeDescEl = document.getElementById('rec-native-desc');
+        if (d.nativeDeploy) {
+            nativeEl.classList.remove('hidden');
+            nativeDescEl.innerText = d.nativeDeploy;
+        } else {
+            nativeEl.classList.add('hidden');
+        }
+
+        stateEmpty.classList.add('hidden');
+        stateFilled.classList.remove('fade-in');
+        void stateFilled.offsetWidth;
+        stateFilled.classList.add('fade-in');
+        stateFilled.classList.remove('hidden');
+    }
+
+    function renderToolsLandscape() {
+        const body = document.getElementById('tools-landscape-body');
+        const typeColors = {
+            'AI IDE': 'bg-blue-100 text-blue-700',
+            'AI Agent': 'bg-purple-100 text-purple-700',
+            'UI Generator': 'bg-emerald-100 text-emerald-700',
+            'App Builder': 'bg-emerald-100 text-emerald-700',
+            'Cloud IDE': 'bg-cyan-100 text-cyan-700',
+            'No-Code/AI': 'bg-amber-100 text-amber-700',
+            'Mobile Builder': 'bg-rose-100 text-rose-700',
+            'Agent Platform': 'bg-teal-100 text-teal-700',
+        };
+        toolsLandscape.forEach((t, i) => {
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-50/80 transition";
+            const stars = t.quality > 0
+                ? `<div class="flex gap-0.5">${Array(t.quality).fill('<div class="w-2 h-2 rounded-full bg-amber-400"></div>').join('')}${Array(5-t.quality).fill('<div class="w-2 h-2 rounded-full bg-slate-200"></div>').join('')}</div>`
+                : '<span class="text-slate-400 text-xs">N/A</span>';
+            const typeColor = typeColors[t.type] || 'bg-slate-100 text-slate-600';
+            row.innerHTML = `
+                <td class="px-4 py-3.5 text-sm font-bold text-dark">${t.name}</td>
+                <td class="px-4 py-3.5 text-sm"><span class="px-2 py-0.5 rounded-full text-xs font-medium ${typeColor}">${t.type}</span></td>
+                <td class="px-4 py-3.5 text-sm text-muted">${t.output}</td>
+                <td class="px-4 py-3.5 text-sm text-muted">${t.pricing}</td>
+                <td class="px-4 py-3.5 text-sm text-muted">${t.speed}</td>
+                <td class="px-4 py-3.5 text-sm">${stars}</td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    // =============================================
+    // VIEW 2: PLATFORM MATRIX
+    // =============================================
+    function renderMatrix(filterType) {
+        matrixBody.innerHTML = '';
+        const filtered = hostingPlatforms.filter(p => filterType === 'all' || p.type === filterType);
+        filtered.forEach((p, i) => {
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-50/80 transition";
+            const easePercent = p.ease * 10;
+            let easeColor = 'bg-emerald-400';
+            let easeTextColor = 'text-emerald-700';
+            if (p.ease <= 7) { easeColor = 'bg-amber-400'; easeTextColor = 'text-amber-700'; }
+            if (p.ease <= 5) { easeColor = 'bg-red-400'; easeTextColor = 'text-red-700'; }
+            const commColor = p.commercial === "Yes"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                : "bg-red-50 text-red-700 border border-red-200";
+            row.innerHTML = `
+                <td class="px-4 py-4 whitespace-nowrap text-sm font-bold text-dark">${p.name}</td>
+                <td class="px-4 py-4 text-sm text-muted">${p.bestFor}</td>
+                <td class="px-4 py-4 text-sm text-muted">${p.free}</td>
+                <td class="px-4 py-4 whitespace-nowrap"><span class="px-2.5 py-1 text-xs font-semibold rounded-full ${commColor}">${p.commercial}</span></td>
+                <td class="px-4 py-4 text-sm text-muted max-w-[200px]">${p.sleep}</td>
+                <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="flex items-center gap-2">
+                        <div class="ease-bar w-16"><div class="ease-bar-fill ${easeColor}" style="width:${easePercent}%"></div></div>
+                        <span class="text-xs font-semibold ${easeTextColor}">${p.ease}/10</span>
+                    </div>
+                </td>
+                <td class="px-4 py-4 text-sm text-muted">${p.db}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-muted">${p.docker}</td>
+            `;
+            matrixBody.appendChild(row);
+        });
+        // Animate ease bars
+        setTimeout(() => {
+            document.querySelectorAll('.ease-bar-fill').forEach(el => {
+                el.style.width = el.style.width;
+            });
+        }, 50);
+    }
+
+    function initFilterListeners() {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active', 'bg-stone-800', 'text-white');
-                    b.classList.add('bg-stone-200', 'text-stone-700');
+                    b.classList.remove('active', 'bg-dark', 'text-white');
+                    b.classList.add('bg-slate-100', 'text-slate-600');
                 });
-                const target = e.target;
-                target.classList.remove('bg-stone-200', 'text-stone-700');
-                target.classList.add('active', 'bg-stone-800', 'text-white');
-                
-                renderMatrix(target.getAttribute('data-filter'));
+                e.target.classList.remove('bg-slate-100', 'text-slate-600');
+                e.target.classList.add('active', 'bg-dark', 'text-white');
+                renderMatrix(e.target.getAttribute('data-filter'));
             });
         });
+    }
 
-        // --- VIEW 3 LOGIC: CHART ---
-        function initChart() {
-            const ctx = document.getElementById('affiliateChart').getContext('2d');
-            
-            // Data models based on research prompt numbers:
-            // Bluehost/Hostinger: ~$65 flat
-            // DigitalOcean: $20/mo * 12 * 10% = $24
-            // Railway: Estimated ~15% of $20/mo * 12 = $36
-            
-            const data = {
-                labels: ['Hostinger (Flat)', 'Bluehost (Flat)', 'Railway (Est. Recur)', 'DigitalOcean (Recur)'],
+    // =============================================
+    // VIEW 3: WORKFLOWS
+    // =============================================
+    function initWorkflowListeners() {
+        document.querySelectorAll('.wf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.wf-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-primary', 'text-white');
+                    b.classList.add('bg-slate-100', 'text-slate-600');
+                });
+                e.target.classList.remove('bg-slate-100', 'text-slate-600');
+                e.target.classList.add('active', 'bg-primary', 'text-white');
+                const wfId = e.target.getAttribute('data-wf');
+                document.querySelectorAll('.wf-content').forEach(c => c.classList.add('hidden'));
+                const el = document.getElementById(`wf-${wfId}`);
+                el.classList.remove('hidden', 'fade-in');
+                void el.offsetWidth;
+                el.classList.add('fade-in');
+            });
+        });
+    }
+
+    // =============================================
+    // VIEW 4: TROUBLESHOOTING
+    // =============================================
+    function renderErrors() {
+        const container = document.getElementById('errors-container');
+        deployErrors.forEach(err => {
+            let sevColor = "bg-red-50 text-red-700 border-red-200";
+            let sevDot = "bg-red-500";
+            if (err.severity === "high") { sevColor = "bg-orange-50 text-orange-700 border-orange-200"; sevDot = "bg-orange-500"; }
+            if (err.severity === "medium") { sevColor = "bg-amber-50 text-amber-700 border-amber-200"; sevDot = "bg-amber-500"; }
+            if (err.severity === "meta") { sevColor = "bg-teal-50 text-teal-700 border-teal-200"; sevDot = "bg-teal-500"; }
+
+            const card = document.createElement('details');
+            card.className = "error-card bg-white rounded-2xl border border-slate-200/80 overflow-hidden";
+            card.innerHTML = `
+                <summary class="px-6 py-4 flex items-center gap-4 hover:bg-slate-50/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+                        <span class="text-lg">${err.icon}</span>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-dark text-sm">#${err.num}. ${err.title}</span>
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded-full border ${sevColor} flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full ${sevDot}"></span>
+                                ${err.severity}
+                            </span>
+                        </div>
+                        <p class="text-xs text-muted mt-0.5 truncate">${err.example}</p>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-300 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="px-6 pb-6 pt-3 border-t border-slate-100">
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">What Happens</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">${err.desc}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Looks Like</h4>
+                        <p class="text-sm text-slate-500 italic">"${err.example}"</p>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200/60 p-4 rounded-xl">
+                        <h4 class="text-xs font-semibold text-emerald-800 uppercase tracking-wider mb-1.5">How to Fix</h4>
+                        <p class="text-sm text-emerald-700 leading-relaxed">${err.fix}</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // =============================================
+    // VIEW 5: DOMAINS
+    // =============================================
+    function renderRegistrars() {
+        const body = document.getElementById('registrar-body');
+        registrars.forEach((r, i) => {
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-50/80 transition";
+            const nameHtml = r.best
+                ? `<span class="font-bold text-dark">${r.name}</span> <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full ml-1 font-medium">Best</span>`
+                : `<span class="font-bold text-dark">${r.name}</span>`;
+            row.innerHTML = `
+                <td class="px-4 py-3.5 text-sm whitespace-nowrap">${nameHtml}</td>
+                <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.com}</td>
+                <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.net}</td>
+                <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.org}</td>
+                <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.io}</td>
+                <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.app}</td>
+                <td class="px-4 py-3.5 text-sm text-muted max-w-[250px]">${r.note}</td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    // =============================================
+    // VIEW 6: AFFILIATE ECONOMICS
+    // =============================================
+    function renderAffiliateCards() {
+        const container = document.getElementById('affiliate-cards');
+        affiliatePrograms.forEach(p => {
+            const verifiedBadge = p.verified
+                ? '<span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">Verified</span>'
+                : '<span class="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-medium">Unverified</span>';
+            const card = document.createElement('div');
+            card.className = "p-4 border border-slate-100 rounded-xl bg-slate-50/50 hover:bg-slate-50 transition";
+            card.innerHTML = `
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-bold text-primary text-lg">${p.name}</h4>
+                    ${verifiedBadge}
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div><span class="text-muted">Commission:</span></div><div class="font-medium text-slate-700">${p.commission}</div>
+                    <div><span class="text-muted">Cookie:</span></div><div class="font-medium text-slate-700">${p.cookie}</div>
+                    <div><span class="text-muted">Payout:</span></div><div class="font-medium text-slate-700">${p.payout}</div>
+                    <div><span class="text-muted">Network:</span></div><div class="font-medium text-slate-700">${p.network}</div>
+                    <div><span class="text-muted">Offer:</span></div><div class="font-medium text-slate-700">${p.offer}</div>
+                </div>
+                <p class="text-xs text-muted mt-3 italic leading-relaxed">${p.notes}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function initChart() {
+        const ctx = document.getElementById('affiliateChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: affiliatePrograms.map(p => p.chartLabel),
                 datasets: [{
                     label: 'Est. Revenue per User ($)',
-                    data: [60, 65, 36, 24],
-                    backgroundColor: [
-                        'rgba(16, 185, 129, 0.7)', // Emerald
-                        'rgba(16, 185, 129, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',  // Indigo
-                        'rgba(79, 70, 229, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(79, 70, 229, 1)',
-                        'rgba(79, 70, 229, 1)'
-                    ],
+                    data: affiliatePrograms.map(p => p.chartValue),
+                    backgroundColor: affiliatePrograms.map(p => p.chartColor),
+                    borderColor: affiliatePrograms.map(p => p.chartBorder),
                     borderWidth: 1,
-                    borderRadius: 4
+                    borderRadius: 8
                 }]
-            };
-
-            const config = {
-                type: 'bar',
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return '$' + context.parsed.y;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'USD ($)'
-                            },
-                            grid: {
-                                color: 'rgba(0,0,0,0.05)'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0c0a14',
+                        titleFont: { family: 'Satoshi' },
+                        bodyFont: { family: 'Satoshi' },
+                        cornerRadius: 8,
+                        padding: 12,
+                        callbacks: {
+                            label: ctx => '$' + ctx.parsed.y + (ctx.parsed.y < 50 ? ' (recurring model)' : ' (one-time CPA)')
                         }
                     }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'USD ($)', font: { family: 'Satoshi' } },
+                        grid: { color: 'rgba(0,0,0,0.04)' },
+                        ticks: { font: { family: 'Satoshi' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'Satoshi', size: 11 } }
+                    }
                 }
-            };
-
-            chartInstance = new Chart(ctx, config);
-        }
+            }
+        });
+    }
 
     </script>
 </body>
