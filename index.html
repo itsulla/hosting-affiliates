@@ -123,6 +123,46 @@
         }
         .deploy-replay:hover { color: rgba(56,226,178,0.8); }
 
+        /* Orbiting Tech Stack */
+        .orbit-wrap {
+            width: 400px; height: 400px;
+            position: relative; margin: 0 auto;
+        }
+        @media (max-width: 639px) {
+            .orbit-wrap { width: 280px; height: 280px; }
+        }
+        .orbit-wrap svg { width: 100%; height: 100%; overflow: visible; }
+        @keyframes orbitCW { to { transform: rotate(360deg); } }
+        @keyframes orbitCCW { to { transform: rotate(-360deg); } }
+        .orbit-inner-g { animation: orbitCW 60s linear infinite; transform-origin: 50% 50%; }
+        .orbit-outer-g { animation: orbitCCW 90s linear infinite; transform-origin: 50% 50%; }
+        .orbit-paused .orbit-inner-g,
+        .orbit-paused .orbit-outer-g { animation-play-state: paused; }
+        .orbit-node { cursor: pointer; transition: opacity 0.3s ease; }
+        .orbit-node circle { transition: stroke-opacity 0.3s ease; }
+        .orbit-dimmed .orbit-node { opacity: 0.15; }
+        .orbit-dimmed .orbit-node.orbit-highlight { opacity: 1; }
+        .orbit-dimmed .orbit-node.orbit-highlight circle { stroke-opacity: 0.9; }
+        .orbit-connection {
+            stroke: #38e2b2; stroke-width: 1.5;
+            stroke-dasharray: 6 4; stroke-dashoffset: 200;
+            transition: stroke-dashoffset 0.6s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .orbit-connection.active { stroke-dashoffset: 0; opacity: 1; }
+        .orbit-tooltip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; fill: rgba(56,226,178,0.8);
+            opacity: 0; transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .orbit-tooltip.active { opacity: 1; }
+        /* Counter-rotate text so labels stay upright */
+        .orbit-inner-g .orbit-node-text { animation: orbitCCW 60s linear infinite; transform-box: fill-box; transform-origin: center; }
+        .orbit-outer-g .orbit-node-text { animation: orbitCW 90s linear infinite; transform-box: fill-box; transform-origin: center; }
+        .orbit-paused .orbit-inner-g .orbit-node-text,
+        .orbit-paused .orbit-outer-g .orbit-node-text { animation-play-state: paused; }
+
         /* Badge dot pulse */
         @keyframes dotPulse {
             0%, 100% { opacity: 1; }
@@ -296,6 +336,117 @@
                         <div id="term-body" class="term-body"></div>
                     </div>
                     <button id="deploy-replay" class="deploy-replay" onclick="replayDeployTerminal()">↻ replay</button>
+                </div>
+            </div>
+
+            <!-- Orbiting Tech Stack -->
+            <div class="mt-16 sm:mt-20 anim-hidden" data-anim="orbit">
+                <div id="orbit-container" class="orbit-wrap">
+                    <svg id="orbit-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Orbit path rings (non-rotating) -->
+                        <circle cx="200" cy="200" r="100" fill="none" stroke="rgba(99,91,255,0.08)" stroke-dasharray="4 4" stroke-width="0.5"/>
+                        <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(99,91,255,0.08)" stroke-dasharray="4 4" stroke-width="0.5"/>
+
+                        <!-- Center glow filter -->
+                        <defs>
+                            <filter id="center-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="3" result="blur"/>
+                                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                            </filter>
+                        </defs>
+
+                        <!-- Connection lines layer (updated by JS) -->
+                        <g id="orbit-connections"></g>
+
+                        <!-- Tooltip layer -->
+                        <text id="orbit-tooltip" class="orbit-tooltip" x="200" y="200" text-anchor="middle">Recommended pairing</text>
+
+                        <!-- Center node -->
+                        <g class="orbit-center">
+                            <circle cx="200" cy="200" r="24" fill="#1a1730" stroke="rgba(99,91,255,0.5)" stroke-width="1.5" filter="url(#center-glow)"/>
+                            <text x="200" y="197" text-anchor="middle" fill="rgba(232,230,240,0.85)" font-size="10" font-weight="600" font-family="Satoshi, sans-serif">Your</text>
+                            <text x="200" y="209" text-anchor="middle" fill="rgba(232,230,240,0.85)" font-size="10" font-weight="600" font-family="Satoshi, sans-serif">App</text>
+                        </g>
+
+                        <!-- Inner orbit: AI Tools (rotates CW, 60s) -->
+                        <g class="orbit-inner-g" id="orbit-inner">
+                            <!-- Dashed connecting lines to center -->
+                            <line x1="200" y1="200" x2="200" y2="100" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="295" y2="169" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="259" y2="281" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="141" y2="281" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="105" y2="169" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+
+                            <!-- Bolt -->
+                            <g class="orbit-node" data-tool="bolt" data-targets="netlify" aria-label="Bolt - AI coding tool, pairs with Netlify">
+                                <circle cx="200" cy="100" r="18" fill="#1a1730" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="200" y="103" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="9" font-family="Satoshi, sans-serif">⚡ Bolt</text>
+                            </g>
+                            <!-- v0 -->
+                            <g class="orbit-node" data-tool="v0" data-targets="vercel" aria-label="v0 - AI coding tool, pairs with Vercel">
+                                <circle cx="295" cy="169" r="18" fill="#1a1730" stroke="rgba(200,200,200,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="295" y="172" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="9" font-family="Satoshi, sans-serif">v0</text>
+                            </g>
+                            <!-- Cursor -->
+                            <g class="orbit-node" data-tool="cursor" data-targets="railway" aria-label="Cursor - AI coding tool, pairs with Railway">
+                                <circle cx="259" cy="281" r="18" fill="#1a1730" stroke="rgba(168,85,247,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="259" y="284" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="9" font-family="Satoshi, sans-serif">Cursor</text>
+                            </g>
+                            <!-- Lovable -->
+                            <g class="orbit-node" data-tool="lovable" data-targets="vercel,supabase" aria-label="Lovable - AI coding tool, pairs with Vercel and Supabase">
+                                <circle cx="141" cy="281" r="18" fill="#1a1730" stroke="rgba(236,72,153,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="141" y="284" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="9" font-family="Satoshi, sans-serif">Lovable</text>
+                            </g>
+                            <!-- Replit -->
+                            <g class="orbit-node" data-tool="replit" data-targets="replit" aria-label="Replit - AI coding tool and hosting platform">
+                                <circle cx="105" cy="169" r="18" fill="#1a1730" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="105" y="172" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="9" font-family="Satoshi, sans-serif">Replit</text>
+                            </g>
+                        </g>
+
+                        <!-- Outer orbit: Hosting Platforms (rotates CCW, 90s) -->
+                        <g class="orbit-outer-g" id="orbit-outer">
+                            <!-- Dashed connecting lines to center -->
+                            <line x1="200" y1="200" x2="200" y2="30" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="347" y2="115" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="347" y2="285" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="200" y2="370" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="53" y2="285" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+                            <line x1="200" y1="200" x2="53" y2="115" stroke="rgba(99,91,255,0.06)" stroke-dasharray="3 3" stroke-width="0.5"/>
+
+                            <!-- Vercel -->
+                            <g class="orbit-node" data-platform="vercel" aria-label="Vercel hosting platform">
+                                <circle cx="200" cy="30" r="16" fill="#1a1730" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="200" y="27" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="8" font-family="Satoshi, sans-serif">▲</text>
+                                <text class="orbit-node-text" x="200" y="37" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">Vercel</text>
+                            </g>
+                            <!-- Netlify -->
+                            <g class="orbit-node" data-platform="netlify" aria-label="Netlify hosting platform">
+                                <circle cx="347" cy="115" r="16" fill="#1a1730" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="347" y="118" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">Netlify</text>
+                            </g>
+                            <!-- Railway -->
+                            <g class="orbit-node" data-platform="railway" aria-label="Railway hosting platform">
+                                <circle cx="347" cy="285" r="16" fill="#1a1730" stroke="rgba(168,85,247,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="347" y="288" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">Railway</text>
+                            </g>
+                            <!-- Render -->
+                            <g class="orbit-node" data-platform="render" aria-label="Render hosting platform">
+                                <circle cx="200" cy="370" r="16" fill="#1a1730" stroke="rgba(74,222,128,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="200" y="373" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">Render</text>
+                            </g>
+                            <!-- Supabase -->
+                            <g class="orbit-node" data-platform="supabase" aria-label="Supabase hosting platform">
+                                <circle cx="53" cy="285" r="16" fill="#1a1730" stroke="rgba(56,226,178,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="53" y="288" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">Supabase</text>
+                            </g>
+                            <!-- Cloudflare -->
+                            <g class="orbit-node" data-platform="cloudflare" aria-label="Cloudflare hosting platform">
+                                <circle cx="53" cy="115" r="16" fill="#1a1730" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+                                <text class="orbit-node-text" x="53" y="118" text-anchor="middle" fill="rgba(232,230,240,0.7)" font-size="7" font-family="Satoshi, sans-serif">CF</text>
+                            </g>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -1640,7 +1791,10 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             runDeploySequence(false);
           });
 
-          // Beat 7: Stat cards + count-up
+          // Beat 7: Orbiting tech stack fades in
+          heroTl.to('[data-anim="orbit"]', { opacity: 1, y: 0, duration: 0.8 }, '+=0.4');
+
+          // Beat 8: Stat cards + count-up
           heroTl.to('[data-anim="stat-card"]', {
             opacity: 1, y: 0, duration: 0.45, stagger: 0.12
           }, '+=0.25');
@@ -1716,6 +1870,131 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
 
         // --- Initial play on page load ---
         initHeroAnimation();
+
+        // --- Orbiting Tech Stack Interactions ---
+        (function() {
+          var svg = document.getElementById('orbit-svg');
+          var container = document.getElementById('orbit-container');
+          var connectionsG = document.getElementById('orbit-connections');
+          var tooltip = document.getElementById('orbit-tooltip');
+          var isMobile = window.innerWidth < 640;
+          var tapTimeout = null;
+
+          // Get current screen position of a node's circle, converted to SVG viewBox coords
+          function getNodePos(nodeG) {
+            var circle = nodeG.querySelector('circle');
+            var rect = circle.getBoundingClientRect();
+            var svgRect = svg.getBoundingClientRect();
+            var viewBox = svg.viewBox.baseVal;
+            var scaleX = viewBox.width / svgRect.width;
+            var scaleY = viewBox.height / svgRect.height;
+            return {
+              x: (rect.left + rect.width / 2 - svgRect.left) * scaleX,
+              y: (rect.top + rect.height / 2 - svgRect.top) * scaleY
+            };
+          }
+
+          function findPlatformNode(name) {
+            return svg.querySelector('[data-platform="' + name + '"]');
+          }
+
+          function findToolNode(name) {
+            return svg.querySelector('[data-tool="' + name + '"]');
+          }
+
+          function clearHighlight() {
+            container.classList.remove('orbit-paused', 'orbit-dimmed');
+            connectionsG.innerHTML = '';
+            tooltip.classList.remove('active');
+            svg.querySelectorAll('.orbit-node').forEach(function(n) {
+              n.classList.remove('orbit-highlight');
+            });
+          }
+
+          function showConnection(toolNode) {
+            var targets = (toolNode.dataset.targets || '').split(',');
+            var toolName = toolNode.dataset.tool;
+
+            // Pause orbits and dim everything
+            container.classList.add('orbit-paused', 'orbit-dimmed');
+
+            // Highlight the hovered tool
+            toolNode.classList.add('orbit-highlight');
+
+            // Self-reference (Replit)
+            if (targets.length === 1 && targets[0] === toolName) {
+              // Just highlight itself, no connection line
+              tooltip.classList.remove('active');
+              return;
+            }
+
+            // Clear previous lines
+            connectionsG.innerHTML = '';
+
+            var toolPos = getNodePos(toolNode);
+            var midX = 0, midY = 0, count = 0;
+
+            targets.forEach(function(targetName) {
+              var platformNode = findPlatformNode(targetName.trim());
+              if (!platformNode) return;
+
+              platformNode.classList.add('orbit-highlight');
+              var platPos = getNodePos(platformNode);
+
+              var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+              line.setAttribute('x1', toolPos.x);
+              line.setAttribute('y1', toolPos.y);
+              line.setAttribute('x2', platPos.x);
+              line.setAttribute('y2', platPos.y);
+              line.classList.add('orbit-connection');
+              connectionsG.appendChild(line);
+
+              // Trigger animation after paint
+              requestAnimationFrame(function() {
+                line.classList.add('active');
+              });
+
+              midX += (toolPos.x + platPos.x) / 2;
+              midY += (toolPos.y + platPos.y) / 2;
+              count++;
+            });
+
+            // Position and show tooltip at midpoint of connections
+            if (count > 0) {
+              tooltip.setAttribute('x', midX / count);
+              tooltip.setAttribute('y', (midY / count) - 12);
+              requestAnimationFrame(function() { tooltip.classList.add('active'); });
+            }
+          }
+
+          // Desktop: hover events
+          if (!isMobile) {
+            svg.querySelectorAll('.orbit-inner-g .orbit-node').forEach(function(node) {
+              node.addEventListener('mouseenter', function() {
+                showConnection(node);
+              });
+              node.addEventListener('mouseleave', function() {
+                clearHighlight();
+              });
+            });
+          } else {
+            // Mobile: tap to show for 2s
+            svg.querySelectorAll('.orbit-inner-g .orbit-node').forEach(function(node) {
+              node.addEventListener('click', function(e) {
+                e.preventDefault();
+                clearHighlight();
+                if (tapTimeout) clearTimeout(tapTimeout);
+                showConnection(node);
+                tapTimeout = setTimeout(clearHighlight, 2000);
+              });
+            });
+          }
+
+          // Pause orbit on reduced motion
+          if (prefersReducedMotion) {
+            container.classList.add('orbit-paused');
+          }
+        })();
 
         // ScrollTrigger for fade-up elements in content sections
         ScrollTrigger.batch('.fade-up', {
