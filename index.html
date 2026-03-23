@@ -163,6 +163,99 @@
         .orbit-paused .orbit-inner-g .orbit-node-text,
         .orbit-paused .orbit-outer-g .orbit-node-text { animation-play-state: paused; }
 
+        /* Stack Picker */
+        .stack-picker { position: relative; }
+        .sp-cards {
+            display: flex; align-items: center; justify-content: center; gap: 0;
+        }
+        .sp-card {
+            width: 160px; height: 180px;
+            background: #1a1730;
+            border: 0.5px solid rgba(99,91,255,0.15);
+            border-radius: 12px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            flex-shrink: 0;
+            transition: border-color 0.3s ease;
+        }
+        .sp-card.sp-clickable { cursor: pointer; }
+        .sp-card.sp-clickable:hover { border-color: rgba(99,91,255,0.35); }
+        .sp-card-pulse { border-color: rgba(56,226,178,0.4) !important; }
+        .sp-card-inner {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; width: 100%; padding: 16px;
+        }
+        .sp-icon { font-size: 28px; margin-bottom: 8px; }
+        .sp-name { color: #fff; font-weight: 700; font-size: 14px; }
+        .sp-detail {
+            color: rgba(200,196,220,0.4); font-size: 10px; margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .sp-arrow-wrap {
+            display: flex; align-items: center; justify-content: center;
+            width: 48px; position: relative; flex-shrink: 0;
+        }
+        .sp-arrow-line {
+            width: 100%; height: 1px;
+            background: rgba(99,91,255,0.2);
+            position: relative;
+        }
+        .sp-arrow-head {
+            position: absolute; right: -1px; top: 50%;
+            transform: translateY(-50%);
+            width: 0; height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 6px solid rgba(99,91,255,0.3);
+        }
+        .sp-pulse-dot {
+            position: absolute; left: 0; top: 50%;
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #38e2b2;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        .sp-footer {
+            text-align: center; margin-top: 16px;
+        }
+        .sp-estimate {
+            color: rgba(200,196,220,0.5); font-size: 12px;
+        }
+        .sp-cmd {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: rgba(56,226,178,0.5);
+            margin-top: 4px;
+        }
+        .sp-cycle-hint {
+            font-size: 10px; color: rgba(200,196,220,0.25);
+            margin-top: 8px;
+        }
+        /* Vertical layout on mobile */
+        @media (max-width: 639px) {
+            .sp-cards { flex-direction: column; }
+            .sp-card { width: 200px; height: 140px; }
+            .sp-arrow-wrap {
+                width: auto; height: 32px;
+                flex-direction: column;
+            }
+            .sp-arrow-line {
+                width: 1px; height: 100%;
+            }
+            .sp-arrow-head {
+                right: auto; top: auto; bottom: -1px;
+                left: 50%; transform: translateX(-50%);
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 6px solid rgba(99,91,255,0.3);
+                border-bottom: none;
+            }
+            .sp-pulse-dot {
+                left: 50%; top: 0;
+            }
+        }
+
         /* Badge dot pulse */
         @keyframes dotPulse {
             0%, 100% { opacity: 1; }
@@ -336,6 +429,66 @@
                         <div id="term-body" class="term-body"></div>
                     </div>
                     <button id="deploy-replay" class="deploy-replay" onclick="replayDeployTerminal()">↻ replay</button>
+                </div>
+            </div>
+
+            <!-- Interactive Stack Picker -->
+            <div class="mt-16 sm:mt-20 anim-hidden" data-anim="picker">
+                <div class="stack-picker" id="stack-picker-hero">
+                    <div class="sp-cards">
+                        <!-- Card 1: AI Tool (clickable) -->
+                        <div class="sp-card sp-clickable" id="sp-tool" tabindex="0" aria-label="AI Tool selector — press arrow keys or click to cycle">
+                            <div class="sp-card-inner" id="sp-tool-inner">
+                                <span class="sp-icon" id="sp-tool-icon">⚡</span>
+                                <span class="sp-name" id="sp-tool-name">Bolt.new</span>
+                                <span class="sp-detail" id="sp-tool-detail">Outputs: React / Vite</span>
+                            </div>
+                            <div style="position:absolute; bottom:8px; display:flex; gap:8px;">
+                                <button class="text-slate-500 hover:text-white transition text-xs" onclick="event.stopPropagation(); cycleStack(-1)" aria-label="Previous tool">▲</button>
+                                <button class="text-slate-500 hover:text-white transition text-xs" onclick="event.stopPropagation(); cycleStack(1)" aria-label="Next tool">▼</button>
+                            </div>
+                        </div>
+
+                        <!-- Arrow 1→2 -->
+                        <div class="sp-arrow-wrap">
+                            <div class="sp-arrow-line" id="sp-arrow-1">
+                                <div class="sp-arrow-head"></div>
+                                <div class="sp-pulse-dot" id="sp-dot-1"></div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Version Control (static) -->
+                        <div class="sp-card" id="sp-git">
+                            <div class="sp-card-inner">
+                                <span class="sp-icon">&lt;/&gt;</span>
+                                <span class="sp-name">GitHub</span>
+                                <span class="sp-detail">git push origin main</span>
+                            </div>
+                        </div>
+
+                        <!-- Arrow 2→3 -->
+                        <div class="sp-arrow-wrap">
+                            <div class="sp-arrow-line" id="sp-arrow-2">
+                                <div class="sp-arrow-head"></div>
+                                <div class="sp-pulse-dot" id="sp-dot-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Host (auto-updates) -->
+                        <div class="sp-card" id="sp-host">
+                            <div class="sp-card-inner" id="sp-host-inner">
+                                <span class="sp-icon" id="sp-host-icon">◆</span>
+                                <span class="sp-name" id="sp-host-name">Netlify</span>
+                                <span class="sp-detail" id="sp-host-detail">Free tier: Yes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sp-footer">
+                        <div class="sp-estimate" id="sp-estimate">Estimated deploy time: ~1 min</div>
+                        <div class="sp-cmd" id="sp-cmd">$ netlify deploy --prod</div>
+                        <div class="sp-cycle-hint">click card or use ← → to cycle</div>
+                    </div>
                 </div>
             </div>
 
@@ -1796,7 +1949,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             runDeploySequence(false);
           });
 
-          // Beat 7: Orbiting tech stack fades in
+          // Beat 7: Stack Picker fades in, start auto-cycle
+          heroTl.to('[data-anim="picker"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
+          heroTl.add(function() { if (window.startStackAutoCycle) window.startStackAutoCycle(); });
+
+          // Beat 8: Orbiting tech stack fades in
           heroTl.to('[data-anim="orbit"]', { opacity: 1, y: 0, duration: 0.8 }, '+=0.4');
 
           // Beat 8: Code-to-Globe morph fades in, animation starts after 2s
@@ -2257,6 +2414,170 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
               assignGlobeTargets();
             }
           });
+        })();
+
+        // --- Interactive Stack Picker ---
+        (function() {
+          var tools = [
+            { name: 'Bolt.new', icon: '⚡', output: 'Outputs: React / Vite', host: 'netlify' },
+            { name: 'Cursor', icon: '▶', output: 'Outputs: Any framework', host: 'railway' },
+            { name: 'Lovable', icon: '♥', output: 'Outputs: React / Supabase', host: 'vercel' },
+            { name: 'v0', icon: '▲', output: 'Outputs: Next.js / React', host: 'vercel' },
+            { name: 'Replit', icon: '◉', output: 'Outputs: Any stack', host: 'replit' }
+          ];
+
+          var hosts = {
+            netlify:  { name: 'Netlify', icon: '◆', detail: 'Free tier: Yes', time: '~1 min', cmd: '$ netlify deploy --prod' },
+            railway:  { name: 'Railway', icon: '🚂', detail: 'Free tier: Trial ($5)', time: '~3 min', cmd: '$ railway up' },
+            vercel:   { name: 'Vercel', icon: '▲', detail: 'Free tier: Yes', time: '~2 min', cmd: '$ npx vercel --prod' },
+            replit:   { name: 'Replit Deploy', icon: '◉', detail: 'Free tier: Limited', time: '~1 min 30s', cmd: '$ replit deploy' }
+          };
+
+          var currentIdx = 0;
+          var isAnimating = false;
+          var autoTimer = null;
+          var userInteracted = false;
+
+          var toolCard = document.getElementById('sp-tool');
+          var toolInner = document.getElementById('sp-tool-inner');
+          var toolIcon = document.getElementById('sp-tool-icon');
+          var toolName = document.getElementById('sp-tool-name');
+          var toolDetail = document.getElementById('sp-tool-detail');
+          var hostInner = document.getElementById('sp-host-inner');
+          var hostIcon = document.getElementById('sp-host-icon');
+          var hostName = document.getElementById('sp-host-name');
+          var hostDetail = document.getElementById('sp-host-detail');
+          var gitCard = document.getElementById('sp-git');
+          var estimate = document.getElementById('sp-estimate');
+          var cmd = document.getElementById('sp-cmd');
+          var dot1 = document.getElementById('sp-dot-1');
+          var dot2 = document.getElementById('sp-dot-2');
+
+          function setTool(idx) {
+            var t = tools[idx];
+            toolIcon.textContent = t.icon;
+            toolName.textContent = t.name;
+            toolDetail.textContent = t.output;
+          }
+
+          function setHost(hostKey) {
+            var h = hosts[hostKey];
+            hostIcon.textContent = h.icon;
+            hostName.textContent = h.name;
+            hostDetail.textContent = h.detail;
+            estimate.textContent = 'Estimated deploy time: ' + h.time;
+            cmd.textContent = h.cmd;
+          }
+
+          function animateSwap(direction) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            var nextIdx = (currentIdx + direction + tools.length) % tools.length;
+            var nextTool = tools[nextIdx];
+            var nextHost = hosts[nextTool.host];
+            var slideOut = direction > 0 ? -20 : 20;
+            var slideIn = direction > 0 ? 20 : -20;
+
+            // Animate tool card out
+            gsap.to(toolInner, {
+              y: slideOut, opacity: 0, duration: 0.2,
+              onComplete: function() {
+                setTool(nextIdx);
+                gsap.fromTo(toolInner, { y: -slideIn, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 });
+              }
+            });
+
+            // Pulse arrow 1 after 0.3s
+            var isMob = window.innerWidth < 640;
+            var dotPropStart = isMob ? 'top' : 'left';
+            setTimeout(function() {
+              var fromProps = { opacity: 1 }; fromProps[dotPropStart] = '0%';
+              var toProps = { duration: 0.4, ease: 'power2.inOut', onComplete: function() { gsap.set(dot1, { opacity: 0 }); } };
+              toProps[dotPropStart] = '100%';
+              gsap.fromTo(dot1, fromProps, toProps);
+              gitCard.classList.add('sp-card-pulse');
+              setTimeout(function() { gitCard.classList.remove('sp-card-pulse'); }, 500);
+            }, 300);
+
+            // Pulse arrow 2 after 0.6s, update host
+            setTimeout(function() {
+              var fromProps = { opacity: 1 }; fromProps[dotPropStart] = '0%';
+              var toProps = { duration: 0.4, ease: 'power2.inOut', onComplete: function() { gsap.set(dot2, { opacity: 0 }); } };
+              toProps[dotPropStart] = '100%';
+              gsap.fromTo(dot2, fromProps, toProps);
+
+              // Animate host card
+              gsap.to(hostInner, {
+                y: slideOut, opacity: 0, duration: 0.2,
+                onComplete: function() {
+                  setHost(nextTool.host);
+                  gsap.fromTo(hostInner, { y: -slideIn, opacity: 0 }, {
+                    y: 0, opacity: 1, duration: 0.25,
+                    onComplete: function() { isAnimating = false; }
+                  });
+                }
+              });
+            }, 600);
+
+            currentIdx = nextIdx;
+          }
+
+          // Global cycle function for button onclick
+          window.cycleStack = function(dir) {
+            userInteracted = true;
+            stopAutoCycle();
+            animateSwap(dir);
+          };
+
+          // Click card to cycle forward
+          toolCard.addEventListener('click', function() {
+            window.cycleStack(1);
+          });
+
+          // Keyboard: arrow keys when focused
+          toolCard.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); window.cycleStack(-1); }
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); window.cycleStack(1); }
+          });
+
+          // Mobile: swipe detection on tool card
+          var touchStartY = 0;
+          toolCard.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+          }, { passive: true });
+          toolCard.addEventListener('touchend', function(e) {
+            var dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dy) > 30) {
+              window.cycleStack(dy < 0 ? 1 : -1);
+            }
+          }, { passive: true });
+
+          // Auto-cycle
+          function startAutoCycle() {
+            if (userInteracted) return;
+            autoTimer = setInterval(function() {
+              if (!userInteracted) animateSwap(1);
+              else stopAutoCycle();
+            }, 3000);
+          }
+
+          function stopAutoCycle() {
+            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+          }
+
+          window.startStackAutoCycle = function() {
+            // Start after 5s idle
+            setTimeout(function() {
+              if (!userInteracted) startAutoCycle();
+            }, 5000);
+          };
+
+          // Reduced motion: show static, no auto-cycle
+          if (prefersReducedMotion) {
+            setTool(0);
+            setHost(tools[0].host);
+          }
         })();
 
         // --- Orbiting Tech Stack Interactions ---
