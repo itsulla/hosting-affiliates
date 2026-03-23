@@ -449,6 +449,11 @@
                     </svg>
                 </div>
             </div>
+
+            <!-- Code-to-Globe Morph -->
+            <div class="mt-16 sm:mt-20 anim-hidden" data-anim="morph">
+                <canvas id="morph-canvas" style="width:100%; display:block;"></canvas>
+            </div>
         </div>
     </section>
 
@@ -1794,7 +1799,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           // Beat 7: Orbiting tech stack fades in
           heroTl.to('[data-anim="orbit"]', { opacity: 1, y: 0, duration: 0.8 }, '+=0.4');
 
-          // Beat 8: Stat cards + count-up
+          // Beat 8: Code-to-Globe morph fades in, animation starts after 2s
+          heroTl.to('[data-anim="morph"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
+          heroTl.add(function() { if (window.startMorphAnimation) window.startMorphAnimation(); });
+
+          // Beat 9: Stat cards + count-up
           heroTl.to('[data-anim="stat-card"]', {
             opacity: 1, y: 0, duration: 0.45, stagger: 0.12
           }, '+=0.25');
@@ -1870,6 +1879,385 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
 
         // --- Initial play on page load ---
         initHeroAnimation();
+
+        // --- Code-to-Globe Morph Animation ---
+        (function() {
+          var canvas = document.getElementById('morph-canvas');
+          var ctx = canvas.getContext('2d');
+          var isMobile = window.innerWidth < 640;
+          var canvasH = isMobile ? 150 : 230;
+          var dpr = window.devicePixelRatio || 1;
+          var particles = [];
+          var globePoints = [];
+          var morphStarted = false;
+          var morphPhase = 'idle'; // idle, waiting, dissolving, flying, globe
+          var morphTimer = 0;
+          var globeAngle = 0;
+          var animFrameId = null;
+
+          // Code snippet with syntax info
+          var codeLines = [
+            { tokens: [
+              { t: 'export', c: '#635bff' }, { t: ' ', c: '#c8c4dc66' }, { t: 'default', c: '#635bff' },
+              { t: ' {', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '  name: ', c: '#c8c4dc66' }, { t: '"my-app"', c: '#38e2b2' }, { t: ',', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '  deploy: {', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '    provider: ', c: '#c8c4dc66' }, { t: '"vercel"', c: '#38e2b2' }, { t: ',', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '    region: ', c: '#c8c4dc66' }, { t: '"sfo1"', c: '#38e2b2' }, { t: ',', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '  }', c: '#c8c4dc66' }
+            ]},
+            { tokens: [
+              { t: '}', c: '#c8c4dc66' }
+            ]}
+          ];
+
+          function resizeCanvas() {
+            var rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = canvasH * dpr;
+            canvas.style.height = canvasH + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          }
+
+          resizeCanvas();
+          var W = canvas.width / dpr;
+          var H = canvasH;
+
+          // Build particles from code characters
+          function buildParticles() {
+            particles = [];
+            var fontSize = isMobile ? 10 : 12;
+            var lineH = fontSize * 1.6;
+            var charW = fontSize * 0.6;
+            var startX = W * 0.05;
+            var startY = H * 0.2;
+            var maxCount = isMobile ? 120 : 220;
+            var count = 0;
+
+            for (var li = 0; li < codeLines.length && count < maxCount; li++) {
+              var x = startX;
+              var y = startY + li * lineH;
+              var tokens = codeLines[li].tokens;
+              for (var ti = 0; ti < tokens.length && count < maxCount; ti++) {
+                var txt = tokens[ti].t;
+                var col = tokens[ti].c;
+                for (var ci = 0; ci < txt.length && count < maxCount; ci++) {
+                  if (txt[ci] === ' ') { x += charW; continue; }
+                  particles.push({
+                    char: txt[ci],
+                    color: col,
+                    // Code position (start)
+                    sx: x, sy: y,
+                    // Current position
+                    x: x, y: y,
+                    // Globe target (assigned later)
+                    gx: 0, gy: 0,
+                    // Bezier control point
+                    cx: 0, cy: 0,
+                    // Animation
+                    delay: 0, t: 0, radius: isMobile ? 1.5 : 2,
+                    trail: [],
+                    arrived: false
+                  });
+                  x += charW;
+                  count++;
+                }
+              }
+            }
+          }
+
+          // Fibonacci sphere for even distribution
+          function fibSphere(n, radius) {
+            var pts = [];
+            var goldenAngle = Math.PI * (3 - Math.sqrt(5));
+            for (var i = 0; i < n; i++) {
+              var y = 1 - (i / (n - 1)) * 2;
+              var r = Math.sqrt(1 - y * y);
+              var theta = goldenAngle * i;
+              pts.push({ x: Math.cos(theta) * r * radius, y: y * radius, z: Math.sin(theta) * r * radius });
+            }
+            return pts;
+          }
+
+          // Wireframe lines (latitude + longitude circles)
+          function wireframePoints(radius, count) {
+            var pts = [];
+            // 3 latitude lines
+            for (var lat = -1; lat <= 1; lat++) {
+              var y = lat * radius * 0.6;
+              var r = Math.sqrt(radius * radius - y * y);
+              for (var a = 0; a < count; a++) {
+                var angle = (a / count) * Math.PI * 2;
+                pts.push({ x: Math.cos(angle) * r, y: y, z: Math.sin(angle) * r });
+              }
+            }
+            // 3 longitude lines
+            for (var lon = 0; lon < 3; lon++) {
+              var baseAngle = (lon / 3) * Math.PI;
+              for (var a = 0; a < count; a++) {
+                var phi = (a / count) * Math.PI * 2;
+                pts.push({ x: Math.cos(baseAngle) * Math.sin(phi) * radius, y: Math.cos(phi) * radius, z: Math.sin(baseAngle) * Math.sin(phi) * radius });
+              }
+            }
+            return pts;
+          }
+
+          // Project 3D to 2D with rotation
+          function project(pt, angle, centerX, centerY, scale) {
+            var cos = Math.cos(angle), sin = Math.sin(angle);
+            var rx = pt.x * cos - pt.z * sin;
+            var rz = pt.x * sin + pt.z * cos;
+            var perspective = 300 / (300 + rz);
+            return { x: centerX + rx * perspective * scale, y: centerY + pt.y * perspective * scale, depth: rz };
+          }
+
+          var globeRadius = isMobile ? 40 : 60;
+          var globeCX = W * 0.78;
+          var globeCY = H * 0.5;
+          var globe3D = fibSphere(isMobile ? 120 : 220, globeRadius);
+          var wireframe3D = wireframePoints(globeRadius, 15);
+
+          function assignGlobeTargets() {
+            // Assign each particle a globe point
+            for (var i = 0; i < particles.length; i++) {
+              var g = globe3D[i % globe3D.length];
+              var proj = project(g, 0, globeCX, globeCY, 1);
+              particles[i].gx = proj.x;
+              particles[i].gy = proj.y;
+              particles[i].globe3D = g;
+              // Random delay for stagger (0 to 0.8s)
+              particles[i].delay = Math.random() * 0.8;
+              // Bezier control point — arc upward
+              var midX = (particles[i].sx + proj.x) / 2;
+              var midY = (particles[i].sy + proj.y) / 2 - 30 - Math.random() * 60;
+              particles[i].cx = midX;
+              particles[i].cy = midY;
+            }
+          }
+
+          buildParticles();
+          assignGlobeTargets();
+
+          // Draw faint arc path
+          function drawFlightPath() {
+            ctx.save();
+            ctx.setLineDash([3, 5]);
+            ctx.strokeStyle = 'rgba(99,91,255,0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            var sx = W * 0.2, sy = H * 0.5;
+            var ex = globeCX, ey = globeCY;
+            var cpx = (sx + ex) / 2, cpy = Math.min(sy, ey) - 60;
+            ctx.moveTo(sx, sy);
+            ctx.quadraticCurveTo(cpx, cpy, ex, ey);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.restore();
+          }
+
+          // Draw wireframe globe
+          function drawWireframe(angle, alpha) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.strokeStyle = 'rgba(99,91,255,0.12)';
+            ctx.lineWidth = 0.5;
+            // Draw latitude/longitude as point chains
+            var segs = 15;
+            for (var line = 0; line < 6; line++) {
+              ctx.beginPath();
+              for (var i = 0; i < segs; i++) {
+                var idx = line * segs + i;
+                var pt = wireframe3D[idx];
+                var p = project(pt, angle, globeCX, globeCY, 1);
+                if (i === 0) ctx.moveTo(p.x, p.y);
+                else ctx.lineTo(p.x, p.y);
+              }
+              ctx.closePath();
+              ctx.stroke();
+            }
+            ctx.restore();
+          }
+
+          // Quadratic bezier interpolation
+          function bezier(t, p0, p1, p2) {
+            var u = 1 - t;
+            return u * u * p0 + 2 * u * t * p1 + t * t * p2;
+          }
+
+          // Color interpolation (hex to rgb)
+          function hexToRgb(hex) {
+            if (hex.length === 9) { // with alpha like #c8c4dc66
+              return { r: parseInt(hex.slice(1,3),16), g: parseInt(hex.slice(3,5),16), b: parseInt(hex.slice(5,7),16), a: parseInt(hex.slice(7,9),16)/255 };
+            }
+            var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+            return { r: r, g: g, b: b, a: 1 };
+          }
+
+          var flightColor = { r: 56, g: 226, b: 178 };
+
+          function render() {
+            ctx.clearRect(0, 0, W, H);
+            drawFlightPath();
+
+            if (morphPhase === 'idle' || morphPhase === 'waiting') {
+              // Draw code as text
+              var fontSize = isMobile ? 10 : 12;
+              ctx.font = fontSize + 'px "JetBrains Mono", monospace';
+              ctx.textBaseline = 'middle';
+              for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                ctx.fillStyle = p.color;
+                ctx.fillText(p.char, p.sx, p.sy);
+              }
+              // Faint globe wireframe preview
+              drawWireframe(0, 0.3);
+            }
+            else if (morphPhase === 'flying') {
+              morphTimer += 1/60;
+              var allDone = true;
+
+              for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                var elapsed = morphTimer - p.delay;
+                if (elapsed < 0) {
+                  // Still in code position
+                  ctx.fillStyle = p.color;
+                  var fontSize = isMobile ? 10 : 12;
+                  ctx.font = fontSize + 'px "JetBrains Mono", monospace';
+                  ctx.fillText(p.char, p.sx, p.sy);
+                  allDone = false;
+                  continue;
+                }
+
+                var dur = 1.5;
+                var t = Math.min(elapsed / dur, 1);
+                // Ease out cubic
+                var et = 1 - Math.pow(1 - t, 3);
+
+                var px = bezier(et, p.sx, p.cx, p.gx);
+                var py = bezier(et, p.sy, p.cy, p.gy);
+                p.x = px; p.y = py;
+
+                // Trail
+                p.trail.push({ x: px, y: py });
+                if (p.trail.length > 3) p.trail.shift();
+
+                // Draw trail
+                for (var ti = 0; ti < p.trail.length - 1; ti++) {
+                  var ta = (ti + 1) / p.trail.length * 0.3;
+                  ctx.beginPath();
+                  ctx.arc(p.trail[ti].x, p.trail[ti].y, p.radius * 0.6, 0, Math.PI * 2);
+                  ctx.fillStyle = 'rgba(56,226,178,' + ta + ')';
+                  ctx.fill();
+                }
+
+                // Draw particle
+                var radius = p.radius * (1 - et * 0.3 + (t >= 1 ? 0.3 : 0));
+                var rgb = flightColor;
+                var alpha = 0.5 + et * 0.5;
+                ctx.beginPath();
+                ctx.arc(px, py, radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ')';
+                ctx.fill();
+
+                if (t < 1) allDone = false;
+                else p.arrived = true;
+              }
+
+              drawWireframe(0, 0.2);
+
+              if (allDone) {
+                morphPhase = 'globe';
+              }
+            }
+            else if (morphPhase === 'globe') {
+              globeAngle += 0.003;
+
+              // Draw wireframe
+              drawWireframe(globeAngle, 0.25);
+
+              // Glow
+              var pulse = 0.6 + Math.sin(Date.now() * 0.002) * 0.15;
+              ctx.save();
+              ctx.shadowColor = 'rgba(56,226,178,' + (pulse * 0.2) + ')';
+              ctx.shadowBlur = 15;
+
+              // Draw particles at rotated globe positions
+              for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                var g = p.globe3D;
+                var proj = project(g, globeAngle, globeCX, globeCY, 1);
+                var depthAlpha = 0.3 + (proj.depth + globeRadius) / (globeRadius * 2) * 0.7;
+                ctx.beginPath();
+                ctx.arc(proj.x, proj.y, p.radius * depthAlpha, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(56,226,178,' + (depthAlpha * pulse) + ')';
+                ctx.fill();
+              }
+              ctx.restore();
+
+              // Small "code" label on left
+              ctx.fillStyle = 'rgba(200,196,220,0.15)';
+              ctx.font = (isMobile ? 9 : 10) + 'px "JetBrains Mono", monospace';
+              ctx.fillText('{ code }', W * 0.05, H * 0.5);
+
+              // Small "live" label on right
+              ctx.fillStyle = 'rgba(56,226,178,0.25)';
+              ctx.fillText('● live', globeCX + globeRadius + 12, globeCY);
+            }
+
+            animFrameId = requestAnimationFrame(render);
+          }
+
+          window.startMorphAnimation = function() {
+            if (morphStarted) return;
+            morphStarted = true;
+            morphPhase = 'waiting';
+            setTimeout(function() {
+              morphPhase = 'flying';
+              morphTimer = 0;
+            }, 1500);
+          };
+
+          // Reduced motion: show static final state
+          if (prefersReducedMotion) {
+            morphPhase = 'globe';
+            morphStarted = true;
+          }
+
+          // Start render loop
+          render();
+
+          // Handle resize
+          window.addEventListener('resize', function() {
+            var wasMobile = isMobile;
+            isMobile = window.innerWidth < 640;
+            canvasH = isMobile ? 150 : 230;
+            resizeCanvas();
+            W = canvas.width / dpr;
+            H = canvasH;
+            globeRadius = isMobile ? 40 : 60;
+            globeCX = W * 0.78;
+            globeCY = H * 0.5;
+            globe3D = fibSphere(isMobile ? 120 : 220, globeRadius);
+            wireframe3D = wireframePoints(globeRadius, 15);
+            if (wasMobile !== isMobile) {
+              buildParticles();
+              assignGlobeTargets();
+            } else {
+              assignGlobeTargets();
+            }
+          });
+        })();
 
         // --- Orbiting Tech Stack Interactions ---
         (function() {
