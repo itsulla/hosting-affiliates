@@ -53,7 +53,6 @@
         @media (prefers-reduced-motion: reduce) {
             .fade-up, .anim-hidden { opacity: 1 !important; transform: none !important; }
             [data-anim] { opacity: 1 !important; transform: none !important; }
-            [data-anim="arrow"] { opacity: 1 !important; }
             .stat-number { /* show final values immediately */ }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -122,6 +121,10 @@
             opacity: 0; transition: opacity 0.2s ease, color 0.2s ease;
         }
         .deploy-replay:hover { color: rgba(56,226,178,0.8); }
+        @media (max-width: 639px) {
+            .deploy-terminal .term-body { font-size: 11px; padding: 12px; }
+            .deploy-terminal .term-line { overflow: hidden; text-overflow: ellipsis; }
+        }
 
         /* Orbiting Tech Stack */
         .orbit-wrap {
@@ -129,7 +132,7 @@
             position: relative; margin: 0 auto;
         }
         @media (max-width: 639px) {
-            .orbit-wrap { width: 280px; height: 280px; }
+            .orbit-wrap { width: 260px; height: 260px; }
         }
         .orbit-wrap svg { width: 100%; height: 100%; overflow: visible; }
         @keyframes orbitCW { to { transform: rotate(360deg); } }
@@ -151,7 +154,7 @@
         }
         .orbit-connection.active { stroke-dashoffset: 0; opacity: 1; }
         .orbit-tooltip {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
             font-size: 10px; fill: rgba(56,226,178,0.8);
             opacity: 0; transition: opacity 0.3s ease;
             pointer-events: none;
@@ -191,7 +194,7 @@
         .sp-name { color: #fff; font-weight: 700; font-size: 14px; }
         .sp-detail {
             color: rgba(200,196,220,0.4); font-size: 10px; margin-top: 4px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
         }
         .sp-arrow-wrap {
             display: flex; align-items: center; justify-content: center;
@@ -224,7 +227,7 @@
             color: rgba(200,196,220,0.5); font-size: 12px;
         }
         .sp-cmd {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
             font-size: 11px; color: rgba(56,226,178,0.5);
             margin-top: 4px;
         }
@@ -255,16 +258,20 @@
                 left: 50%; top: 0;
             }
         }
+        @media (min-width: 640px) and (max-width: 1024px) {
+            .sp-card { width: 140px; height: 160px; }
+            .sp-icon { font-size: 24px; }
+        }
 
         /* Scroll Pipeline */
         .scroll-pipeline {
             position: absolute; top: 0; left: 0;
             width: 60px; height: 100%;
-            pointer-events: none; z-index: 40;
+            pointer-events: none; z-index: 4;
         }
         .scroll-pipeline svg { width: 100%; height: 100%; }
         .pipeline-node-label {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
             font-size: 9px; letter-spacing: 0.05em;
             fill: rgba(200,196,220,0.3);
             transition: fill 0.4s ease;
@@ -416,7 +423,7 @@
     <!-- ============================================ -->
     <!-- HERO SECTION                                 -->
     <!-- ============================================ -->
-    <section id="hero-section" class="relative overflow-hidden min-h-[100dvh] flex items-center" style="background: #0c0a14;">
+    <section id="hero-section" class="relative overflow-hidden min-h-[100dvh] flex items-center" style="background: #0f0d1a;">
         <!-- EFFECT 1: SVG Grid Pattern -->
         <svg id="hero-grid" class="absolute inset-0 w-full h-full" style="z-index:0; pointer-events:none; opacity:0;" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <defs>
@@ -430,13 +437,13 @@
         <!-- EFFECT 2: Scan Line -->
         <div id="hero-scanline" class="absolute left-0 w-full" style="z-index:0; pointer-events:none; opacity:0; top:0; height:2px; background:linear-gradient(90deg, transparent 0%, rgba(99,91,255,0.5) 30%, rgba(56,226,178,0.4) 70%, transparent 100%);"></div>
 
-        <!-- EFFECT 3: Floating code particles -->
+        <!-- EFFECT 3: Floating code particles (z:1) -->
         <div id="hero-particles" class="absolute inset-0 overflow-hidden" style="z-index:1; pointer-events:none;"></div>
 
         <!-- Subtle emerald radial gradient blob -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full" style="z-index:0; pointer-events:none; background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);"></div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 w-full" style="z-index:2;">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 w-full" style="z-index:3;">
             <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
                 <!-- Left content ~60% -->
                 <div class="w-full lg:w-[60%]">
@@ -651,13 +658,13 @@
 
             <!-- Code-to-Globe Morph -->
             <div class="mt-16 sm:mt-20 anim-hidden" data-anim="morph">
-                <canvas id="morph-canvas" style="width:100%; display:block;"></canvas>
+                <canvas id="morph-canvas" style="width:100%; display:block; position:relative; z-index:2;"></canvas>
             </div>
         </div>
     </section>
 
     <!-- Stats bar as separate section strip -->
-    <section class="relative" style="background: #0e0c16;">
+    <section class="relative" style="background: #0f0d1a;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
@@ -1352,7 +1359,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
     </main>
 
     <!-- Footer -->
-    <footer class="text-slate-400 text-sm py-12 mt-16" style="background: #0c0a14;">
+    <footer class="text-slate-400 text-sm py-12 mt-16" style="background: #0f0d1a;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div>
@@ -1988,25 +1995,22 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           // Beat 5: CTA button
           heroTl.to('[data-anim="cta-row"]', { opacity: 1, y: 0, duration: 0.6 }, '-=0.5');
 
-          // Beat 6: Deploy terminal slides in
-          heroTl.to('[data-anim="terminal"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
-          heroTl.add(function() {
-            // Start the deploy typing sequence after terminal is visible
-            runDeploySequence(false);
-          });
-
-          // Beat 7: Stack Picker fades in, start auto-cycle
+          // Beat 6: Stack Picker fades in after headlines
           heroTl.to('[data-anim="picker"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
           heroTl.add(function() { if (window.startStackAutoCycle) window.startStackAutoCycle(); });
 
-          // Beat 8: Orbiting tech stack fades in
+          // Beat 7: Deploy terminal starts typing after picker is visible
+          heroTl.to('[data-anim="terminal"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
+          heroTl.add(function() { runDeploySequence(false); });
+
+          // Beat 8: Orbiting tech stack fades in after terminal starts
           heroTl.to('[data-anim="orbit"]', { opacity: 1, y: 0, duration: 0.8 }, '+=0.4');
 
-          // Beat 8: Code-to-Globe morph fades in, animation starts after 2s
+          // Beat 9: Code-to-Globe morph — the "wow" moment, triggers last
           heroTl.to('[data-anim="morph"]', { opacity: 1, y: 0, duration: 0.6 }, '+=0.3');
           heroTl.add(function() { if (window.startMorphAnimation) window.startMorphAnimation(); });
 
-          // Beat 9: Stat cards + count-up
+          // Beat 10: Stat cards + count-up
           heroTl.to('[data-anim="stat-card"]', {
             opacity: 1, y: 0, duration: 0.45, stagger: 0.12
           }, '+=0.25');
@@ -2088,7 +2092,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           var canvas = document.getElementById('morph-canvas');
           var ctx = canvas.getContext('2d');
           var isMobile = window.innerWidth < 640;
-          var canvasH = isMobile ? 150 : 230;
+          var canvasH = isMobile ? 140 : 230;
           var dpr = window.devicePixelRatio || 1;
           var particles = [];
           var globePoints = [];
@@ -2144,7 +2148,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             var charW = fontSize * 0.6;
             var startX = W * 0.05;
             var startY = H * 0.2;
-            var maxCount = isMobile ? 120 : 220;
+            var maxCount = isMobile ? 100 : 220;
             var count = 0;
 
             for (var li = 0; li < codeLines.length && count < maxCount; li++) {
@@ -2227,7 +2231,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           var globeRadius = isMobile ? 40 : 60;
           var globeCX = W * 0.78;
           var globeCY = H * 0.5;
-          var globe3D = fibSphere(isMobile ? 120 : 220, globeRadius);
+          var globe3D = fibSphere(isMobile ? 100 : 220, globeRadius);
           var wireframe3D = wireframePoints(globeRadius, 15);
 
           function assignGlobeTargets() {
@@ -2418,7 +2422,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
               ctx.fillText('● live', globeCX + globeRadius + 12, globeCY);
             }
 
-            animFrameId = requestAnimationFrame(render);
+            if (morphVisible) {
+              animFrameId = requestAnimationFrame(render);
+            } else {
+              animFrameId = null;
+            }
           }
 
           window.startMorphAnimation = function() {
@@ -2437,6 +2445,14 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             morphStarted = true;
           }
 
+          // IntersectionObserver: pause canvas when offscreen for performance
+          var morphVisible = true;
+          var morphObs = new IntersectionObserver(function(entries) {
+            morphVisible = entries[0].isIntersecting;
+            if (morphVisible && !animFrameId) render();
+          }, { threshold: 0.05 });
+          morphObs.observe(canvas);
+
           // Start render loop
           render();
 
@@ -2444,14 +2460,14 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           window.addEventListener('resize', function() {
             var wasMobile = isMobile;
             isMobile = window.innerWidth < 640;
-            canvasH = isMobile ? 150 : 230;
+            canvasH = isMobile ? 140 : 230;
             resizeCanvas();
             W = canvas.width / dpr;
             H = canvasH;
             globeRadius = isMobile ? 40 : 60;
             globeCX = W * 0.78;
             globeCY = H * 0.5;
-            globe3D = fibSphere(isMobile ? 120 : 220, globeRadius);
+            globe3D = fibSphere(isMobile ? 100 : 220, globeRadius);
             wireframe3D = wireframePoints(globeRadius, 15);
             if (wasMobile !== isMobile) {
               buildParticles();
