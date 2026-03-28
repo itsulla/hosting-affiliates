@@ -14,14 +14,14 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeployApp.guide | The Vibe Coder's Complete Deployment Guide (2026)</title>
-    <meta name="description" content="The definitive guide for deploying AI-generated apps. Compare hosting platforms, get step-by-step workflows, and find the best stack for your vibe-coded project.">
+    <meta name="description" content="The definitive 2026 vibe coding deployment guide. Compare 8+ hosting platforms (Vercel, Railway, Netlify), get step-by-step workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL.">
     <meta name="keywords" content="vibe coding, deploy app, hosting comparison, Vercel, Railway, Netlify, Cursor, Bolt, Lovable, Replit, AI coding tools 2026">
     <link rel="canonical" href="https://deployapp.guide">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:title" content="DeployApp.guide — The Vibe Coder's Deployment Guide (2026)">
-    <meta property="og:description" content="Compare hosting platforms, get step-by-step deployment workflows, and find the best stack for your AI-generated app.">
+    <meta property="og:description" content="Compare 8+ hosting platforms, get step-by-step deployment workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL. Updated March 2026.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://deployapp.guide">
     <meta property="og:site_name" content="DeployApp.guide">
@@ -30,7 +30,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DeployApp.guide — The Vibe Coder's Deployment Guide (2026)">
-    <meta name="twitter:description" content="Compare hosting platforms, get step-by-step deployment workflows, and find the best stack for your AI-generated app.">
+    <meta name="twitter:description" content="Compare 8+ hosting platforms, get step-by-step deployment workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL. Updated March 2026.">
 
     <!-- Satoshi Font -->
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@
 
         /* Reduced motion: skip all GSAP and CSS animations */
         @media (prefers-reduced-motion: reduce) {
-            .fade-up, .anim-hidden { opacity: 1 !important; transform: none !important; }
+            .fade-up, .anim-hidden, .stat-card-anim { opacity: 1 !important; transform: none !important; }
             [data-anim] { opacity: 1 !important; transform: none !important; }
             .stat-number { /* show final values immediately */ }
             *, *::before, *::after {
@@ -475,7 +475,7 @@
                 <div class="w-full lg:w-[60%]">
                     <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-emerald-300 text-sm font-medium mb-8 anim-hidden" data-anim="badge">
                         <span class="w-2 h-2 bg-green-400 rounded-full mr-2 badge-dot"></span>
-                        <span id="badge-text" data-text="Updated April 2026 with verified data"></span><span id="badge-cursor" class="type-cursor" style="display:none;"></span>
+                        <span id="badge-text" data-text="Updated March 2026 with verified data"></span><span id="badge-cursor" class="type-cursor" style="display:none;"></span>
                     </div>
 
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none mb-6">
@@ -483,8 +483,16 @@
                         <span class="text-emerald-400 anim-hidden block mt-2" data-anim="headline-2">Now Get It Live.</span>
                     </h1>
                     <p class="text-lg sm:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed anim-hidden" data-anim="subtitle">
-                        The definitive deployment guide for vibe coders. Compare platforms, follow step-by-step workflows, and go from AI-generated code to live URL.
+                        The definitive deployment guide for vibe coders. 10 AI coding tools, 8+ hosting platforms, and 15 deployment errors covered. Compare, follow step-by-step workflows, and go from AI-generated code to live URL.
                     </p>
+
+                    <!-- March 2026 News Ticker -->
+                    <div class="mb-6 anim-hidden" data-anim="subtitle">
+                        <div class="inline-flex items-start gap-2 px-4 py-2.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-sm text-slate-300 leading-relaxed max-w-xl">
+                            <span class="shrink-0 mt-0.5">&#x1F525;</span>
+                            <span><strong class="text-amber-400">March 2026:</strong> Windsurf pricing overhaul, Replit Pro launch, Clerk 50K free MAU, Apple blocks vibe coding apps, Lovable security incident &mdash; all covered.</span>
+                        </div>
+                    </div>
 
                     <!-- Single CTA button -->
                     <div class="anim-hidden" data-anim="cta-row">
@@ -689,27 +697,28 @@
         </div>
     </section>
 
-    <!-- Stats bar as separate section strip -->
-    <section class="relative" style="background: #0f0d1a;">
+    <!-- 2026 Market Stats Bar -->
+    <section id="market-stats-bar" class="relative" style="background: #0f0d1a;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
-                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="25" data-suffix="%">0%</p>
-                    <p class="text-xs text-slate-400 mt-1">of YC W25 batch is 95% AI-generated code</p>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 stat-card-anim" style="opacity:0; transform:translateY(20px);">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="92" data-suffix="%">0%</p>
+                    <p class="text-xs text-slate-400 mt-1">of US devs use AI coding tools daily</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
-                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="10">0</p>
-                    <p class="text-xs text-slate-400 mt-1">AI coding tools tracked and compared</p>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 stat-card-anim" style="opacity:0; transform:translateY(20px);">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="51" data-suffix="%">0%</p>
+                    <p class="text-xs text-slate-400 mt-1">of GitHub code is now AI-generated</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
-                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="8">0</p>
-                    <p class="text-xs text-slate-400 mt-1">hosting platforms with verified pricing</p>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 stat-card-anim" style="opacity:0; transform:translateY(20px);">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="12.8" data-prefix="$" data-suffix="B" data-decimals="1">$0B</p>
+                    <p class="text-xs text-slate-400 mt-1">AI coding tools market (2026)</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 anim-hidden" data-anim="stat-card">
-                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="200" data-prefix="$" data-suffix="B">$0B</p>
-                    <p class="text-xs text-slate-400 mt-1">projected web hosting market cap 2026</p>
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 stat-card-anim" style="opacity:0; transform:translateY(20px);">
+                    <p class="text-2xl sm:text-3xl font-black text-white stat-number" data-target="63" data-suffix="%">0%</p>
+                    <p class="text-xs text-slate-400 mt-1">of vibe coders are non-developers</p>
                 </div>
             </div>
+            <p class="text-center text-[10px] text-slate-500 mt-4 tracking-wide">Sources: Stack Overflow, GitHub, Second Talent, Hashnode &mdash; March 2026</p>
         </div>
     </section>
 
@@ -825,7 +834,7 @@
                         <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
                     </div>
                     <h2 class="text-2xl font-black text-dark">AI Coding Tools Landscape</h2>
-                    <span class="text-xs bg-slate-100 text-muted px-2.5 py-1 rounded-full font-medium">April 2026</span>
+                    <span class="text-xs bg-slate-100 text-muted px-2.5 py-1 rounded-full font-medium">March 2026</span>
                 </div>
                 <p class="text-muted mb-6 ml-11">The market has split into <strong class="text-slate-700">AI-native IDEs</strong> (deep code editing) and <strong class="text-slate-700">browser-based App Builders</strong> (instant prototyping). Speed and code quality are inversely correlated.</p>
                 <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80">
@@ -898,7 +907,7 @@
             </div>
             <p class="mt-4 text-sm text-muted flex items-center gap-2">
                 <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
-                Data verified April 2026. "Ease of use" rated for non-technical users deploying AI-generated code.
+                Data verified March 2026. "Ease of use" rated for non-technical users deploying AI-generated code.
             </p>
 
             <!-- Key Insights: 2-column asymmetric (first card full width, next two side by side) -->
@@ -925,6 +934,75 @@
                     <p class="text-sm text-muted"><strong class="text-slate-700">Cloudflare Pages</strong> for static. <strong class="text-slate-700">Netlify</strong> for serverless + commercial. <strong class="text-slate-700">Render</strong> for fullstack (spins down).</p>
                 </div>
             </div>
+
+            <!-- Emerging Platforms Watch List -->
+            <div class="mt-10 fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold mb-4">WATCH LIST</div>
+                <h3 class="text-2xl font-bold text-dark mb-2">Emerging Platforms (2026)</h3>
+                <p class="text-muted mb-5">New hosting options gaining traction with vibe coders. Not yet mainstream, but worth watching.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                                <span class="text-sm">&#x1F9CA;</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm">Coolify</h4>
+                                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Self-hosted PaaS</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-2">Open-source, self-hosted PaaS. Like running your own Vercel/Netlify on a $5 VPS. Growing fast with cost-conscious devs.</p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60">Free (self-hosted)</span>
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-50 text-slate-600 border border-slate-200/60">Cloud from $5/mo</span>
+                        </div>
+                        <a href="https://coolify.io" target="_blank" rel="noopener" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">coolify.io &rarr;</a>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                                <span class="text-sm">&#x1F680;</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm">Zeabur</h4>
+                                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">AI-assisted deploy</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-2">Deploy via AI conversation. Growing in Asia-Pacific. Usage-based pricing. Good for developers who want Railway-like DX with AI assistance.</p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200/60">Usage-based</span>
+                        </div>
+                        <a href="https://zeabur.com" target="_blank" rel="noopener" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">zeabur.com &rarr;</a>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                                <span class="text-sm">&#x1F3E2;</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm">Hosting.com AI Studio</h4>
+                                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Enterprise AI hosting</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-2">Launched March 2026. Enterprise-grade hosting specifically for AI-generated apps. Cloudflare Enterprise + AMD EPYC infrastructure.</p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-violet-50 text-violet-700 border border-violet-200/60">Enterprise</span>
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-50 text-slate-600 border border-slate-200/60">New &mdash; March 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auth Providers Note -->
+            <div class="mt-8 bg-gradient-to-r from-violet-50 to-slate-50 border border-violet-200/60 p-5 rounded-2xl flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center shrink-0">
+                    <span class="text-lg">&#x1F510;</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-violet-800 mb-1">Auth Provider Landscape (2026)</h4>
+                    <p class="text-sm text-slate-700 leading-relaxed"><strong>Clerk</strong> expanded its free tier to 50,000 MAU (Feb 2026, up from 10K). Best drop-in auth for Next.js/React. <strong>Supabase Auth</strong> remains the default for Lovable/Bolt users. <strong>Authon</strong> (<a href="https://authon.dev" target="_blank" rel="noopener" class="text-primary hover:underline font-semibold">authon.dev</a>) is a new auth provider being compared alongside Clerk and Auth0 &mdash; worth watching. Always manually verify AI-generated auth logic before going live.</p>
+                </div>
+            </div>
         </section>
 
         <!-- ============================================ -->
@@ -943,6 +1021,8 @@
                 <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="bolt">Bolt.new &rarr; Deploy</button>
                 <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="lovable">Lovable &rarr; Deploy</button>
                 <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="replit">Replit &rarr; Deploy</button>
+                <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="windsurf">Windsurf &rarr; Deploy</button>
+                <button class="wf-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-2 rounded-full text-sm font-medium transition-all" data-wf="claude-code">Claude Code &rarr; Deploy</button>
             </div>
 
             <!-- Cursor Workflow -->
@@ -1034,6 +1114,9 @@ git push -u origin main</pre>
                             </div>
                             <div class="mt-4 bg-red-50 border border-red-200/60 p-3 rounded-xl text-xs text-red-700">
                                 <strong>Remember:</strong> Vercel Hobby = non-commercial only. Upgrade to Pro ($20/mo) if monetizing.
+                            </div>
+                            <div class="mt-3 bg-violet-50 border border-violet-200/60 p-3 rounded-xl text-xs text-violet-800">
+                                <strong>&#x2728; New:</strong> <strong>Vercel MCP for Cursor</strong> (March 2026) &mdash; inspect failed deployments, fetch logs, and manage deploys without leaving the editor. Install via Cursor MCP settings.
                             </div>
                         </div>
                     </div>
@@ -1156,6 +1239,157 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                     </div>
                 </div>
             </div>
+
+            <!-- Windsurf Workflow -->
+            <div id="wf-windsurf" class="wf-content hidden fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-primary">A</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Push to GitHub &rarr; Vercel</h3>
+                                <p class="text-xs text-muted">Best for frontend &amp; Next.js apps</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Open terminal in Windsurf &amp; init Git</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init && git add . && git commit -m "initial"</pre>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Create GitHub repo &amp; push</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --public --push</pre>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Import to Vercel</p>
+                                    <p class="text-sm text-muted">Go to <strong class="text-slate-700">vercel.com/new</strong> &rarr; Import from GitHub &rarr; Select your repo.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Auto-detect &amp; deploy</p>
+                                    <p class="text-sm text-muted">Vercel auto-detects framework (Next.js, Vite, etc.) &rarr; Click <strong class="text-slate-700">Deploy</strong>.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">5</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Add environment variables</p>
+                                    <p class="text-sm text-muted">Vercel dashboard &rarr; <strong class="text-slate-700">Settings &rarr; Environment Variables</strong>. Add all keys from your <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> file.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Railway alt -->
+                        <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                            <div class="flex items-center gap-3 mb-5">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                    <span class="text-lg font-black text-emerald-600">B</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-dark">Alternative: Deploy to Railway</h3>
+                                    <p class="text-xs text-muted">Best for full-stack &amp; backend apps</p>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Push to GitHub (same steps as Path A above).</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">railway.app</strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Railway auto-detects via <strong class="text-slate-700">Nixpacks</strong> &mdash; supports Node, Python, Docker, Go.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Add env vars in Railway dashboard &rarr; <strong class="text-slate-700">Variables</strong> tab.</p></div></div>
+                            </div>
+                        </div>
+                        <!-- Warning -->
+                        <div class="bg-amber-50 border border-amber-200/60 p-4 rounded-xl text-xs text-amber-800">
+                            <strong>&#x26A0;&#xFE0F; Pricing Alert:</strong> Windsurf's March 2026 pricing switched to fixed quota tiers ($20/$200). Monitor your quota usage &mdash; heavy AI coding sessions can exhaust daily limits.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claude Code Workflow -->
+            <div id="wf-claude-code" class="wf-content hidden fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-lg font-black text-primary">A</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark">Claude Code &rarr; GitHub &rarr; Deploy</h3>
+                                <p class="text-xs text-muted">Terminal-native &mdash; code is already on your machine</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Code is already local</p>
+                                    <p class="text-sm text-muted">Claude Code runs in your terminal &mdash; generated files are already on your local machine. No export needed.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Initialize Git &amp; commit</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init && git add . && git commit -m "initial commit"</pre>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Push to GitHub</p>
+                                    <pre class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --public --push</pre>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Deploy frontend apps to Vercel</p>
+                                    <p class="text-sm text-muted">Go to <strong class="text-slate-700">vercel.com/new</strong> &rarr; Import your GitHub repo &rarr; Deploy.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">5</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Deploy full-stack apps to Railway</p>
+                                    <p class="text-sm text-muted">Go to <strong class="text-slate-700">railway.app</strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">6</div>
+                                <div>
+                                    <p class="font-semibold text-dark text-sm">Add environment variables</p>
+                                    <p class="text-sm text-muted">Add all <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> keys in the platform dashboard before your first deploy.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Pricing warning -->
+                        <div class="bg-red-50 border border-red-200/60 p-4 rounded-xl text-xs text-red-700">
+                            <strong>&#x26A0;&#xFE0F; No Free Tier:</strong> Claude Code requires a Claude Pro ($20/mo) or Max ($100&ndash;$200/mo) subscription. API usage is billed per token. Budget carefully.
+                        </div>
+                        <!-- Advantage -->
+                        <div class="bg-emerald-50 border border-emerald-200/60 p-4 rounded-xl text-xs text-emerald-800">
+                            <strong>&#x2705; Least Lock-in:</strong> Claude Code generates portable, standard code &mdash; least vendor lock-in of any AI coding tool. Your code runs anywhere with zero refactoring.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- ============================================ -->
@@ -1168,6 +1402,48 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                 <p class="text-lg text-muted leading-relaxed">AI coding tools are trained on local dev patterns and frequently miss production requirements. These are the errors that block most vibe coders.</p>
             </div>
             <div class="space-y-3" id="errors-container"></div>
+
+            <!-- Deployment Help Resources -->
+            <div class="mt-12 fade-up">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">HELP &amp; SERVICES</div>
+                <h3 class="text-2xl font-bold text-dark mb-2">Stuck? These Services Can Help</h3>
+                <p class="text-muted mb-6">If deployment is blocking your launch, these tools and services specialize in getting vibe-coded apps live.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <span class="text-base">&#x2699;&#xFE0F;</span>
+                            </div>
+                            <h4 class="font-bold text-dark text-sm">VibeOps</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-3">AI-powered production engineering. Takes your GitHub code from Lovable/Replit/Cursor and makes it production-ready: secure by default, cost-capped, with rollback and governance.</p>
+                        <p class="text-xs text-slate-400">Think DevOps for vibe coders.</p>
+                        <a href="https://vibeops.tech" target="_blank" rel="noopener" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">vibeops.tech &rarr;</a>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center">
+                                <span class="text-base">&#x1F6E0;&#xFE0F;</span>
+                            </div>
+                            <h4 class="font-bold text-dark text-sm">The Vibe Finishers</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-3">Done-for-you deployment service. They've shipped 150+ vibe-coded projects. Handles Vercel/AWS/Railway deploy, custom domains, SSL, CI/CD, and preview deployments.</p>
+                        <p class="text-xs text-slate-400">For when you'd rather pay than debug.</p>
+                        <a href="https://thevibefinishers.com" target="_blank" rel="noopener" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">thevibefinishers.com &rarr;</a>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-9 h-9 rounded-xl bg-violet-100 flex items-center justify-center">
+                                <span class="text-base">&#x25B2;</span>
+                            </div>
+                            <h4 class="font-bold text-dark text-sm">Vercel MCP for Cursor</h4>
+                        </div>
+                        <p class="text-sm text-muted leading-relaxed mb-3">Official Vercel integration for Cursor (March 2026). Inspect failed deployments, fetch logs, and manage deploys without leaving the editor.</p>
+                        <p class="text-xs text-slate-400">Game-changer for Cursor &rarr; Vercel workflows.</p>
+                        <div class="mt-3 bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-lg text-xs text-slate-600 font-mono">Install via Cursor MCP settings</div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- ============================================ -->
@@ -1311,7 +1587,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             <div class="mb-8 max-w-3xl fade-up">
                 <div class="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-4">MONETIZATION</div>
                 <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Affiliate Monetization Research</h2>
-                <p class="text-lg text-muted leading-relaxed">Compares flat-rate CPA programs (traditional hosts) vs recurring revenue (modern cloud platforms). Data verified April 2026.</p>
+                <p class="text-lg text-muted leading-relaxed">Compares flat-rate CPA programs (traditional hosts) vs recurring revenue (modern cloud platforms). Data verified March 2026.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1420,7 +1696,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                 </div>
             </div>
             <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-                <p class="text-slate-600 text-xs">Data verified as of April 2026. Affiliate links may be present.</p>
+                <p class="text-slate-600 text-xs">Data verified as of March 2026. Affiliate links may be present.</p>
                 <p class="text-slate-600 text-xs">Always verify pricing on provider websites before committing.</p>
             </div>
         </div>
@@ -1434,50 +1710,50 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
     const aiTools = {
         bolt: {
             name: "Bolt.new", icon: "\u26A1", type: "App Builder",
-            output: "React / Vite / Remix", pricing: "Free / $29/mo Pro", speed: "~28 min",
-            quality: 3, desc: "Browser-based full-stack generation via WebContainers",
+            output: "React / Vite / Remix", pricing: "Free / $25/mo Pro", speed: "~28 min",
+            quality: 4, desc: "Browser-based full-stack generation via WebContainers. Now includes built-in databases, auth, Figma import, and MCP support.",
             hostName: "Netlify", hostDesc: "Seamless one-click deploy via Bolt's built-in Netlify integration.",
-            dbName: "Supabase", dbDesc: "Perfect pairing for Bolt. Provides Auth + Postgres with minimal config.",
-            rationale: "Bolt natively integrates with Netlify through its UI for zero-config deployment. For backend needs, Supabase requires minimal configuration and fits the React/Vite ecosystem Bolt produces.",
+            dbName: "Bolt Database (built-in)", dbDesc: "Bolt now includes built-in database support. For more control, use Supabase (Free: 2 projects, 500MB DB, 50K MAU auth. Pro $25/mo).",
+            rationale: "Bolt natively integrates with Netlify through its UI for zero-config deployment. Bolt's new built-in database handles most use cases. For advanced needs, Supabase provides Auth + Postgres with minimal config.",
             hostIcon: "\uD83D\uDD37", dbIcon: "\uD83D\uDDC4\uFE0F",
             nativeDeploy: "Bolt offers one-click deploy to Netlify directly from the editor. For long-term ownership, export to GitHub first."
         },
         v0: {
-            name: "v0.dev", icon: "\u2B1B", type: "UI Generator",
-            output: "React / Next.js / shadcn/ui", pricing: "Free / $20/mo Premium", speed: "~50 min (UI)",
-            quality: 5, desc: "Vercel's specialized UI component generator for Next.js",
+            name: "v0", icon: "\u2B1B", type: "UI Generator",
+            output: "React / Next.js / shadcn/ui", pricing: "Free ($5 credits) / $20/mo Premium", speed: "~50 min (UI)",
+            quality: 5, desc: "Vercel's specialized UI component generator for Next.js. Rebranded from v0.dev to v0.app (late 2025). Token-based credits replaced message counts.",
             hostName: "Vercel", hostDesc: "Zero-config deployment \u2014 v0 outputs are designed for Vercel.",
-            dbName: "Vercel Postgres", dbDesc: "Native database within the same Vercel dashboard.",
+            dbName: "Vercel Postgres (via Neon)", dbDesc: "Native database within the same Vercel dashboard. Powered by Neon (acquired by Databricks). Free: 0.5GB storage.",
             rationale: "v0 is built by Vercel. Outputting to Next.js and deploying on Vercel is the intended, zero-friction happy path. No build command configuration needed.",
             hostIcon: "\u25B2", dbIcon: "\uD83D\uDCBE",
             nativeDeploy: "v0 components are designed to be dropped directly into Next.js projects, which deploy to Vercel\u2019s edge network with zero config."
         },
         cursor: {
             name: "Cursor", icon: "\u2328\uFE0F", type: "AI IDE",
-            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20/mo Pro", speed: "~75 min",
-            quality: 5, desc: "Professional VS Code fork with deep codebase context and multi-file editing",
+            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20\u2013$200/mo", speed: "~75 min",
+            quality: 5, desc: "Professional VS Code fork with deep codebase context and multi-file editing. Credit-based billing since June 2025.",
             hostName: "Railway", hostDesc: "Auto-detects any language via Nixpacks. Just link GitHub.",
-            dbName: "Neon / PlanetScale", dbDesc: "Serverless Postgres/MySQL that scales without DevOps.",
-            rationale: "Cursor can build anything \u2014 Python backends, Go services, complex multi-container apps. Railway\u2019s Nixpacks build system auto-detects the language and builds containers without requiring a Dockerfile.",
+            dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Best for serverless Postgres without Supabase overhead. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth-heavy apps, add Clerk (50K free MAU).",
+            rationale: "Cursor can build anything \u2014 Python backends, Go services, complex multi-container apps. Railway\u2019s Nixpacks build system auto-detects the language and builds containers without requiring a Dockerfile. For the SQLite deployment problem, use Neon (serverless Postgres) or Turso (SQLite at the edge, free: 500 DBs, 9GB storage).",
             hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
             nativeDeploy: null
         },
         lovable: {
-            name: "Lovable.dev", icon: "\uD83D\uDC96", type: "App Builder",
-            output: "React / Vite / Tailwind", pricing: "Free / $25/mo Pro", speed: "~35 min",
+            name: "Lovable", icon: "\uD83D\uDC96", type: "App Builder",
+            output: "React / Vite / Tailwind", pricing: "Free / $20/mo Starter", speed: "~35 min",
             quality: 4, desc: "React UI generation with deep Supabase backend integration",
             hostName: "Vercel or Netlify", hostDesc: "Standard frontend hosting \u2014 deploy the exported React app.",
-            dbName: "Supabase", dbDesc: "Lovable has deep built-in Supabase integration for Auth + DB.",
+            dbName: "Supabase (built-in)", dbDesc: "Lovable has deep built-in Supabase integration for Auth + DB. Supabase free tier: 2 projects, 500MB database, 1GB file storage, 50K MAU auth. Pro $25/mo. \u26A0\uFE0F Always manually verify Row Level Security (RLS) policies \u2014 AI-generated auth logic has been found to invert access control.",
             rationale: "Lovable specifically added deep Supabase integration. Deploying the frontend to Vercel/Netlify and pointing it to Supabase is the exact workflow they design for. Be sure to transfer SUPABASE_URL and ANON_KEY env vars.",
             hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDD25",
             nativeDeploy: "Lovable offers one-click publish with auto-provisioned Supabase backend. Uses separate Test and Live environments to protect production data."
         },
         windsurf: {
             name: "Windsurf", icon: "\uD83C\uDFC4", type: "AI IDE",
-            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $15/mo Pro", speed: "~65 min",
-            quality: 5, desc: "Agentic IDE with 'Cascade AI' for deep contextual memory across large projects",
+            output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20\u2013$200/mo", speed: "~65 min",
+            quality: 5, desc: "Agentic IDE with 'Cascade AI' for deep contextual memory. March 2026 pricing overhaul: fixed quota tiers replaced variable credits.",
             hostName: "Railway", hostDesc: "Same as Cursor \u2014 Railway handles any language/framework automatically.",
-            dbName: "Neon / PlanetScale", dbDesc: "Serverless databases that pair well with any backend.",
+            dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth, add Clerk (50K free MAU). For SQLite users, consider Turso (free: 500 DBs, 9GB storage).",
             rationale: "Like Cursor, Windsurf produces professional-grade code in any language. Railway\u2019s auto-detection via Nixpacks makes it the lowest-friction deployment target for diverse stacks.",
             hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
             nativeDeploy: null
@@ -1485,26 +1761,26 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         replit: {
             name: "Replit", icon: "\uD83D\uDD04", type: "Cloud IDE + Host",
             output: "Any (Python, Node, etc.)", pricing: "Free / $20/mo Core", speed: "~45 min",
-            quality: 4, desc: "Unified cloud IDE with Replit Agent 3 \u2014 code + deploy in one place",
+            quality: 4, desc: "Unified cloud IDE with Replit Agent 3 \u2014 code + deploy in one place. Core dropped to $20/mo (March 2026). Teams plan sunset.",
             hostName: "Replit Deployments", hostDesc: "Built-in hosting. Reserved VMs, Autoscale, or Static options.",
-            dbName: "Replit DB / External", dbDesc: "Built-in key-value store or connect external Postgres.",
+            dbName: "Replit Database (built-in)", dbDesc: "Database is built into Replit's platform \u2014 key-value store included. For relational data, connect external Postgres (Neon or Supabase).",
             rationale: "Replit is the most seamless end-to-end experience. Code is generated in the exact environment where it\u2019s hosted \u2014 zero \u2018works on my machine\u2019 issues. Agent 3 can plan, write, and deploy autonomously.",
             hostIcon: "\uD83D\uDD04", dbIcon: "\uD83D\uDCBE",
             nativeDeploy: "Replit offers integrated deployment \u2014 Reserved VM (always on), Autoscale (scales to demand), or Static. No external hosting needed."
         },
         claude_code: {
             name: "Claude Code", icon: "\uD83E\uDDE0", type: "AI Agent",
-            output: "Any (complex multi-file)", pricing: "Usage-based / $20/mo", speed: "~90 min",
-            quality: 5, desc: "Terminal-based autonomous agent for complex architectural refactoring",
+            output: "Any (complex multi-file)", pricing: "Pro $20/mo / Max $100\u2013$200/mo", speed: "~90 min",
+            quality: 5, desc: "Terminal-based autonomous agent for complex architectural refactoring. No free tier \u2014 requires Claude Pro or Max subscription.",
             hostName: "Railway or DigitalOcean", hostDesc: "Best for complex backends that need Docker or custom builds.",
-            dbName: "Neon / Supabase", dbDesc: "Pick based on your stack \u2014 Postgres for most use cases.",
-            rationale: "Claude Code excels at complex, multi-file architecture. The resulting apps often need robust container hosting. Railway (Nixpacks auto-detect) or DigitalOcean App Platform (for production scale) are the best targets.",
+            dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Best for serverless Postgres without Supabase overhead. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth-heavy apps, add Clerk (50K free MAU). For SQLite users, consider Turso (free: 500 DBs, 9GB).",
+            rationale: "Claude Code excels at complex, multi-file architecture. The resulting apps often need robust container hosting. Railway (Nixpacks auto-detect) or DigitalOcean App Platform (for production scale) are the best targets. Claude Code generates portable, standard code \u2014 least vendor lock-in of any AI tool.",
             hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
             nativeDeploy: null
         },
         base44: {
             name: "Base44", icon: "\uD83D\uDCCA", type: "No-Code/AI Hybrid",
-            output: "Internal tools / Dashboards", pricing: "Free / $20/mo", speed: "~40 min",
+            output: "Internal tools / Dashboards", pricing: "Free / $16/mo Starter", speed: "~40 min",
             quality: 3, desc: "Specialized for internal tools, dashboarding, and rapid deployment",
             hostName: "Base44 Hosting", hostDesc: "Built-in hosting for generated internal tools.",
             dbName: "Built-in", dbDesc: "Integrated data layer for internal tools.",
@@ -1515,54 +1791,54 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         natively: {
             name: "Natively", icon: "\uD83D\uDCF1", type: "Mobile Builder",
             output: "React Native / Expo (iOS + Android)", pricing: "$5/mo", speed: "Not specified",
-            quality: 0, desc: "Specialized builder for true native mobile applications",
+            quality: 0, desc: "Specialized builder for true native mobile apps. Includes Supabase backend, full source code ownership, one-click App Store deployment.",
             hostName: "App Store / Google Play", hostDesc: "Native mobile apps are distributed via app stores, not web hosting.",
-            dbName: "Supabase / Firebase", dbDesc: "Mobile backends typically use Supabase or Firebase for realtime + auth.",
-            rationale: "Natively outputs React Native/Expo apps destined for mobile app stores. The deployment path is fundamentally different from web hosting \u2014 you\u2019ll submit builds to Apple and Google rather than deploying to a cloud platform.",
+            dbName: "Supabase (included)", dbDesc: "Natively includes Supabase backend with Auth + Postgres. Free tier: 2 projects, 500MB DB, 50K MAU auth.",
+            rationale: "Natively outputs React Native/Expo apps destined for mobile app stores. The deployment path is fundamentally different from web hosting \u2014 you\u2019ll submit builds to Apple and Google rather than deploying to a cloud platform. \u26A0\uFE0F Apple is blocking some vibe-coded app updates as of March 2026 \u2014 use Natively with Expo for compliant builds.",
             hostIcon: "\uD83D\uDCF1", dbIcon: "\uD83D\uDD25",
             nativeDeploy: "Natively handles the build pipeline for iOS/Android. Distribution is via App Store Connect and Google Play Console."
         },
         emergent: {
             name: "Emergent", icon: "\uD83C\uDF00", type: "Agent Platform",
-            output: "Fullstack web + mobile", pricing: "Free / $20/mo", speed: "Not specified",
-            quality: 0, desc: "Agent-based development platform for full-stack web and mobile",
+            output: "Fullstack web + mobile", pricing: "Free / $20/mo Standard", speed: "Not specified",
+            quality: 0, desc: "Agent-based development platform with built-in auth, DB, payments, and hosting. ISO 27001 + SOC 2 certified.",
             hostName: "Railway or Vercel", hostDesc: "Deploy generated web apps to standard cloud platforms.",
-            dbName: "Supabase / Neon", dbDesc: "Standard Postgres backends for generated fullstack apps.",
-            rationale: "Emergent is a newer agent-based platform. Export the generated code to GitHub and deploy via Railway (for fullstack) or Vercel (for frontend) using the standard CI/CD workflow.",
+            dbName: "Supabase / Neon", dbDesc: "Emergent includes built-in database, but for external hosting use Supabase (Free: 2 projects, 500MB) or Neon (Free: 100 compute-hrs, 0.5GB).",
+            rationale: "Emergent is a newer agent-based platform with built-in auth/DB/payments/hosting. For external deployment, export the generated code to GitHub and deploy via Railway (for fullstack) or Vercel (for frontend) using the standard CI/CD workflow.",
             hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDDC4\uFE0F",
             nativeDeploy: null
         }
     };
 
     const toolsLandscape = [
-        { name: "Cursor", type: "AI IDE", output: "Any", pricing: "Free / $20/mo", speed: "~75 min", quality: 5 },
-        { name: "Windsurf", type: "AI IDE", output: "Any", pricing: "Free / $15/mo", speed: "~65 min", quality: 5 },
-        { name: "Claude Code", type: "AI Agent", output: "Any (multi-file)", pricing: "Usage / $20/mo", speed: "~90 min", quality: 5 },
-        { name: "v0.dev", type: "UI Generator", output: "React/Next.js", pricing: "Free / $20/mo", speed: "~50 min (UI)", quality: 5 },
-        { name: "Lovable", type: "App Builder", output: "React/Vite", pricing: "Free / $25/mo", speed: "~35 min", quality: 4 },
-        { name: "Replit", type: "Cloud IDE", output: "Any", pricing: "Free / $20/mo", speed: "~45 min", quality: 4 },
-        { name: "Bolt.new", type: "App Builder", output: "React/Vite/Remix", pricing: "Free / $29/mo", speed: "~28 min", quality: 3 },
-        { name: "Base44", type: "No-Code/AI", output: "Internal tools", pricing: "Free / $20/mo", speed: "~40 min", quality: 3 },
-        { name: "Natively", type: "Mobile Builder", output: "React Native", pricing: "$5/mo", speed: "N/A", quality: 0 },
-        { name: "Emergent", type: "Agent Platform", output: "Fullstack", pricing: "Free / $20/mo", speed: "N/A", quality: 0 },
+        { name: "Cursor", type: "AI IDE", output: "Any", pricing: "Free / $20–$200/mo", speed: "~75 min", quality: 5, note: "Free, Pro $20, Pro+ $60, Ultra $200, Teams $40/user. Credit-based billing (June 2025) — each plan gets credits equal to plan price." },
+        { name: "Windsurf", type: "AI IDE", output: "Any", pricing: "Free / $20–$200/mo", speed: "~65 min", quality: 5, note: "March 2026 overhaul: Free, Pro $20, Max $200. Fixed quota tiers replaced variable credits." },
+        { name: "Claude Code", type: "AI Agent", output: "Any (multi-file)", pricing: "Pro $20/mo / Max $100–$200/mo", speed: "~90 min", quality: 5, note: "No free tier for Claude Code. Requires Claude Pro ($20/mo) or Max ($100–$200/mo) subscription." },
+        { name: "v0", type: "UI Generator", output: "React/Next.js", pricing: "Free ($5 credits) / $20/mo", speed: "~50 min (UI)", quality: 5, note: "Rebranded from v0.dev to v0.app (late 2025). Premium $20, Team $30/user, Business $100/user. Token-based credits replaced message counts." },
+        { name: "Lovable", type: "App Builder", output: "React/Vite", pricing: "Free / $20/mo", speed: "~35 min", quality: 4, note: "Free 5 daily credits, Starter $20/mo 100 credits, Launch ~$50/mo 300 credits." },
+        { name: "Replit", type: "Cloud IDE", output: "Any", pricing: "Free / $20/mo", speed: "~45 min", quality: 4, note: "Core dropped from $25 to $20 (March 3, 2026). New Pro tier at $100/mo. Teams plan sunset." },
+        { name: "Bolt.new", type: "App Builder", output: "React/Vite/Remix", pricing: "Free / $25/mo", speed: "~28 min", quality: 4, note: "Pro $25/mo with 10M tokens, Teams $30/member. Now includes built-in databases, auth, Figma import, and MCP support." },
+        { name: "Base44", type: "No-Code/AI", output: "Internal tools", pricing: "Free / $16/mo", speed: "~40 min", quality: 3, note: "Starter $16, Builder $50, Pro $80." },
+        { name: "Natively", type: "Mobile Builder", output: "React Native", pricing: "$5/mo", speed: "N/A", quality: 0, note: "Includes Supabase backend, React Native + Expo, full source code ownership, one-click App Store deployment." },
+        { name: "Emergent", type: "Agent Platform", output: "Fullstack", pricing: "Free / $20/mo", speed: "N/A", quality: 0, note: "Standard $20, Pro $200. ISO 27001 + SOC 2 certified, multi-agent framework, built-in auth/DB/payments/hosting." },
     ];
 
     const hostingPlatforms = [
-        { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes \u2014 100GB BW, 100K functions", commercial: "No", sleep: "Serverless (cold starts on functions)", ease: 9, db: "Add-on (Vercel Postgres via Neon)", docker: "No" },
-        { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes \u2014 100GB BW, 125K functions", commercial: "Yes", sleep: "Serverless (cold starts on functions)", ease: 9, db: "No (external only)", docker: "No" },
-        { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, global edge", free: "Yes (generous)", commercial: "Yes", sleep: "Edge \u2014 no cold starts", ease: 8, db: "D1 (SQLite)", docker: "No" },
-        { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "Trial ($5 credit, one-time)", commercial: "Yes", sleep: "Never (runs until credit exhausted)", ease: 8, db: "Yes \u2014 Postgres, MySQL, Redis, MongoDB", docker: "Yes (Nixpacks)" },
-        { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Yes \u2014 750 hrs/mo", commercial: "Yes", sleep: "Spins down after 15 min (~1 min wake)", ease: 7, db: "Yes \u2014 Postgres (30-day free limit)", docker: "Yes" },
-        { name: "Fly.io", type: "fullstack", bestFor: "Low-latency global apps, VMs", free: "Soft (~$5/mo waived)", commercial: "Yes", sleep: "Configurable (auto-scale to zero)", ease: 6, db: "Yes \u2014 Postgres clusters", docker: "Yes (required)" },
-        { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "No (starts $5/mo)", commercial: "Yes", sleep: "Always on", ease: 6, db: "Yes \u2014 Managed Postgres/MySQL/Redis", docker: "Yes" },
-        { name: "Heroku", type: "fullstack", bestFor: "Legacy apps, simple Node/Python", free: "No (removed in 2022)", commercial: "Yes", sleep: "Eco dynos sleep after 30 min", ease: 7, db: "Yes \u2014 Postgres add-on", docker: "Yes" },
+        { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes — 100GB BW, 1M edge req, 1M fn invocations, 4hr CPU, 1GB blob, 5K img transforms", commercial: "No (Hobby is non-commercial — enforced by policy)", sleep: "Serverless (cold starts on functions)", ease: 9, db: "Add-on (Vercel Postgres via Neon)", docker: "No", note: "Pro $20/user/mo with $20 usage credits. Credit-based pricing since Sep 2025." },
+        { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes — 100GB BW, 300 build mins", commercial: "Yes", sleep: "Serverless (cold starts on functions)", ease: 9, db: "No (external only)", docker: "No", note: "⚠️ Overage: $55 per 100GB — users report surprise bills. Monitor bandwidth usage." },
+        { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, global edge, unlimited BW", free: "Yes — 500 builds/mo, UNLIMITED bandwidth, unlimited requests, unlimited sites", commercial: "Yes", sleep: "Edge — no cold starts", ease: 8, db: "D1 (SQLite) + Workers + KV + R2", docker: "No", note: "Most generous free tier. Workers, D1, KV, and R2 storage available." },
+        { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "No true free tier (Trial $5 credit, one-time)", commercial: "Yes", sleep: "Never (runs until credit exhausted)", ease: 8, db: "Yes — Postgres, MySQL, Redis, MongoDB", docker: "Yes (Nixpacks)", note: "Hobby ~$5/mo credit (requires credit card). Pro ~$20/mo. Great for persistent storage — solves SQLite problem." },
+        { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Static sites free; web services 750 hrs/mo (spins down after 15 min)", commercial: "Yes", sleep: "Spins down after 15 min (~1 min wake)", ease: 7, db: "Yes — Postgres (30-day free limit)", docker: "Yes", note: "Paid from ~$7/mo for always-on services." },
+        { name: "Fly.io", type: "fullstack", bestFor: "Low-latency global apps, VMs", free: "No — pure pay-as-you-go (Oct 2024 change)", commercial: "Yes", sleep: "Configurable (auto-scale to zero)", ease: 6, db: "Yes — Postgres clusters", docker: "Yes (required)", note: "Old Hobby/Launch/Scale tiers removed. Shared-CPU 256MB VM ~$1.94/mo. Realistic prod ~$10–20/mo. 2026: volume snapshots billed separately (Jan), inter-region traffic billed (Feb)." },
+        { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "3 free static sites", commercial: "Yes", sleep: "Basic $5/mo sleeps; Professional $12/mo always-on", ease: 6, db: "Yes — Managed Postgres/MySQL/Redis", docker: "Yes", note: "Basic $5/mo (sleeps). Professional $12/mo (always-on)." },
+        { name: "Heroku", type: "fullstack", bestFor: "Legacy apps, simple Node/Python", free: "No (removed Nov 2022)", commercial: "Yes", sleep: "Eco dynos sleep after 30 min", ease: 7, db: "Yes — Postgres add-on", docker: "Yes", note: "Cheapest: Eco $5/mo (sleeps after 30 min). Basic $7/mo (no sleep)." },
     ];
 
     const registrars = [
-        { name: "Cloudflare", com: "$9.15", net: "$12.15", org: "$11.15", io: "$40.00", app: "$17.00", note: "At-cost pricing, zero markup. Best long-term value. Advanced security features.", best: true },
-        { name: "Porkbun", com: "$9.67", net: "$12.67", org: "$11.67", io: "$42.00", app: "$17.67", note: "Transparent pricing, free WHOIS privacy, great UI for beginners.", best: true },
-        { name: "Namecheap", com: "$14.98", net: "$16.98", org: "$15.98", io: "$44.98", app: "$19.98", note: "Cheap first year, higher renewals. Watch out for upsells.", best: false },
-        { name: "Hover", com: "~$18.99", net: "N/A", org: "N/A", io: "~$30-60", app: "~$30-60", note: "Simple UI but premium pricing.", best: false },
+        { name: "Cloudflare", com: "$10.46", net: "$10.26", org: "$10.11", io: "$33.98", app: "$16.00", note: "At-cost pricing, zero markup. Cheapest long-term option.", best: true },
+        { name: "Porkbun", com: "$11.06", net: "$10.28", org: "$10.11", io: "$33.98", app: "$16.18", note: "Flat-rate pricing, no renewal hikes. Close to Cloudflare.", best: true },
+        { name: "Namecheap", com: "$13.98–$15.98", net: "$12.98", org: "$12.98", io: "$32.98", app: "$18.98", note: "Good first-year prices, higher renewals. Popular UI.", best: false },
+        { name: "Hover", com: "~$15.99", net: "N/A", org: "N/A", io: "~$39.99", app: "~$19.99", note: "Simple UI, premium pricing. Includes free WHOIS privacy.", best: false },
     ];
 
     const deployErrors = [
@@ -1635,6 +1911,46 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             desc: "Not a technical error \u2014 the #1 reason vibe-coded apps never go live. The frictionless nature of AI prompting creates a trap: builders endlessly add features instead of deploying an MVP.",
             fix: "Define your MVP features BEFORE starting. Deploy early with core functionality. Add features in subsequent versions after the first version is live.",
             example: "Context window eventually collapses, rendering the project un-deployable after weeks of feature additions."
+        },
+        {
+            num: 11, title: "SQLite Database Vanishes on Deploy",
+            icon: "\uD83D\uDDC4\uFE0F", severity: "critical",
+            desc: "AI tools (Cursor, Claude Code) default to SQLite which works locally but breaks on Vercel, Netlify, and all serverless platforms. The filesystem is ephemeral \u2014 your database file is deleted on every deploy.",
+            fix: "Migrate to a hosted database: Supabase (Postgres), Neon (serverless Postgres), or Turso (SQLite at the edge). Or deploy to Railway/Render with persistent disk storage. Never use local SQLite in production on serverless.",
+            example: "App works after deploy but all data disappears on the next deployment or after the container restarts.",
+            tools: ["Cursor", "Claude Code", "Windsurf"]
+        },
+        {
+            num: 12, title: "Lovable Auth Logic Inverted (Security)",
+            icon: "\uD83D\uDEE1\uFE0F", severity: "critical",
+            desc: "AI-generated authentication in Lovable has been found to literally invert access control \u2014 blocking logged-in users while granting access to anonymous visitors. In Feb 2026, 18,697 user records were exposed including K-12 student data. 40\u201348% of AI-generated code contains security vulnerabilities.",
+            fix: "NEVER trust AI-generated auth logic without manual review. Test with multiple user roles. Check Supabase Row Level Security (RLS) policies manually. Use Clerk (50K free MAU) or Supabase Auth with explicit policy testing.",
+            example: "Logged-in users see 'Access Denied' while unauthenticated visitors have full admin access to the dashboard.",
+            tools: ["Lovable", "Bolt.new", "All AI builders"]
+        },
+        {
+            num: 13, title: "Credit Burn Death Spiral",
+            icon: "\uD83D\uDD25", severity: "high",
+            desc: "Lovable users report burning 400+ credits in an hour fixing AI-generated errors. Bolt.new users experience 'endless error loops' consuming tokens without progress. Each failed fix attempt costs more credits.",
+            fix: "Use Lovable's new Chat Mode to diagnose before spending credits. Export to Cursor/VS Code for complex debugging. Set a credit budget per session. If stuck after 3 attempts, switch to manual editing.",
+            example: "Started with 100 credits, spent all of them trying to fix a single bug that the AI kept 'fixing' incorrectly in a loop.",
+            tools: ["Lovable", "Bolt.new", "Base44"]
+        },
+        {
+            num: 14, title: "Vendor Lock-in: Can't Export Code",
+            icon: "\uD83D\uDD12", severity: "high",
+            desc: "Code generated by Replit and Bolt.new is tightly coupled to their infrastructure. Exporting and deploying elsewhere requires significant refactoring. Pages that should load in 200ms take 2+ seconds with unoptimized generated code.",
+            fix: "Export to GitHub early and often. Test running the code locally outside the platform before investing heavily. For Replit, agree to Replit opening previews in external browser (Apple requirement). For critical projects, start in Cursor which generates standard, portable code.",
+            example: "Exported Bolt.new project fails to build locally due to missing platform-specific dependencies and hardcoded internal URLs.",
+            tools: ["Replit", "Bolt.new"]
+        },
+        {
+            num: 15, title: "Apple Blocks Vibe Coding App Updates",
+            icon: "\uD83C\uDF4E", severity: "high",
+            desc: "As of March 18, 2026, Apple is blocking App Store updates for apps built with vibe coding tools (Replit, Vibecode) citing rules against dynamically generated code execution.",
+            fix: "If targeting iOS: use Replit's external browser preview workaround. Avoid generating Apple-device-specific apps in Vibecode. Consider PWA (Progressive Web App) deployment instead of native App Store. Use Natively with Expo for compliant App Store builds.",
+            example: "App Store Connect rejects update with 'Guideline 2.5.2 \u2014 apps may not download or execute code' referencing AI-generated runtime logic.",
+            tools: ["Replit", "Natively", "All mobile builders"]
         }
     ];
 
@@ -1642,9 +1958,9 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         {
             name: "DigitalOcean", verified: true,
             commission: "10% recurring for 12 months",
-            cookie: "Impact Network default",
+            cookie: "CJ default",
             payout: "$10 minimum",
-            network: "Impact",
+            network: "CJ (Commission Junction)",
             offer: "$200 credit for 60 days for new users",
             notes: "Low developer churn. High-value for AI apps that scale compute. Conversions driven by the generous $200 free credit.",
             chartValue: 24, chartLabel: "DigitalOcean (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
@@ -1656,28 +1972,48 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             payout: "Not specified",
             network: "Custom / Internal",
             offer: "$5 platform credit for new signups",
-            notes: "Perfect product/market fit for Python/Docker AI apps. Best for referring developers who will scale compute over time.",
+            notes: "Referral credit system, not traditional affiliate. Perfect product/market fit for Python/Docker AI apps. Best for referring developers who will scale compute over time.",
             chartValue: 36, chartLabel: "Railway (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
         },
         {
             name: "Hostinger", verified: true,
-            commission: "40-60% per sale (tiered by volume)",
+            commission: "40–60% per sale (volume-dependent)",
             cookie: "30 days",
             payout: "$100 minimum (PayPal)",
-            network: "Direct",
+            network: "In-house / ShareASale",
             offer: "Various promotional rates",
-            notes: "High CPA but excludes renewals. Traditional hosting is a poor fit for modern JS/Python AI apps \u2014 higher refund risk.",
+            notes: "High CPA but excludes renewals. Traditional hosting is a poor fit for modern JS/Python AI apps — higher refund risk.",
             chartValue: 60, chartLabel: "Hostinger (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
         },
         {
             name: "Bluehost", verified: true,
-            commission: "$65 flat fee per sale",
-            cookie: "30 days",
+            commission: "$65–$100+ per signup (up to 70% commission)",
+            cookie: "60 days",
             payout: "2 sales before first withdrawal",
             network: "Impact",
             offer: "WordPress-focused hosting packages",
-            notes: "Trusted in the WordPress ecosystem. Guaranteed flat fee regardless of plan tier. Not ideal for modern JS frameworks.",
-            chartValue: 65, chartLabel: "Bluehost (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
+            notes: "Trusted in the WordPress ecosystem. High CPA with volume bonuses. Not ideal for modern JS frameworks.",
+            chartValue: 85, chartLabel: "Bluehost (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
+        },
+        {
+            name: "Kinsta", verified: true,
+            commission: "Up to $500 per referral + 10% lifetime recurring",
+            cookie: "60 days",
+            payout: "$50 minimum",
+            network: "In-house",
+            offer: "Premium managed WordPress & app hosting",
+            notes: "Best single affiliate program for high-value referrals. $500 upfront + 10% recurring = highest LTV in this space. Great fit for developers shipping production apps.",
+            chartValue: 620, chartLabel: "Kinsta (CPA + Recur)", chartColor: "rgba(139, 92, 246, 0.7)", chartBorder: "rgba(139, 92, 246, 1)"
+        },
+        {
+            name: "Liquid Web", verified: true,
+            commission: "Up to 300% ($150 min per referral)",
+            cookie: "90 days",
+            payout: "Not specified",
+            network: "Impact",
+            offer: "High-ticket managed hosting & VPS",
+            notes: "High-ticket hosting affiliate. 90-day cookie is the longest in this list. Best for referring teams or businesses needing managed infrastructure.",
+            chartValue: 150, chartLabel: "Liquid Web (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
         }
     ];
 
@@ -1934,6 +2270,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             gsap.set(el, { opacity: 0, y: 24 });
           });
 
+          // Reset stat cards
+          gsap.utils.toArray('.stat-card-anim').forEach(function(el) {
+            gsap.set(el, { opacity: 0, y: 20 });
+          });
+
           // Reset ambient effects
           gsap.set('#hero-grid', { opacity: 0 });
           gsap.set('#hero-scanline', { opacity: 0, y: 0 });
@@ -2042,19 +2383,21 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
           heroTl.add(function() { if (window.startMorphAnimation) window.startMorphAnimation(); });
 
           // Beat 10: Stat cards + count-up
-          heroTl.to('[data-anim="stat-card"]', {
+          heroTl.to('.stat-card-anim', {
             opacity: 1, y: 0, duration: 0.45, stagger: 0.12
           }, '+=0.25');
           var statLabel = 'statCountStart';
           heroTl.addLabel(statLabel, '<');
           document.querySelectorAll('.stat-number').forEach(function(el, idx) {
-            var target = parseInt(el.dataset.target);
+            var target = parseFloat(el.dataset.target);
             var prefix = el.dataset.prefix || '';
             var suffix = el.dataset.suffix || '';
+            var decimals = parseInt(el.dataset.decimals) || 0;
             heroTl.to({ val: 0 }, {
               val: target, duration: 1.2, ease: 'power2.out',
               onUpdate: function() {
-                el.textContent = prefix + Math.round(this.targets()[0].val) + suffix;
+                var v = this.targets()[0].val;
+                el.textContent = prefix + (decimals > 0 ? v.toFixed(decimals) : Math.round(v)) + suffix;
               }
             }, statLabel + '+=' + (idx * 0.12));
           });
@@ -3362,7 +3705,13 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                         cornerRadius: 8,
                         padding: 12,
                         callbacks: {
-                            label: ctx => '$' + ctx.parsed.y + (ctx.parsed.y < 50 ? ' (recurring model)' : ' (one-time CPA)')
+                            label: ctx => {
+                                const v = ctx.parsed.y;
+                                const label = ctx.chart.data.labels[ctx.dataIndex] || '';
+                                if (label.includes('Recur') && !label.includes('CPA')) return '$' + v + ' (recurring model)';
+                                if (label.includes('CPA + Recur')) return '$' + v + '+ (CPA + recurring)';
+                                return '$' + v + ' (one-time CPA)';
+                            }
                         }
                     }
                 },
@@ -3391,7 +3740,8 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         "@type": "WebSite",
         "name": "DeployApp.guide",
         "url": "https://deployapp.guide",
-        "description": "The definitive guide for deploying AI-generated apps. Compare hosting platforms, get step-by-step workflows, and find the best stack for your vibe-coded project.",
+        "description": "The definitive 2026 vibe coding deployment guide. Compare 8+ hosting platforms (Vercel, Railway, Netlify), get step-by-step workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL.",
+        "dateModified": "2026-03-28",
         "potentialAction": {
             "@type": "SearchAction",
             "target": "https://deployapp.guide/?q={search_term_string}",
