@@ -4,6 +4,7 @@
   "private": true,
   "description": "Editorial deployment guide and interactive hosting comparison for AI-built apps.",
   "scripts": {
+    "test": "node --test tests/*.test.mjs",
     "build": "npm run build:css && npm run build:js && npm run validate",
     "build:css": "tailwindcss -i ./src/styles.css -o ./styles.css --minify",
     "build:js": "esbuild ./src/site.js --bundle --minify --target=es2020 --format=iife --outfile=./site.js",

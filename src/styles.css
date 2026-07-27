@@ -921,12 +921,6 @@ code {
   text-underline-offset: 3px;
 }
 
-.view-section a[target="_blank"]::after {
-  content: " ↗";
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 0.78em;
-}
-
 .fade-up {
   opacity: 1;
   transform: none;

@@ -23,8 +23,8 @@ requireText('id="view-economics"', 'affiliate economics view');
 requireText('Some outbound links are affiliate or referral links', 'visible affiliate disclosure');
 requireText('How recommendations are made', 'recommendation methodology');
 requireText('rel="sponsored nofollow noopener noreferrer"', 'sponsored-link relationship');
-requireText('href="styles.css"', 'compiled stylesheet link');
-requireText('src="site.js"', 'compiled application script link');
+if (!/href="styles\.css(?:\?[^"#]*)?"/.test(html)) failures.push('missing: compiled stylesheet link');
+if (!/src="site\.js(?:\?[^"#]*)?"/.test(html)) failures.push('missing: compiled application script link');
 requireText('<link rel="canonical" href="https://deployapp.guide">', 'canonical URL');
 requireText('https://deployapp.guide/assets/og-card.png', 'social preview image');
 

@@ -13,7 +13,7 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="DeployApp.guide — The Vibe Coder's Deployment Guide (2026)">
-    <meta property="og:description" content="Compare 8+ hosting platforms, get step-by-step deployment workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL. Updated March 2026.">
+    <meta property="og:description" content="Compare hosting platforms, follow security-first deployment workflows, and verify current terms from official sources. Updated July 27, 2026.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://deployapp.guide">
     <meta property="og:site_name" content="DeployApp.guide">
@@ -26,7 +26,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DeployApp.guide — The Vibe Coder's Deployment Guide (2026)">
-    <meta name="twitter:description" content="Compare 8+ hosting platforms, get step-by-step deployment workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL. Updated March 2026.">
+    <meta name="twitter:description" content="Compare hosting platforms, follow security-first deployment workflows, and verify current terms from official sources. Updated July 27, 2026.">
     <meta name="twitter:image" content="https://deployapp.guide/assets/og-card.png">
     <meta name="twitter:image:alt" content="DeployApp.guide — Ship the app. Skip the guesswork.">
 
@@ -43,7 +43,7 @@
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta name="theme-color" content="#111311">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260727-2">
 
     <script defer src="https://analytics.lekker.design/script.js" data-website-id="a7b07a2f-b7d3-47a8-9502-da2182315f66"></script>
     <script defer src="https://analytics.lekker.design/portfolio-events.js?v=1"></script>
@@ -56,7 +56,7 @@
     <!-- Navigation -->
     <nav class="site-nav" aria-label="Primary navigation">
         <div class="shell nav-shell">
-            <a class="brand" href="#stack-builder" onclick="nav('stack-builder'); return false;" aria-label="DeployApp.guide home">
+            <a class="brand" href="#view-stack-builder" onclick="nav('stack-builder'); return false;" aria-label="DeployApp.guide home">
                 <span class="brand-mark" aria-hidden="true">&gt;_</span>
                 <span class="brand-name">deployapp<span>.guide</span></span>
             </a>
@@ -100,7 +100,7 @@
     <header id="hero-section" class="site-hero" aria-labelledby="hero-title">
         <div class="shell hero-shell">
             <div class="hero-copy">
-                <div class="eyebrow">Practical deployment field guide · Updated March 2026</div>
+                <div class="eyebrow">Practical deployment field guide · Updated July 27, 2026</div>
                 <h1 id="hero-title">Ship the app. <span>Skip the guesswork.</span></h1>
                 <p class="hero-deck">Match what your AI builder actually produced to the right host, then follow the shortest reliable path from local code to a live URL.</p>
                 <div class="hero-actions">
@@ -172,7 +172,7 @@
                         Select AI Builder
                     </h3>
                     <p class="text-xs text-muted mb-4 ml-10">10 tools tracked for 2026</p>
-                    <div class="space-y-2 max-h-[520px] overflow-y-auto pr-1" id="tool-buttons"></div>
+                    <div class="space-y-2 max-h-[520px] overflow-y-auto pr-1 lg:max-h-none lg:overflow-visible" id="tool-buttons"></div>
                 </div>
 
                 <!-- Recommendations -->
@@ -202,7 +202,7 @@
                                 <div class="flex gap-2 flex-wrap">
                                     <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-output">Output</span>
                                     <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-pricing">Pricing</span>
-                                    <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-speed">Speed</span>
+                                    <span class="text-xs bg-white/10 text-slate-300 px-2.5 py-1 rounded-full" id="rec-tool-evidence">Evidence</span>
                                 </div>
                             </div>
                         </div>
@@ -261,9 +261,9 @@
                         <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
                     </div>
                     <h2 class="text-2xl font-black text-dark">AI Coding Tools Landscape</h2>
-                    <span class="text-xs bg-slate-100 text-muted px-2.5 py-1 rounded-full font-medium">March 2026</span>
+                    <span class="text-xs bg-slate-100 text-muted px-2.5 py-1 rounded-full font-medium">Checked July 27, 2026</span>
                 </div>
-                <p class="text-muted mb-6 ml-11">The market has split into <strong class="text-slate-700">AI-native IDEs</strong> (deep code editing) and <strong class="text-slate-700">browser-based App Builders</strong> (instant prototyping). Speed and code quality are inversely correlated.</p>
+                <p class="text-muted mb-6 ml-11">Compare the generated output, current pricing model, deployment workflow, and official source. Prototype speed and code-quality scores are omitted because they were not produced by a reproducible benchmark.</p>
                 <p class="table-note-mobile">Swipe horizontally to compare →</p>
                 <section class="data-table-shell overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80" aria-label="AI coding tools comparison" tabindex="0">
                     <table class="min-w-full divide-y divide-slate-200">
@@ -273,8 +273,8 @@
                                 <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Type</th>
                                 <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Output</th>
                                 <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Pricing</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Speed to Prototype</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Code Quality</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Workflow</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Evidence</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="tools-landscape-body"></tbody>
@@ -294,7 +294,7 @@
             <div class="mb-8 max-w-3xl fade-up">
                 <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">COMPARISON</div>
                 <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Deployment Platform Matrix</h2>
-                <p class="text-lg text-muted leading-relaxed">Comprehensive comparison of hosting providers for vibe-coded applications. Filtered for ease-of-use, pricing, and AI-tool compatibility.</p>
+                <p class="text-lg text-muted leading-relaxed">A source-linked comparison of hosting models, entry plans, commercial-use constraints, runtime behavior, databases, and container support.</p>
             </div>
 
             <!-- Vercel Warning -->
@@ -304,7 +304,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-red-800 mb-1">Critical: Vercel Commercial Restrictions</h4>
-                    <p class="text-sm text-red-700 leading-relaxed">Vercel's Hobby (Free) plan <strong>strictly prohibits all commercial activity</strong> &mdash; including Stripe payments, affiliate links, Google AdSense, or freelance client work. Deploying a monetized app risks account suspension. Upgrade to Pro ($20/mo/seat) for commercial use. <strong>Netlify's free tier allows commercial use</strong> &mdash; a key differentiator for indie hackers.</p>
+                    <p class="text-sm text-red-700 leading-relaxed">Vercel describes Hobby as a plan for personal projects and restricts commercial use. Use a current paid plan for commercial work and verify the live fair-use and pricing terms. Do not assume another provider's free plan permits a specific workload without checking its current terms.</p>
                 </div>
             </div>
 
@@ -325,10 +325,11 @@
                             <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Best For</th>
                             <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Free Tier</th>
                             <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Commercial?</th>
-                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Sleep Behavior</th>
-                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Ease of Use</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Lifecycle</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Deployment</th>
                             <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Database</th>
                             <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Docker?</th>
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-muted uppercase tracking-wider">Evidence</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" id="matrix-body"></tbody>
@@ -336,7 +337,7 @@
             </section>
             <p class="mt-4 text-sm text-muted flex items-center gap-2">
                 <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
-                Data verified March 2026. "Ease of use" rated for non-technical users deploying AI-generated code.
+                Data reviewed July 27, 2026. Volatile prices and limits are summarized conservatively; use each linked official source before purchase.
             </p>
 
             <!-- Key Insights: 2-column asymmetric (first card full width, next two side by side) -->
@@ -345,30 +346,30 @@
                     <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
                     </div>
-                    <h4 class="font-bold text-dark mb-2">Best for React/Next.js</h4>
-                    <p class="text-sm text-muted"><strong class="text-slate-700">Vercel</strong> (if non-commercial) or <strong class="text-slate-700">Netlify</strong> (if monetizing). Zero-config for Next.js apps from v0, Bolt, or Lovable.</p>
+                    <h4 class="font-bold text-dark mb-2">React/Next.js deployment path</h4>
+                    <p class="text-sm text-muted">Inspect the generated framework version, runtime features, and adapter before choosing among current Vercel, Netlify, or Cloudflare options. Verify the live plan and commercial terms.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
                     <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
                         <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
                     </div>
-                    <h4 class="font-bold text-dark mb-2">Best for Python/Docker</h4>
-                    <p class="text-sm text-muted"><strong class="text-slate-700">Railway</strong> &mdash; auto-detects Python, Go, Rust via Nixpacks. No Dockerfile needed. Best for Cursor-built backends.</p>
+                    <h4 class="font-bold text-dark mb-2">Python/container deployment path</h4>
+                    <p class="text-sm text-muted">Railway can detect supported runtimes through Nixpacks; custom system dependencies or build behavior may still require an explicit container definition. Inspect the build logs.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
                     <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center mb-3">
                         <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                     </div>
-                    <h4 class="font-bold text-dark mb-2">Most Generous Free Tier</h4>
-                    <p class="text-sm text-muted"><strong class="text-slate-700">Cloudflare Pages</strong> for static. <strong class="text-slate-700">Netlify</strong> for serverless + commercial. <strong class="text-slate-700">Render</strong> for fullstack (spins down).</p>
+                    <h4 class="font-bold text-dark mb-2">Entry-cost comparison</h4>
+                    <p class="text-sm text-muted">Free and trial allowances change frequently. Compare the dated registry below, then verify current usage limits, commercial terms, sleep behavior, and overages on the official pricing page.</p>
                 </div>
             </div>
 
             <!-- Emerging Platforms Watch List -->
             <div class="mt-10 fade-up">
                 <div class="inline-flex items-center px-3 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold mb-4">WATCH LIST</div>
-                <h3 class="text-2xl font-bold text-dark mb-2">Emerging Platforms (2026)</h3>
-                <p class="text-muted mb-5">New hosting options gaining traction with vibe coders. Not yet mainstream, but worth watching.</p>
+                <h3 class="text-2xl font-bold text-dark mb-2">Additional platform watch list</h3>
+                <p class="text-muted mb-5">Options outside the core comparison matrix. Treat these as discovery links; verify current documentation, pricing, regions, and operational requirements before adoption.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
                         <div class="flex items-center gap-2 mb-3">
@@ -380,10 +381,10 @@
                                 <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Self-hosted PaaS</span>
                             </div>
                         </div>
-                        <p class="text-sm text-muted leading-relaxed mb-2">Open-source, self-hosted PaaS. Like running your own Vercel/Netlify on a $5 VPS. Growing fast with cost-conscious devs.</p>
+                        <p class="text-sm text-muted leading-relaxed mb-2">Self-hosted application platform. Check the current install documentation, infrastructure requirements, upgrade path, and operator burden before adopting it.</p>
                         <div class="flex items-center gap-2 mt-3">
                             <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60">Free (self-hosted)</span>
-                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-50 text-slate-600 border border-slate-200/60">Cloud from $5/mo</span>
+                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-50 text-slate-600 border border-slate-200/60">Managed option: check live quote</span>
                         </div>
                         <a href="https://coolify.io" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">coolify.io &rarr;</a>
                     </div>
@@ -397,28 +398,13 @@
                                 <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">AI-assisted deploy</span>
                             </div>
                         </div>
-                        <p class="text-sm text-muted leading-relaxed mb-2">Deploy via AI conversation. Growing in Asia-Pacific. Usage-based pricing. Good for developers who want Railway-like DX with AI assistance.</p>
+                        <p class="text-sm text-muted leading-relaxed mb-2">Managed application deployment with AI-assisted workflows. Verify current regions, runtime support, and usage pricing on the provider site.</p>
                         <div class="flex items-center gap-2 mt-3">
                             <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200/60">Usage-based</span>
                         </div>
                         <a href="https://zeabur.com" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">zeabur.com &rarr;</a>
                     </div>
-                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 card-hover">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                                <span class="text-sm">&#x1F3E2;</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-dark text-sm">Hosting.com AI Studio</h4>
-                                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Enterprise AI hosting</span>
-                            </div>
-                        </div>
-                        <p class="text-sm text-muted leading-relaxed mb-2">Launched March 2026. Enterprise-grade hosting specifically for AI-generated apps. Cloudflare Enterprise + AMD EPYC infrastructure.</p>
-                        <div class="flex items-center gap-2 mt-3">
-                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-violet-50 text-violet-700 border border-violet-200/60">Enterprise</span>
-                            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-slate-50 text-slate-600 border border-slate-200/60">New &mdash; March 2026</span>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -429,7 +415,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-violet-800 mb-1">Auth Provider Landscape (2026)</h4>
-                    <p class="text-sm text-slate-700 leading-relaxed"><strong>Clerk</strong> expanded its free tier to 50,000 MAU (Feb 2026, up from 10K). Best drop-in auth for Next.js/React. <strong>Supabase Auth</strong> remains the default for Lovable/Bolt users. <strong>Authon</strong> (<a href="https://authon.dev" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-semibold">authon.dev</a>) is a new auth provider being compared alongside Clerk and Auth0 &mdash; worth watching. Always manually verify AI-generated auth logic before going live.</p>
+                    <p class="text-sm text-slate-700 leading-relaxed"><a href="https://clerk.com/pricing" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-semibold">Clerk</a> and <a href="https://supabase.com/pricing" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-semibold">Supabase Auth</a> publish current plan limits and overages. Check those live terms for the exact workload. Regardless of provider, test logged-out access, tenant isolation, privilege boundaries, session expiry, and account deletion before launch.</p>
                 </div>
             </div>
         </section>
@@ -487,8 +473,14 @@
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Initialize Git &amp; commit</p>
                                     <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init
-git add .
-git commit -m "Initial commit from Cursor"</pre>
+printf '.env\n.env.*\n!.env.example\nnode_modules/\n' &gt;&gt; .gitignore
+git status --short
+git add .gitignore
+git add -p
+git diff --cached --name-only
+git diff --cached
+git commit -m "Initial reviewed commit"</pre>
+                                    <p class="text-xs text-amber-700 mt-2">Stop if the staged list includes secrets, private keys, account exports, or local environment files. Rotate any credential that was committed.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
@@ -517,10 +509,10 @@ git push -u origin main</pre>
                                 </div>
                             </div>
                             <div class="space-y-3">
-                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" class="text-primary hover:underline">railway.com</a></strong> &rarr; Sign in with GitHub</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" data-analytics-event="affiliate_click" data-analytics-provider="Railway" data-analytics-relationship="affiliate" data-analytics-placement="deployment_guide" data-analytics-destination="app_host_signup" data-analytics-tool="all_tools" data-analytics-calculator-result="not_applicable" class="text-primary hover:underline">railway.com</a></strong> &rarr; Sign in with GitHub</p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"New Project"</strong> &rarr; <strong class="text-slate-700">"Deploy from GitHub repo"</strong></p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Select your repo. Railway auto-detects the language via <strong class="text-slate-700">Nixpacks</strong>.</p></div></div>
-                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">Variables</strong> tab &rarr; add every key-value pair from your <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> file.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">In <strong class="text-slate-700">Variables</strong>, add only the minimum required server-side variables. Keep secrets out of Git and rotate any value that was committed.</p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">5</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Generate Domain"</strong> for a free <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.up.railway.app</code> URL. Done!</p></div></div>
                             </div>
                         </div>
@@ -539,13 +531,13 @@ git push -u origin main</pre>
                                 <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700">vercel.com</strong> &rarr; Sign in with GitHub</p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">"Add New Project"</strong> &rarr; Import your GitHub repo</p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Vercel auto-detects Next.js/Vite. Add <strong class="text-slate-700">Environment Variables</strong> if needed.</p></div></div>
-                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">Deploy</strong>. Get a live <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.vercel.app</code> URL in ~60 seconds.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Click <strong class="text-slate-700">Deploy</strong>, inspect the build log, and test the generated <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.vercel.app</code> URL before connecting a domain.</p></div></div>
                             </div>
                             <div class="mt-4 bg-red-50 border border-red-200/60 p-3 rounded-xl text-xs text-red-700">
                                 <strong>Remember:</strong> Vercel Hobby = non-commercial only. Upgrade to Pro ($20/mo) if monetizing.
                             </div>
                             <div class="mt-3 bg-violet-50 border border-violet-200/60 p-3 rounded-xl text-xs text-violet-800">
-                                <strong>&#x2728; New:</strong> <strong>Vercel MCP for Cursor</strong> (March 2026) &mdash; inspect failed deployments, fetch logs, and manage deploys without leaving the editor. Install via Cursor MCP settings.
+                                <strong>Deployment debugging:</strong> use the host's current official logs and integrations, but keep a CLI or dashboard fallback. Verify capabilities in official documentation before adding an editor integration.
                             </div>
                         </div>
                     </div>
@@ -571,7 +563,7 @@ git push -u origin main</pre>
                             <div class="flex gap-3"><div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">You get a live Netlify URL immediately. Custom domains supported via Netlify dashboard.</p></div></div>
                         </div>
                         <div class="mt-5 bg-emerald-50 border border-emerald-200/60 p-3 rounded-xl text-xs text-emerald-800">
-                            <strong>Advantage:</strong> Netlify allows commercial use on the free tier &mdash; you can monetize immediately.
+                            <strong>Before launch:</strong> review Netlify's current plan terms and credit consumption for the exact commercial workload; do not infer permission from an old free-tier summary.
                         </div>
                     </div>
                     <div class="bg-white rounded-2xl border border-slate-200/80 p-6 card-hover">
@@ -687,14 +679,22 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">1</div>
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Open terminal in Windsurf &amp; init Git</p>
-                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init &amp;&amp; git add . &amp;&amp; git commit -m "initial"</pre>
+                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init
+printf '.env\n.env.*\n!.env.example\nnode_modules/\n' &gt;&gt; .gitignore
+git status --short
+git add .gitignore
+git add -p
+git diff --cached --name-only
+git diff --cached
+git commit -m "initial reviewed commit"</pre>
                                 </div>
                             </div>
                             <div class="flex gap-3">
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div>
                                 <div>
-                                    <p class="font-semibold text-dark text-sm">Create GitHub repo &amp; push</p>
-                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --public --push</pre>
+                                    <p class="font-semibold text-dark text-sm">Create private GitHub repo &amp; push</p>
+                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --private --push</pre>
+                                    <p class="text-xs text-muted mt-2">Keep the repository private by default. Make it public only after reviewing the staged files and intentionally choosing an open-source license.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
@@ -715,7 +715,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">5</div>
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Add environment variables</p>
-                                    <p class="text-sm text-muted">Vercel dashboard &rarr; <strong class="text-slate-700">Settings &rarr; Environment Variables</strong>. Add all keys from your <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> file.</p>
+                                    <p class="text-sm text-muted">In <strong class="text-slate-700">Settings &rarr; Environment Variables</strong>, add only the minimum required deployment variables. Treat browser-exposed prefixes such as <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">NEXT_PUBLIC_</code> as public, never secret.</p>
                                 </div>
                             </div>
                         </div>
@@ -735,14 +735,14 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                             </div>
                             <div class="space-y-3">
                                 <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">1</div><div><p class="text-sm text-muted">Push to GitHub (same steps as Path A above).</p></div></div>
-                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" class="text-primary hover:underline">railway.com</a></strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">2</div><div><p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" data-analytics-event="affiliate_click" data-analytics-provider="Railway" data-analytics-relationship="affiliate" data-analytics-placement="deployment_guide" data-analytics-destination="app_host_signup" data-analytics-tool="all_tools" data-analytics-calculator-result="not_applicable" class="text-primary hover:underline">railway.com</a></strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p></div></div>
                                 <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">3</div><div><p class="text-sm text-muted">Railway auto-detects via <strong class="text-slate-700">Nixpacks</strong> &mdash; supports Node, Python, Docker, Go.</p></div></div>
-                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">Add env vars in Railway dashboard &rarr; <strong class="text-slate-700">Variables</strong> tab.</p></div></div>
+                                <div class="flex gap-3"><div class="step-number bg-secondary text-white shadow-lg shadow-emerald-200">4</div><div><p class="text-sm text-muted">In Railway's <strong class="text-slate-700">Variables</strong> tab, add only the minimum required server-side variables and keep them out of Git.</p></div></div>
                             </div>
                         </div>
                         <!-- Warning -->
                         <div class="bg-amber-50 border border-amber-200/60 p-4 rounded-xl text-xs text-amber-800">
-                            <strong>&#x26A0;&#xFE0F; Pricing Alert:</strong> Windsurf's March 2026 pricing switched to fixed quota tiers ($20/$200). Monitor your quota usage &mdash; heavy AI coding sessions can exhaust daily limits.
+                            <strong>&#x26A0;&#xFE0F; Pricing alert:</strong> AI-editor plan quotas and model access change. Check the live plan before a large coding session and do not assume a monthly fee guarantees unlimited usage.
                         </div>
                     </div>
                 </div>
@@ -773,14 +773,22 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">2</div>
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Initialize Git &amp; commit</p>
-                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init &amp;&amp; git add . &amp;&amp; git commit -m "initial commit"</pre>
+                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">git init
+printf '.env\n.env.*\n!.env.example\nnode_modules/\n' &gt;&gt; .gitignore
+git status --short
+git add .gitignore
+git add -p
+git diff --cached --name-only
+git diff --cached
+git commit -m "initial reviewed commit"</pre>
                                 </div>
                             </div>
                             <div class="flex gap-3">
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">3</div>
                                 <div>
-                                    <p class="font-semibold text-dark text-sm">Push to GitHub</p>
-                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --public --push</pre>
+                                    <p class="font-semibold text-dark text-sm">Push to a private GitHub repo</p>
+                                    <pre tabindex="0" class="bg-slate-900 text-green-400 p-3 rounded-xl text-xs mt-2 overflow-x-auto font-mono">gh repo create my-app --private --push</pre>
+                                    <p class="text-xs text-muted mt-2">Keep the repository private by default. Make it public only after reviewing the staged files and intentionally choosing an open-source license.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
@@ -794,14 +802,14 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">5</div>
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Deploy full-stack apps to Railway</p>
-                                    <p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" class="text-primary hover:underline">railway.com</a></strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p>
+                                    <p class="text-sm text-muted">Go to <strong class="text-slate-700"><a href="https://railway.com?referralCode=UmzYpw" target="_blank" rel="sponsored nofollow noopener noreferrer" data-analytics-event="affiliate_click" data-analytics-provider="Railway" data-analytics-relationship="affiliate" data-analytics-placement="deployment_guide" data-analytics-destination="app_host_signup" data-analytics-tool="all_tools" data-analytics-calculator-result="not_applicable" class="text-primary hover:underline">railway.com</a></strong> &rarr; <strong class="text-slate-700">New Project</strong> &rarr; <strong class="text-slate-700">Deploy from GitHub</strong>.</p>
                                 </div>
                             </div>
                             <div class="flex gap-3">
                                 <div class="step-number bg-primary text-white shadow-lg shadow-emerald-200">6</div>
                                 <div>
                                     <p class="font-semibold text-dark text-sm">Add environment variables</p>
-                                    <p class="text-sm text-muted">Add all <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">.env</code> keys in the platform dashboard before your first deploy.</p>
+                                    <p class="text-sm text-muted">Add only the minimum required server-side variables in the platform dashboard. Browser-exposed variables are public; never place server secrets in them.</p>
                                 </div>
                             </div>
                         </div>
@@ -867,9 +875,9 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                             </div>
                             <h4 class="font-bold text-dark text-sm">Vercel MCP for Cursor</h4>
                         </div>
-                        <p class="text-sm text-muted leading-relaxed mb-3">Official Vercel integration for Cursor (March 2026). Inspect failed deployments, fetch logs, and manage deploys without leaving the editor.</p>
-                        <p class="text-xs text-slate-400">Game-changer for Cursor &rarr; Vercel workflows.</p>
-                        <div class="mt-3 bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-lg text-xs text-slate-600 font-mono">Install via Cursor MCP settings</div>
+                        <p class="text-sm text-muted leading-relaxed mb-3">Use only the current official Vercel integration documentation. Capabilities, authentication, and supported clients can change.</p>
+                        <p class="text-xs text-slate-400">Keep dashboard and CLI access as a fallback for deployment diagnosis.</p>
+                        <a href="https://vercel.com/docs" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">Check Vercel documentation &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -888,19 +896,18 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
             <!-- Registrar Pricing -->
             <div class="mb-12 fade-up">
                 <h3 class="text-2xl font-bold text-dark mb-2">Domain Registrar Pricing</h3>
-                <p class="text-muted mb-5">Prices shown are <strong class="text-slate-700">renewal rates</strong> &mdash; what you actually pay long-term. Many registrars lure you in with cheap first-year pricing then inflate renewals.</p>
+                <p class="text-muted mb-5">Registration, renewal, transfer, and privacy terms vary by TLD and can change. The table uses live-quote guidance instead of publishing a stale price snapshot.</p>
                 <p class="table-note-mobile">Swipe horizontally to compare →</p>
                 <section class="data-table-shell overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200/80" aria-label="Domain registrar comparison" tabindex="0">
                     <table class="min-w-full divide-y divide-slate-200">
                         <thead class="bg-slate-50/80">
                             <tr>
                                 <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Registrar</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.com /yr</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.net /yr</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.org /yr</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.io /yr</th>
-                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">.app /yr</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Pricing guidance</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Privacy</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">DNS</th>
                                 <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Notes</th>
+                                <th class="px-4 py-3.5 text-left text-xs font-semibold text-muted uppercase tracking-wider">Evidence</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="registrar-body"></tbody>
@@ -1015,75 +1022,36 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         <!-- ============================================ -->
         <section id="view-economics" class="view-section hidden fade-in">
             <div class="mb-8 max-w-3xl fade-up">
-                <div class="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-4">MONETIZATION</div>
-                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Affiliate Monetization Research</h2>
-                <p class="text-lg text-muted leading-relaxed">Compares flat-rate CPA programs (traditional hosts) vs recurring revenue (modern cloud platforms). Data verified March 2026.</p>
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-4">RELATIONSHIP LEDGER</div>
+                <h2 class="text-3xl font-black text-dark mb-4 tracking-tight">Referral and Affiliate Status</h2>
+                <p class="text-lg text-muted leading-relaxed">Account status and public program facts reviewed July 27, 2026. A referral URL is not presented as a cash affiliate account unless that relationship is confirmed.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Chart -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col card-hover">
-                    <h3 class="text-lg font-bold text-dark mb-1">Estimated 1st Year Value per Conversion</h3>
-                    <p class="text-sm text-muted mb-6">Comparing a $20/mo user spend across different affiliate models.</p>
-                    <div class="flex-grow flex items-center justify-center">
-                        <div class="chart-container">
-                            <canvas id="affiliateChart"></canvas>
-                        </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 card-hover">
+                    <h3 class="text-lg font-bold text-dark mb-4">Current portfolio status</h3>
+                    <div class="space-y-4 text-sm text-muted">
+                        <div><strong class="text-slate-800">Active direct referrals:</strong> DigitalOcean and Hostinger.</div>
+                        <div><strong class="text-slate-800">Active affiliate accounts:</strong> Railway directly; Bluehost and Namecheap through Impact.</div>
+                        <div><strong class="text-slate-800">Not approved:</strong> Liquid Web and Vultr. No monetized links are published for either.</div>
+
+                        <div><strong class="text-slate-800">Editorial only:</strong> Netlify and other providers without a confirmed publisher relationship.</div>
                     </div>
                 </div>
 
-                <!-- Affiliate Details -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 card-hover">
-                    <h3 class="text-lg font-bold text-dark mb-6">Program Details</h3>
+                    <h3 class="text-lg font-bold text-dark mb-6">Program details</h3>
                     <div class="space-y-4" id="affiliate-cards"></div>
                 </div>
             </div>
 
-            <!-- Strategy Insight -->
             <div class="mt-8 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/60 p-6 rounded-2xl flex gap-4">
                 <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
-                    <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM10 2a8 8 0 100 16 8 8 0 000-16zm-1 4.75a1 1 0 112 0 1 1 0 01-2 0z"/></svg>
+                    <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 12.5zM10 2a8 8 0 100 16 8 8 0 000-16zm-1 4.75a1 1 0 112 0 1 1 0 01-2 0z"/></svg>
                 </div>
                 <div>
-                    <h4 class="font-bold text-primary mb-1">Key Content Strategy</h4>
-                    <p class="text-sm text-slate-700 leading-relaxed">Most vibe coders build React/Next.js (from Bolt, v0) or Python/Flask (from Cursor). Traditional hosts offering high CPAs (Bluehost/Hostinger) are frustrating for these modern stacks. <strong>The high-value angle: guide users to platforms that actually work (Vercel/Railway/Netlify) and monetize via secondary tools (Supabase, Clerk, API platforms) or accept lower initial CPAs for higher long-term recurring value.</strong></p>
-                </div>
-            </div>
-
-            <!-- Revenue Model Comparison -->
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
-                        </div>
-                        <h4 class="font-bold text-dark text-lg">Recurring Revenue Model</h4>
-                    </div>
-                    <p class="text-sm text-muted mb-3">Railway (15%) + DigitalOcean (10%)</p>
-                    <ul class="text-sm text-muted space-y-1.5">
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Passive income grows as users scale</li>
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> AI apps consume heavy compute = high monthly spend</li>
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> A single scaling user can generate $100s/year</li>
-                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Lower initial payout per conversion</li>
-                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Revenue takes months to compound</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 card-hover">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <h4 class="font-bold text-dark text-lg">One-Time CPA Model</h4>
-                    </div>
-                    <p class="text-sm text-muted mb-3">Bluehost ($65 flat) + Hostinger (40-60%)</p>
-                    <ul class="text-sm text-muted space-y-1.5">
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Immediate high-margin cash flow</li>
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Easier to forecast revenue</li>
-                        <li class="flex items-start gap-2"><span class="text-emerald-500 mt-0.5">+</span> Great for high-traffic content sites</li>
-                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> No recurring passive income</li>
-                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Traditional hosting is poor fit for modern JS/Python apps</li>
-                        <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&ndash;</span> Higher refund/churn risk with product-market mismatch</li>
-                    </ul>
+                    <h4 class="font-bold text-primary mb-1">Editorial rule</h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">Compatibility, commercial-use terms, portability, security, and total cost come before commission. Hostinger is limited to VPS/control-plane or straightforward hosting use cases; DigitalOcean is linked through the confirmed direct referral URL; unapproved merchants remain ordinary editorial mentions.</p>
                 </div>
             </div>
         </section>
@@ -1095,7 +1063,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         <div class="shell footer-shell">
             <div class="footer-grid">
                 <div>
-                    <a class="brand" href="#stack-builder" onclick="nav('stack-builder'); return false;" aria-label="DeployApp.guide home">
+                    <a class="brand" href="#view-stack-builder" onclick="nav('stack-builder'); return false;" aria-label="DeployApp.guide home">
                         <span class="brand-mark" aria-hidden="true">&gt;_</span>
                         <span class="brand-name">deployapp<span>.guide</span></span>
                     </a>
@@ -1115,24 +1083,28 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                     <div class="footer-list">
                         <button type="button" onclick="nav('domains')">Domains &amp; DNS</button>
                         <button type="button" onclick="nav('economics')">Affiliate economics</button>
-                        <a href="#editorial-standards">Recommendation method</a>
+                        <a href="editorial-methodology.html">Editorial methodology</a>
+                        <a href="affiliate-disclosure.html">Affiliate disclosure</a>
+                        <a href="about.html">About</a>
+                        <a href="contact.html">Contact</a>
+                        <a href="privacy.html">Privacy</a>
                     </div>
                 </div>
             </div>
 
             <div class="footer-disclosure">
-                <strong>Affiliate disclosure</strong>
+                <strong><a href="affiliate-disclosure.html">Affiliate disclosure</a></strong>
                 <p>Some outbound links are affiliate or referral links. We may earn a commission or platform credit at no extra cost to you. Commercial relationships do not change the comparison criteria, restrictions, or warnings shown in this guide.</p>
             </div>
 
             <div class="footer-bottom">
-                <span>Data reviewed March 2026</span>
+                <span>Data reviewed July 27, 2026</span>
                 <span>Always verify current pricing and terms on the provider website.</span>
             </div>
         </div>
     </footer>
 
-    <script defer src="site.js"></script>
+    <script defer src="site.js?v=20260727-2"></script>
 
     <!-- Structured Data: WebSite -->
     <script type="application/ld+json">
@@ -1142,7 +1114,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
         "name": "DeployApp.guide",
         "url": "https://deployapp.guide",
         "description": "The definitive 2026 vibe coding deployment guide. Compare 8+ hosting platforms (Vercel, Railway, Netlify), get step-by-step workflows for Cursor, Bolt, Lovable, and deploy your AI-generated app to a live URL.",
-        "dateModified": "2026-03-28"
+        "dateModified": "2026-07-27"
     }
     </script>
 
@@ -1157,7 +1129,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                 "name": "What is the best hosting platform for vibe-coded apps?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "It depends on your stack. Vercel is best for Next.js and frontend apps, Railway excels for full-stack with databases, and Render offers the best free tier for backend services."
+                    "text": "It depends on the generated repository, runtime, commercial-use terms, persistence, region, and operational requirements. Compare the dated, source-linked platform records before choosing."
                 }
             },
             {
@@ -1165,7 +1137,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key</pre>
                 "name": "How do I deploy an app built with Cursor or Bolt?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Most AI-generated apps can be deployed by connecting your GitHub repo to a platform like Vercel, Railway, or Netlify. Push your code, configure environment variables, and the platform handles the rest."
+                    "text": "Inspect the generated package manifest and runtime, review staged files for secrets, connect a reviewed repository to a compatible host, configure production environment variables, inspect build logs, test the deployment, and keep a rollback path."
                 }
             },
             {

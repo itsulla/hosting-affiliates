@@ -2,152 +2,20 @@
 // DATA
 // =============================================
 
-const aiTools = {
-    bolt: {
-        name: "Bolt.new", icon: "\u26A1", type: "App Builder",
-        output: "React / Vite / Remix", pricing: "Free / $25/mo Pro", speed: "~28 min",
-        quality: 4, desc: "Browser-based full-stack generation via WebContainers. Now includes built-in databases, auth, Figma import, and MCP support.",
-        hostName: "Netlify", hostDesc: "Seamless one-click deploy via Bolt's built-in Netlify integration.",
-        dbName: "Bolt Database (built-in)", dbDesc: "Bolt now includes built-in database support. For more control, use Supabase (Free: 2 projects, 500MB DB, 50K MAU auth. Pro $25/mo).",
-        rationale: "Bolt natively integrates with Netlify through its UI for zero-config deployment. Bolt's new built-in database handles most use cases. For advanced needs, Supabase provides Auth + Postgres with minimal config.",
-        hostIcon: "\uD83D\uDD37", dbIcon: "\uD83D\uDDC4\uFE0F",
-        nativeDeploy: "Bolt offers one-click deploy to Netlify directly from the editor. For long-term ownership, export to GitHub first."
-    },
-    v0: {
-        name: "v0", icon: "\u2B1B", type: "UI Generator",
-        output: "React / Next.js / shadcn/ui", pricing: "Free ($5 credits) / $20/mo Premium", speed: "~50 min (UI)",
-        quality: 5, desc: "Vercel's specialized UI component generator for Next.js. Rebranded from v0.dev to v0.app (late 2025). Token-based credits replaced message counts.",
-        hostName: "Vercel", hostDesc: "Zero-config deployment \u2014 v0 outputs are designed for Vercel.",
-        dbName: "Vercel Postgres (via Neon)", dbDesc: "Native database within the same Vercel dashboard. Powered by Neon (acquired by Databricks). Free: 0.5GB storage.",
-        rationale: "v0 is built by Vercel. Outputting to Next.js and deploying on Vercel is the intended, zero-friction happy path. No build command configuration needed.",
-        hostIcon: "\u25B2", dbIcon: "\uD83D\uDCBE",
-        nativeDeploy: "v0 components are designed to be dropped directly into Next.js projects, which deploy to Vercel\u2019s edge network with zero config."
-    },
-    cursor: {
-        name: "Cursor", icon: "\u2328\uFE0F", type: "AI IDE",
-        output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20\u2013$200/mo", speed: "~75 min",
-        quality: 5, desc: "Professional VS Code fork with deep codebase context and multi-file editing. Credit-based billing since June 2025.",
-        hostName: "Railway", hostDesc: "Auto-detects any language via Nixpacks. Just link GitHub.",
-        dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Best for serverless Postgres without Supabase overhead. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth-heavy apps, add Clerk (50K free MAU).",
-        rationale: "Cursor can build anything \u2014 Python backends, Go services, complex multi-container apps. Railway\u2019s Nixpacks build system auto-detects the language and builds containers without requiring a Dockerfile. For the SQLite deployment problem, use Neon (serverless Postgres) or Turso (SQLite at the edge, free: 500 DBs, 9GB storage).",
-        hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
-        nativeDeploy: null
-    },
-    lovable: {
-        name: "Lovable", icon: "\uD83D\uDC96", type: "App Builder",
-        output: "React / Vite / Tailwind", pricing: "Free / $20/mo Starter", speed: "~35 min",
-        quality: 4, desc: "React UI generation with deep Supabase backend integration",
-        hostName: "Vercel or Netlify", hostDesc: "Standard frontend hosting \u2014 deploy the exported React app.",
-        dbName: "Supabase (built-in)", dbDesc: "Lovable has deep built-in Supabase integration for Auth + DB. Supabase free tier: 2 projects, 500MB database, 1GB file storage, 50K MAU auth. Pro $25/mo. \u26A0\uFE0F Always manually verify Row Level Security (RLS) policies \u2014 AI-generated auth logic has been found to invert access control.",
-        rationale: "Lovable specifically added deep Supabase integration. Deploying the frontend to Vercel/Netlify and pointing it to Supabase is the exact workflow they design for. Be sure to transfer SUPABASE_URL and ANON_KEY env vars.",
-        hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDD25",
-        nativeDeploy: "Lovable offers one-click publish with auto-provisioned Supabase backend. Uses separate Test and Live environments to protect production data."
-    },
-    windsurf: {
-        name: "Windsurf", icon: "\uD83C\uDFC4", type: "AI IDE",
-        output: "Any (Python, Node, Go, etc.)", pricing: "Free / $20\u2013$200/mo", speed: "~65 min",
-        quality: 5, desc: "Agentic IDE with 'Cascade AI' for deep contextual memory. March 2026 pricing overhaul: fixed quota tiers replaced variable credits.",
-        hostName: "Railway", hostDesc: "Same as Cursor \u2014 Railway handles any language/framework automatically.",
-        dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth, add Clerk (50K free MAU). For SQLite users, consider Turso (free: 500 DBs, 9GB storage).",
-        rationale: "Like Cursor, Windsurf produces professional-grade code in any language. Railway\u2019s auto-detection via Nixpacks makes it the lowest-friction deployment target for diverse stacks.",
-        hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
-        nativeDeploy: null
-    },
-    replit: {
-        name: "Replit", icon: "\uD83D\uDD04", type: "Cloud IDE + Host",
-        output: "Any (Python, Node, etc.)", pricing: "Free / $20/mo Core", speed: "~45 min",
-        quality: 4, desc: "Unified cloud IDE with Replit Agent 3 \u2014 code + deploy in one place. Core dropped to $20/mo (March 2026). Teams plan sunset.",
-        hostName: "Replit Deployments", hostDesc: "Built-in hosting. Reserved VMs, Autoscale, or Static options.",
-        dbName: "Replit Database (built-in)", dbDesc: "Database is built into Replit's platform \u2014 key-value store included. For relational data, connect external Postgres (Neon or Supabase).",
-        rationale: "Replit is the most seamless end-to-end experience. Code is generated in the exact environment where it\u2019s hosted \u2014 zero \u2018works on my machine\u2019 issues. Agent 3 can plan, write, and deploy autonomously.",
-        hostIcon: "\uD83D\uDD04", dbIcon: "\uD83D\uDCBE",
-        nativeDeploy: "Replit offers integrated deployment \u2014 Reserved VM (always on), Autoscale (scales to demand), or Static. No external hosting needed."
-    },
-    claude_code: {
-        name: "Claude Code", icon: "\uD83E\uDDE0", type: "AI Agent",
-        output: "Any (complex multi-file)", pricing: "Pro $20/mo / Max $100\u2013$200/mo", speed: "~90 min",
-        quality: 5, desc: "Terminal-based autonomous agent for complex architectural refactoring. No free tier \u2014 requires Claude Pro or Max subscription.",
-        hostName: "Railway or DigitalOcean", hostDesc: "Best for complex backends that need Docker or custom builds.",
-        dbName: "Neon or Supabase", dbDesc: "Neon: Serverless Postgres (acquired by Databricks, prices reduced 15\u201325%). Free: 100 compute-hrs, 0.5GB/project. Best for serverless Postgres without Supabase overhead. Supabase: Free 2 projects, 500MB DB, 50K MAU auth. For auth-heavy apps, add Clerk (50K free MAU). For SQLite users, consider Turso (free: 500 DBs, 9GB).",
-        rationale: "Claude Code excels at complex, multi-file architecture. The resulting apps often need robust container hosting. Railway (Nixpacks auto-detect) or DigitalOcean App Platform (for production scale) are the best targets. Claude Code generates portable, standard code \u2014 least vendor lock-in of any AI tool.",
-        hostIcon: "\uD83D\uDEE4\uFE0F", dbIcon: "\uD83D\uDC18",
-        nativeDeploy: null
-    },
-    base44: {
-        name: "Base44", icon: "\uD83D\uDCCA", type: "No-Code/AI Hybrid",
-        output: "Internal tools / Dashboards", pricing: "Free / $16/mo Starter", speed: "~40 min",
-        quality: 3, desc: "Specialized for internal tools, dashboarding, and rapid deployment",
-        hostName: "Base44 Hosting", hostDesc: "Built-in hosting for generated internal tools.",
-        dbName: "Built-in", dbDesc: "Integrated data layer for internal tools.",
-        rationale: "Base44 is designed for internal tools and dashboards \u2014 it handles hosting natively. For public-facing apps, consider exporting and using a traditional host.",
-        hostIcon: "\uD83D\uDCCA", dbIcon: "\uD83D\uDCBE",
-        nativeDeploy: "Base44 provides integrated hosting for internal tools and dashboards."
-    },
-    natively: {
-        name: "Natively", icon: "\uD83D\uDCF1", type: "Mobile Builder",
-        output: "React Native / Expo (iOS + Android)", pricing: "$5/mo", speed: "Not specified",
-        quality: 0, desc: "Specialized builder for true native mobile apps. Includes Supabase backend, full source code ownership, one-click App Store deployment.",
-        hostName: "App Store / Google Play", hostDesc: "Native mobile apps are distributed via app stores, not web hosting.",
-        dbName: "Supabase (included)", dbDesc: "Natively includes Supabase backend with Auth + Postgres. Free tier: 2 projects, 500MB DB, 50K MAU auth.",
-        rationale: "Natively outputs React Native/Expo apps destined for mobile app stores. The deployment path is fundamentally different from web hosting \u2014 you\u2019ll submit builds to Apple and Google rather than deploying to a cloud platform. \u26A0\uFE0F Apple is blocking some vibe-coded app updates as of March 2026 \u2014 use Natively with Expo for compliant builds.",
-        hostIcon: "\uD83D\uDCF1", dbIcon: "\uD83D\uDD25",
-        nativeDeploy: "Natively handles the build pipeline for iOS/Android. Distribution is via App Store Connect and Google Play Console."
-    },
-    emergent: {
-        name: "Emergent", icon: "\uD83C\uDF00", type: "Agent Platform",
-        output: "Fullstack web + mobile", pricing: "Free / $20/mo Standard", speed: "Not specified",
-        quality: 0, desc: "Agent-based development platform with built-in auth, DB, payments, and hosting. ISO 27001 + SOC 2 certified.",
-        hostName: "Railway or Vercel", hostDesc: "Deploy generated web apps to standard cloud platforms.",
-        dbName: "Supabase / Neon", dbDesc: "Emergent includes built-in database, but for external hosting use Supabase (Free: 2 projects, 500MB) or Neon (Free: 100 compute-hrs, 0.5GB).",
-        rationale: "Emergent is a newer agent-based platform with built-in auth/DB/payments/hosting. For external deployment, export the generated code to GitHub and deploy via Railway (for fullstack) or Vercel (for frontend) using the standard CI/CD workflow.",
-        hostIcon: "\u2601\uFE0F", dbIcon: "\uD83D\uDDC4\uFE0F",
-        nativeDeploy: null
-    }
-};
-
-const toolsLandscape = [
-    { name: "Cursor", type: "AI IDE", output: "Any", pricing: "Free / $20–$200/mo", speed: "~75 min", quality: 5, note: "Free, Pro $20, Pro+ $60, Ultra $200, Teams $40/user. Credit-based billing (June 2025) — each plan gets credits equal to plan price." },
-    { name: "Windsurf", type: "AI IDE", output: "Any", pricing: "Free / $20–$200/mo", speed: "~65 min", quality: 5, note: "March 2026 overhaul: Free, Pro $20, Max $200. Fixed quota tiers replaced variable credits." },
-    { name: "Claude Code", type: "AI Agent", output: "Any (multi-file)", pricing: "Pro $20/mo / Max $100–$200/mo", speed: "~90 min", quality: 5, note: "No free tier for Claude Code. Requires Claude Pro ($20/mo) or Max ($100–$200/mo) subscription." },
-    { name: "v0", type: "UI Generator", output: "React/Next.js", pricing: "Free ($5 credits) / $20/mo", speed: "~50 min (UI)", quality: 5, note: "Rebranded from v0.dev to v0.app (late 2025). Premium $20, Team $30/user, Business $100/user. Token-based credits replaced message counts." },
-    { name: "Lovable", type: "App Builder", output: "React/Vite", pricing: "Free / $20/mo", speed: "~35 min", quality: 4, note: "Free 5 daily credits, Starter $20/mo 100 credits, Launch ~$50/mo 300 credits." },
-    { name: "Replit", type: "Cloud IDE", output: "Any", pricing: "Free / $20/mo", speed: "~45 min", quality: 4, note: "Core dropped from $25 to $20 (March 3, 2026). New Pro tier at $100/mo. Teams plan sunset." },
-    { name: "Bolt.new", type: "App Builder", output: "React/Vite/Remix", pricing: "Free / $25/mo", speed: "~28 min", quality: 4, note: "Pro $25/mo with 10M tokens, Teams $30/member. Now includes built-in databases, auth, Figma import, and MCP support." },
-    { name: "Base44", type: "No-Code/AI", output: "Internal tools", pricing: "Free / $16/mo", speed: "~40 min", quality: 3, note: "Starter $16, Builder $50, Pro $80." },
-    { name: "Natively", type: "Mobile Builder", output: "React Native", pricing: "$5/mo", speed: "N/A", quality: 0, note: "Includes Supabase backend, React Native + Expo, full source code ownership, one-click App Store deployment." },
-    { name: "Emergent", type: "Agent Platform", output: "Fullstack", pricing: "Free / $20/mo", speed: "N/A", quality: 0, note: "Standard $20, Pro $200. ISO 27001 + SOC 2 certified, multi-agent framework, built-in auth/DB/payments/hosting." },
-];
-
-const hostingPlatforms = [
-    { name: "Vercel", type: "frontend", bestFor: "Next.js, React, v0 outputs", free: "Yes — 100GB BW, 1M edge req, 1M fn invocations, 4hr CPU, 1GB blob, 5K img transforms", commercial: "No (Hobby is non-commercial — enforced by policy)", sleep: "Serverless (cold starts on functions)", ease: 9, db: "Add-on (Vercel Postgres via Neon)", docker: "No", note: "Pro $20/user/mo with $20 usage credits. Credit-based pricing since Sep 2025." },
-    { name: "Netlify", type: "frontend", bestFor: "Vite, Remix, Bolt outputs", free: "Yes — 100GB BW, 300 build mins", commercial: "Yes", sleep: "Serverless (cold starts on functions)", ease: 9, db: "No (external only)", docker: "No", note: "⚠️ Overage: $55 per 100GB — users report surprise bills. Monitor bandwidth usage." },
-    { name: "Cloudflare Pages", type: "frontend", bestFor: "Static sites, global edge, unlimited BW", free: "Yes — 500 builds/mo, UNLIMITED bandwidth, unlimited requests, unlimited sites", commercial: "Yes", sleep: "Edge — no cold starts", ease: 8, db: "D1 (SQLite) + Workers + KV + R2", docker: "No", note: "Most generous free tier. Workers, D1, KV, and R2 storage available." },
-    { name: "Railway", type: "fullstack", bestFor: "Python, Docker, fullstack AI apps", free: "No true free tier (Trial $5 credit, one-time)", commercial: "Yes", sleep: "Never (runs until credit exhausted)", ease: 8, db: "Yes — Postgres, MySQL, Redis, MongoDB", docker: "Yes (Nixpacks)", note: "Hobby ~$5/mo credit (requires credit card). Pro ~$20/mo. Great for persistent storage — solves SQLite problem." },
-    { name: "Render", type: "fullstack", bestFor: "Node.js, Express APIs", free: "Static sites free; web services 750 hrs/mo (spins down after 15 min)", commercial: "Yes", sleep: "Spins down after 15 min (~1 min wake)", ease: 7, db: "Yes — Postgres (30-day free limit)", docker: "Yes", note: "Paid from ~$7/mo for always-on services." },
-    { name: "Fly.io", type: "fullstack", bestFor: "Low-latency global apps, VMs", free: "No — pure pay-as-you-go (Oct 2024 change)", commercial: "Yes", sleep: "Configurable (auto-scale to zero)", ease: 6, db: "Yes — Postgres clusters", docker: "Yes (required)", note: "Old Hobby/Launch/Scale tiers removed. Shared-CPU 256MB VM ~$1.94/mo. Realistic prod ~$10–20/mo. 2026: volume snapshots billed separately (Jan), inter-region traffic billed (Feb)." },
-    { name: "DigitalOcean App", type: "fullstack", bestFor: "Scaling production apps", free: "3 free static sites", commercial: "Yes", sleep: "Basic $5/mo sleeps; Professional $12/mo always-on", ease: 6, db: "Yes — Managed Postgres/MySQL/Redis", docker: "Yes", note: "Basic $5/mo (sleeps). Professional $12/mo (always-on)." },
-    { name: "Heroku", type: "fullstack", bestFor: "Legacy apps, simple Node/Python", free: "No (removed Nov 2022)", commercial: "Yes", sleep: "Eco dynos sleep after 30 min", ease: 7, db: "Yes — Postgres add-on", docker: "Yes", note: "Cheapest: Eco $5/mo (sleeps after 30 min). Basic $7/mo (no sleep)." },
-];
-
-const registrars = [
-    { name: "Cloudflare", com: "$10.46", net: "$10.26", org: "$10.11", io: "$33.98", app: "$16.00", note: "At-cost pricing, zero markup. Cheapest long-term option.", best: true },
-    { name: "Porkbun", com: "$11.06", net: "$10.28", org: "$10.11", io: "$33.98", app: "$16.18", note: "Flat-rate pricing, no renewal hikes. Close to Cloudflare.", best: true },
-    { name: "Namecheap", com: "$13.98–$15.98", net: "$12.98", org: "$12.98", io: "$32.98", app: "$18.98", note: "Good first-year prices, higher renewals. Popular UI.", best: false, url: "https://namecheap.pxf.io/rEErVj" },
-    { name: "Hover", com: "~$15.99", net: "N/A", org: "N/A", io: "~$39.99", app: "~$19.99", note: "Simple UI, premium pricing. Includes free WHOIS privacy.", best: false },
-];
+import { aiTools, toolsLandscape, hostingPlatforms, registrars, affiliatePrograms } from './site-data.mjs';
 
 const deployErrors = [
     {
         num: 1, title: "Missing Environment Variables",
         icon: "\uD83D\uDD11", severity: "critical",
-        desc: "AI tools generate .env files for local testing, but these are excluded from Git via .gitignore. When deployed, the production server has no access to your API keys, database URLs, or secrets.",
-        fix: "Manually copy every key-value pair from your local .env file into the Environment Variables section of your hosting platform (Vercel, Netlify, Railway) before deploying.",
+        desc: "Local environment files are not a production secret store, and a deployed service does not automatically inherit values from a developer machine.",
+        fix: "Inventory only the variables the app actually needs. Store secrets in the host's server-side secret manager, expose client-prefixed values only when they are intentionally public, and verify access with least privilege. Never commit .env files; rotate any credential that was exposed.",
         example: "App builds successfully but returns 500 errors or blank pages because the database connection string is missing."
     },
     {
         num: 2, title: "Hardcoded localhost API URLs",
         icon: "\uD83D\uDD17", severity: "critical",
-        desc: "AI assistants routinely hardcode http://localhost:3000 as the API endpoint. In production, the live frontend tries to call the visitor's local machine instead of your deployed backend.",
+        desc: "Generated code can retain a local development endpoint such as http://localhost:3000. In production, that points to the visitor's machine rather than the deployed backend.",
         fix: "Use relative paths (/api/data) or dynamic env vars (process.env.NEXT_PUBLIC_API_URL) so URLs adapt to the hosting environment.",
         example: "CORS errors, connection timeouts, or 'fetch failed' in the browser console."
     },
@@ -161,7 +29,7 @@ const deployErrors = [
     {
         num: 4, title: "Context Window Collapse",
         icon: "\uD83E\uDDE0", severity: "high",
-        desc: "Browser-based AI tools (Bolt, Lovable) have strict token limits. As projects grow, the AI forgets earlier decisions, introduces contradictions, and hallucinates dependencies.",
+        desc: "Long prompts, accumulated edits, and large dependency trees can reduce consistency in browser-based builders. Treat generated changes as proposals that still require review.",
         fix: "Export to Cursor/Windsurf early when complexity grows. Prune unused files aggressively. Break large features into separate sessions.",
         example: "'Prompt size exceeded' errors or Out of Memory crashes in the browser."
     },
@@ -182,7 +50,7 @@ const deployErrors = [
     {
         num: 7, title: "Missing Security / Inverted Auth",
         icon: "\uD83D\uDD13", severity: "critical",
-        desc: "The most dangerous silent failure. AI models prioritize functional code over security \u2014 they frequently omit Row Level Security (RLS) on databases or invert auth logic, granting admin access to unauthenticated users.",
+        desc: "Generated authentication and authorization code can omit database policies, confuse identity with authorization, or invert role checks. A functioning login screen is not proof of access control.",
         fix: "Always verify RLS policies in Supabase, test auth flows with a logged-out user, and run a basic security audit before going live.",
         example: "App works perfectly but any user can access admin endpoints or view other users' data."
     },
@@ -216,100 +84,36 @@ const deployErrors = [
         tools: ["Cursor", "Claude Code", "Windsurf"]
     },
     {
-        num: 12, title: "Lovable Auth Logic Inverted (Security)",
-        icon: "\uD83D\uDEE1\uFE0F", severity: "critical",
-        desc: "AI-generated authentication in Lovable has been found to literally invert access control \u2014 blocking logged-in users while granting access to anonymous visitors. In Feb 2026, 18,697 user records were exposed including K-12 student data. 40\u201348% of AI-generated code contains security vulnerabilities.",
-        fix: "NEVER trust AI-generated auth logic without manual review. Test with multiple user roles. Check Supabase Row Level Security (RLS) policies manually. Use Clerk (50K free MAU) or Supabase Auth with explicit policy testing.",
-        example: "Logged-in users see 'Access Denied' while unauthenticated visitors have full admin access to the dashboard.",
-        tools: ["Lovable", "Bolt.new", "All AI builders"]
+        num: 12, title: "Authorization Was Not Adversarially Tested",
+        icon: "🛡️", severity: "critical",
+        desc: "A generated app can pass the happy-path login test while still exposing another user's records, an admin route, or a backend action to the wrong role.",
+        fix: "Write a role matrix, test logged-out and cross-tenant requests, inspect backend authorization and database policies, and deny access by default. Do not rely on hidden UI controls as authorization.",
+        example: "A normal user cannot see an admin button but can still call its backend endpoint directly.",
+        tools: ["All app builders and coding agents"]
     },
     {
-        num: 13, title: "Credit Burn Death Spiral",
-        icon: "\uD83D\uDD25", severity: "high",
-        desc: "Lovable users report burning 400+ credits in an hour fixing AI-generated errors. Bolt.new users experience 'endless error loops' consuming tokens without progress. Each failed fix attempt costs more credits.",
-        fix: "Use Lovable's new Chat Mode to diagnose before spending credits. Export to Cursor/VS Code for complex debugging. Set a credit budget per session. If stuck after 3 attempts, switch to manual editing.",
-        example: "Started with 100 credits, spent all of them trying to fix a single bug that the AI kept 'fixing' incorrectly in a loop.",
-        tools: ["Lovable", "Bolt.new", "Base44"]
+        num: 13, title: "Paid Repair Loop Without a Stop Rule",
+        icon: "🔥", severity: "high",
+        desc: "Repeated automated fixes can consume credits while changing symptoms instead of identifying the root cause.",
+        fix: "Set a spend and attempt limit before debugging. Capture the first reproducible error, inspect logs and diffs, revert speculative changes, and switch to manual diagnosis when the limit is reached.",
+        example: "Several paid attempts alter unrelated files but the original failing request still reproduces.",
+        tools: ["Credit-metered builders and coding agents"]
     },
     {
         num: 14, title: "Vendor Lock-in: Can't Export Code",
         icon: "\uD83D\uDD12", severity: "high",
-        desc: "Code generated by Replit and Bolt.new is tightly coupled to their infrastructure. Exporting and deploying elsewhere requires significant refactoring. Pages that should load in 200ms take 2+ seconds with unoptimized generated code.",
-        fix: "Export to GitHub early and often. Test running the code locally outside the platform before investing heavily. For Replit, agree to Replit opening previews in external browser (Apple requirement). For critical projects, start in Cursor which generates standard, portable code.",
+        desc: "Generated projects can depend on platform-specific services, build settings, environment variables, or deployment adapters. Portability varies by the exported project and integrations used.",
+        fix: "Export to a private Git repository early. Run the project locally, document required services and variables, and test a second deployment target before treating the stack as portable.",
         example: "Exported Bolt.new project fails to build locally due to missing platform-specific dependencies and hardcoded internal URLs.",
         tools: ["Replit", "Bolt.new"]
     },
     {
-        num: 15, title: "Apple Blocks Vibe Coding App Updates",
+        num: 15, title: "Native App Review and Distribution Requirements",
         icon: "\uD83C\uDF4E", severity: "high",
-        desc: "As of March 18, 2026, Apple is blocking App Store updates for apps built with vibe coding tools (Replit, Vibecode) citing rules against dynamically generated code execution.",
-        fix: "If targeting iOS: use Replit's external browser preview workaround. Avoid generating Apple-device-specific apps in Vibecode. Consider PWA (Progressive Web App) deployment instead of native App Store. Use Natively with Expo for compliant App Store builds.",
-        example: "App Store Connect rejects update with 'Guideline 2.5.2 \u2014 apps may not download or execute code' referencing AI-generated runtime logic.",
+        desc: "Generated mobile code is reviewed under the same current store rules as other apps. Build provenance does not replace requirements around privacy, account deletion, payments, permissions, content, and executable-code behavior.",
+        fix: "Review the current Apple App Review Guidelines and Google Play policies, inspect generated dependencies and runtime code-loading behavior, test a signed release build, and keep reviewer notes and privacy disclosures accurate.",
+        example: "A release build works locally but review identifies a missing disclosure, unsupported payment flow, permission issue, or runtime behavior that was not tested.",
         tools: ["Replit", "Natively", "All mobile builders"]
-    }
-];
-
-const affiliatePrograms = [
-    {
-        name: "DigitalOcean", verified: true,
-        commission: "10% recurring for 12 months",
-        cookie: "CJ default",
-        payout: "$10 minimum",
-        network: "CJ (Commission Junction)",
-        offer: "$200 credit for 60 days for new users",
-        notes: "Low developer churn. High-value for AI apps that scale compute. Conversions driven by the generous $200 free credit.",
-        chartValue: 24, chartLabel: "DigitalOcean (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
-    },
-    {
-        name: "Railway", verified: false,
-        commission: "15% recurring for 12 months",
-        cookie: "Not specified",
-        payout: "Not specified",
-        network: "Custom / Internal",
-        offer: "$5 platform credit for new signups",
-        notes: "Referral credit system, not traditional affiliate. Perfect product/market fit for Python/Docker AI apps. Best for referring developers who will scale compute over time.",
-        chartValue: 36, chartLabel: "Railway (Recur)", chartColor: "rgba(16, 185, 129, 0.7)", chartBorder: "rgba(16, 185, 129, 1)"
-    },
-    {
-        name: "Hostinger", verified: true,
-        commission: "40–60% per sale (volume-dependent)",
-        cookie: "30 days",
-        payout: "$100 minimum (PayPal)",
-        network: "In-house / ShareASale",
-        offer: "Various promotional rates",
-        notes: "High CPA but excludes renewals. Traditional hosting is a poor fit for modern JS/Python AI apps — higher refund risk.",
-        chartValue: 60, chartLabel: "Hostinger (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
-    },
-    {
-        name: "Bluehost", verified: true,
-        commission: "$65 per qualified sale (exclusive affiliate pricing from $3.79/mo)",
-        cookie: "60 days",
-        payout: "2 sales before first withdrawal",
-        network: "Impact",
-        offer: "Exclusive affiliate pricing from $3.79/mo for referred users",
-        url: "https://bluehost.sjv.io/9VVDN4",
-        notes: "Trusted in the WordPress ecosystem. Exclusive $3.79/mo pricing only available through affiliate link. Not ideal for modern JS frameworks — best for WordPress/simple sites.",
-        chartValue: 65, chartLabel: "Bluehost (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
-    },
-    {
-        name: "Kinsta", verified: true,
-        commission: "Up to $500 per referral + 10% lifetime recurring",
-        cookie: "60 days",
-        payout: "$50 minimum",
-        network: "In-house",
-        offer: "Premium managed WordPress & app hosting",
-        notes: "Best single affiliate program for high-value referrals. $500 upfront + 10% recurring = highest LTV in this space. Great fit for developers shipping production apps.",
-        chartValue: 620, chartLabel: "Kinsta (CPA + Recur)", chartColor: "rgba(139, 92, 246, 0.7)", chartBorder: "rgba(139, 92, 246, 1)"
-    },
-    {
-        name: "Liquid Web", verified: true,
-        commission: "Up to 300% ($150 min per referral)",
-        cookie: "90 days",
-        payout: "Not specified",
-        network: "Impact",
-        offer: "High-ticket managed hosting & VPS",
-        notes: "High-ticket hosting affiliate. 90-day cookie is the longest in this list. Best for referring teams or businesses needing managed infrastructure.",
-        chartValue: 150, chartLabel: "Liquid Web (CPA)", chartColor: "rgba(245, 158, 11, 0.7)", chartBorder: "rgba(245, 158, 11, 1)"
     }
 ];
 
@@ -337,35 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initEditorialMotion();
     initHashNavigation();
     enhanceInteractiveControls();
-    window.setTimeout(loadThirdPartyAnalytics, 5000);
 });
-
-function loadThirdPartyAnalytics() {
-    if (window.__deployAppAnalyticsLoaded) return;
-    window.__deployAppAnalyticsLoaded = true;
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', 'G-E9VPTS1J8F');
-
-    const googleTag = document.createElement('script');
-    googleTag.async = true;
-    googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9VPTS1J8F';
-    document.head.appendChild(googleTag);
-
-    window.ire_o = 'impactStat';
-    window.impactStat = window.impactStat || function impactStat() {
-        (window.impactStat.a = window.impactStat.a || []).push(arguments);
-    };
-    window.impactStat('transformLinks');
-    window.impactStat('trackImpression');
-
-    const impactTag = document.createElement('script');
-    impactTag.async = true;
-    impactTag.src = 'https://utt.impactcdn.com/P-A7111454-e5e7-4f7f-87c3-eb9a520ab3461.js';
-    document.head.appendChild(impactTag);
-}
 
 function initEditorialMotion() {
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -540,7 +316,7 @@ function selectTool(toolKey, btnElement) {
     document.getElementById('rec-tool-desc').innerText = d.desc;
     document.getElementById('rec-tool-output').innerText = d.output;
     document.getElementById('rec-tool-pricing').innerText = d.pricing;
-    document.getElementById('rec-tool-speed').innerText = d.speed;
+    document.getElementById('rec-tool-evidence').innerText = `Checked ${d.checkedOn}`;
 
     document.getElementById('rec-host-name').innerText = d.hostName;
     document.getElementById('rec-host-desc').innerText = d.hostDesc;
@@ -581,17 +357,14 @@ function renderToolsLandscape() {
     toolsLandscape.forEach((t, i) => {
         const row = document.createElement('tr');
         row.className = "hover:bg-slate-50/80 transition";
-        const stars = t.quality > 0
-            ? `<div class="flex gap-0.5">${Array(t.quality).fill('<div class="w-2 h-2 rounded-full bg-amber-400"></div>').join('')}${Array(5-t.quality).fill('<div class="w-2 h-2 rounded-full bg-slate-200"></div>').join('')}</div>`
-            : '<span class="text-slate-400 text-xs">N/A</span>';
         const typeColor = typeColors[t.type] || 'bg-slate-100 text-slate-600';
         row.innerHTML = `
             <td class="px-4 py-3.5 text-sm font-bold text-dark">${t.name}</td>
             <td class="px-4 py-3.5 text-sm"><span class="px-2 py-0.5 rounded-full text-xs font-medium ${typeColor}">${t.type}</span></td>
             <td class="px-4 py-3.5 text-sm text-muted">${t.output}</td>
             <td class="px-4 py-3.5 text-sm text-muted">${t.pricing}</td>
-            <td class="px-4 py-3.5 text-sm text-muted">${t.speed}</td>
-            <td class="px-4 py-3.5 text-sm">${stars}</td>
+            <td class="px-4 py-3.5 text-sm text-muted">${t.workflow}</td>
+            <td class="px-4 py-3.5 text-sm"><a href="${t.source}" target="_blank" rel="noopener noreferrer" class="font-semibold text-primary hover:underline">Official source</a><div class="text-xs text-muted mt-1">${t.checkedOn}</div></td>
         `;
         body.appendChild(row);
     });
@@ -606,37 +379,24 @@ function renderMatrix(filterType) {
     filtered.forEach((p, i) => {
         const row = document.createElement('tr');
         row.className = "hover:bg-slate-50/80 transition";
-        const easePercent = p.ease * 10;
-        let easeColor = 'bg-emerald-400';
-        let easeTextColor = 'text-emerald-700';
-        if (p.ease <= 7) { easeColor = 'bg-amber-400'; easeTextColor = 'text-amber-700'; }
-        if (p.ease <= 5) { easeColor = 'bg-red-400'; easeTextColor = 'text-red-700'; }
-        const commColor = p.commercial === "Yes"
-            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-            : "bg-red-50 text-red-700 border border-red-200";
+        const commColor = /non-commercial/i.test(p.commercial)
+            ? 'bg-red-50 text-red-700 border border-red-200'
+            : 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+        const destination = p.url || p.source;
+        const destinationRel = p.affiliate ? 'sponsored nofollow noopener noreferrer' : 'noopener noreferrer';
         row.innerHTML = `
-            <td class="px-4 py-4 whitespace-nowrap text-sm font-bold text-dark">${p.name}</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm"><a href="${destination}" target="_blank" rel="${destinationRel}" ${p.affiliate ? `data-analytics-event="affiliate_click" data-analytics-provider="${p.name}" data-analytics-relationship="${p.relationship}" data-analytics-destination="hosting_platform" data-analytics-placement="comparison_table" data-analytics-tool="all_tools" data-analytics-calculator-result="not_used"` : ''} class="font-bold text-primary hover:underline">${p.name}</a>${p.affiliate ? '<div class="text-[10px] text-amber-700 mt-1">Referral link</div>' : ''}</td>
             <td class="px-4 py-4 text-sm text-muted">${p.bestFor}</td>
             <td class="px-4 py-4 text-sm text-muted">${p.free}</td>
             <td class="px-4 py-4 whitespace-nowrap"><span class="px-2.5 py-1 text-xs font-semibold rounded-full ${commColor}">${p.commercial}</span></td>
-            <td class="px-4 py-4 text-sm text-muted max-w-[200px]">${p.sleep}</td>
-            <td class="px-4 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-2">
-                    <div class="ease-bar w-16"><div class="ease-bar-fill ${easeColor}" style="width:${easePercent}%"></div></div>
-                    <span class="text-xs font-semibold ${easeTextColor}">${p.ease}/10</span>
-                </div>
-            </td>
+            <td class="px-4 py-4 text-sm text-muted max-w-[240px]">${p.lifecycle}<span class="block mt-1 text-xs text-slate-400">${p.note}</span></td>
+            <td class="px-4 py-4 text-sm text-muted">${p.deployment}</td>
             <td class="px-4 py-4 text-sm text-muted">${p.db}</td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-muted">${p.docker}</td>
+            <td class="px-4 py-4 text-sm"><a href="${p.source}" target="_blank" rel="noopener noreferrer" class="font-semibold text-primary hover:underline">Official source</a><div class="text-xs text-muted mt-1">${p.checkedOn}</div></td>
         `;
         matrixBody.appendChild(row);
     });
-    // Animate ease bars
-    setTimeout(() => {
-        document.querySelectorAll('.ease-bar-fill').forEach(el => {
-            el.style.width = el.style.width;
-        });
-    }, 50);
 }
 
 function initFilterListeners() {
@@ -734,19 +494,18 @@ function renderRegistrars() {
         const row = document.createElement('tr');
         row.className = "hover:bg-slate-50/80 transition";
         const nameLabel = r.url
-            ? `<a href="${r.url}" target="_blank" rel="sponsored nofollow noopener noreferrer" class="font-bold text-primary hover:underline">${r.name}</a>`
+            ? `<a href="${r.url}" target="_blank" rel="${r.affiliate ? 'sponsored nofollow noopener noreferrer' : 'noopener noreferrer'}" ${r.affiliate ? `data-analytics-event="affiliate_click" data-analytics-provider="${r.name}" data-analytics-relationship="${r.relationship}" data-analytics-destination="domain_registrar" data-analytics-placement="registrar_table" data-analytics-tool="all_tools" data-analytics-calculator-result="not_used"` : ''} class="font-bold text-primary hover:underline">${r.name}</a>`
             : `<span class="font-bold text-dark">${r.name}</span>`;
         const nameHtml = r.best
             ? `${nameLabel} <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full ml-1 font-medium">Best</span>`
             : nameLabel;
         row.innerHTML = `
             <td class="px-4 py-3.5 text-sm whitespace-nowrap">${nameHtml}</td>
-            <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.com}</td>
-            <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.net}</td>
-            <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.org}</td>
-            <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.io}</td>
-            <td class="px-4 py-3.5 text-sm text-muted font-mono">${r.app}</td>
+            <td class="px-4 py-3.5 text-sm text-muted">${r.pricing}</td>
+            <td class="px-4 py-3.5 text-sm text-muted">${r.privacy}</td>
+            <td class="px-4 py-3.5 text-sm text-muted">${r.dns}</td>
             <td class="px-4 py-3.5 text-sm text-muted max-w-[250px]">${r.note}</td>
+            <td class="px-4 py-3.5 text-sm"><a href="${r.source}" target="_blank" rel="noopener noreferrer" class="font-semibold text-primary hover:underline">Official source</a><div class="text-xs text-muted mt-1">${r.checkedOn}</div></td>
         `;
         body.appendChild(row);
     });
@@ -759,8 +518,8 @@ function renderAffiliateCards() {
     const container = document.getElementById('affiliate-cards');
     affiliatePrograms.forEach(p => {
         const verifiedBadge = p.verified
-            ? '<span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">Verified</span>'
-            : '<span class="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-medium">Unverified</span>';
+            ? `<span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-medium">${p.status}</span>`
+            : `<span class="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-medium">${p.status}</span>`;
         const card = document.createElement('div');
         card.className = "p-4 border border-slate-100 rounded-xl bg-slate-50/50 hover:bg-slate-50 transition";
         card.innerHTML = `
@@ -776,7 +535,8 @@ function renderAffiliateCards() {
                 <div><span class="text-muted">Offer:</span></div><div class="font-medium text-slate-700">${p.offer}</div>
             </div>
             <p class="text-xs text-muted mt-3 italic leading-relaxed">${p.notes}</p>
-            ${p.url ? `<a href="${p.url}" target="_blank" rel="sponsored nofollow noopener noreferrer" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">Get started &rarr;</a>` : ''}
+            ${p.source ? `<a href="${p.source}" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 mr-3 text-xs font-semibold text-slate-600 hover:underline">Evidence ↗</a>` : ''}
+            ${p.url ? `<a href="${p.url}" target="_blank" rel="sponsored nofollow noopener noreferrer" data-analytics-event="affiliate_click" data-analytics-provider="${p.name}" data-analytics-relationship="${p.relationship.toLowerCase().replace(/\s+/g, '_')}" data-analytics-destination="program_card" data-analytics-placement="affiliate_ledger" data-analytics-tool="all_tools" data-analytics-calculator-result="not_used" class="inline-block mt-3 text-xs font-semibold text-primary hover:underline">Get started &rarr;</a>` : ''}
         `;
         container.appendChild(card);
     });
@@ -821,15 +581,16 @@ function initChart() {
     chartLoadState = 'ready';
     canvas.dataset.chartInitialized = 'true';
     const ctx = canvas.getContext('2d');
+    const chartPrograms = affiliatePrograms.filter((program) => Number.isFinite(program.chartValue));
     new window.Chart(ctx, {
         type: 'bar',
         data: {
-            labels: affiliatePrograms.map(p => p.chartLabel),
+            labels: chartPrograms.map(p => p.chartLabel),
             datasets: [{
                 label: 'Est. Revenue per User ($)',
-                data: affiliatePrograms.map(p => p.chartValue),
-                backgroundColor: affiliatePrograms.map(p => p.chartColor),
-                borderColor: affiliatePrograms.map(p => p.chartBorder),
+                data: chartPrograms.map(p => p.chartValue),
+                backgroundColor: chartPrograms.map(p => p.chartColor),
+                borderColor: chartPrograms.map(p => p.chartBorder),
                 borderWidth: 1,
                 borderRadius: 8
             }]
