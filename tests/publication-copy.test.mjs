@@ -7,10 +7,15 @@ const source = fs.readFileSync(new URL('../src/site.js', import.meta.url), 'utf8
 const registry = fs.readFileSync(new URL('../src/site-data.mjs', import.meta.url), 'utf8');
 const publication = `${html}\n${source}\n${registry}`;
 
+test('homepage metadata describes the primary host-selection decision', () => {
+    assert.match(html, /<title>DeployApp\.guide \| Choose a Host and Deploy Your AI-Built App \(2026\)<\/title>/);
+    assert.match(html, /Choose a host for an AI-built app, compare Vercel, Railway, Netlify/);
+});
+
 test('publication freshness labels and structured data reflect the current review', () => {
     assert.doesNotMatch(publication, /Updated March 2026|Data (?:verified|reviewed) March 2026|2026-03-28/);
     assert.match(html, /Updated July 27, 2026/);
-    assert.match(html, /"dateModified": "2026-07-27"/);
+    assert.match(html, /\"dateModified\": \"2026-07-27\"/);
 });
 
 test('obsolete plan and workflow claims are absent', () => {
